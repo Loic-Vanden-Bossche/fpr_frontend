@@ -55,6 +55,7 @@ export const contactList = css`
   max-width: 75%;
   min-width: calc(24px + 48px + 24px);
   resize: horizontal;
+  scroll-snap-type: y mandatory;
 `;
 
 export const messagingScreen = css`
@@ -78,23 +79,6 @@ export const messagingChat = css`
   flex-direction: column;
   position: relative;
   gap: 24px;
-  
-  &::before {
-    background: linear-gradient(${colors.white}, ${colors.white}00);
-    top: 112px;
-  }
-  &::after {
-    background: linear-gradient(to top, ${colors.white}, ${colors.white}00);
-    bottom: 0;
-  }
-  
-  &:after, &:before {
-    content: "";
-    height: 32px;
-    width: 100%;
-    position: absolute;
-    left: 0;
-  }
 `;
 
 export const chatHeader = css`
@@ -137,6 +121,7 @@ export const chatMessageContainer = css`
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  overflow-x: hidden;
   gap: 16px;
   list-style: none;
   height: 92%;
@@ -148,4 +133,18 @@ export const receivedMessage = css`
   background: ${colors.primary};
   color: ${colors.white};
   align-self: flex-end;
+`;
+
+export const chatInput = css`
+  border: hidden;
+  background: ${colors.white};
+  border-radius: ${borderRadius};
+  padding: 16px;
+  resize: vertical;
+  max-height: 50%;
+  height: 1.4rem;
+  min-height: 1rem;
+  font-size: 1rem;
+  overflow-y: auto;
+  margin-top: 24px;
 `;

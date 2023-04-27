@@ -16,3 +16,6 @@ export const inPrimaryShadowSmall = css `
 export const outWhiteShadow = css`
   box-shadow: -5px -5px 8px white, 5px 5px 8px #FFCAE8;
 `
+export const inWhiteShadow = css`
+  box-shadow: inset -5px -5px 8px white, inset 5px 5px 8px #FFCAE8;
+`
