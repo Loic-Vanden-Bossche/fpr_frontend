@@ -7,7 +7,11 @@ export const profilePic = css`
   border-radius: 50%;
 `;
 
+
 export const linearCell = css`
+  position: relative;
+  left: 0;
+  top: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -15,7 +19,7 @@ export const linearCell = css`
   padding: 24px;
   height: calc(100px - 48px);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, left 0.2s, top 0.2s;
   
   p {
     color: white;
@@ -29,6 +33,14 @@ export const linearCell = css`
 
   &:hover {
     background: ${colors.dark_primary};
+  }
+  
+  &.selected {
+    left: 100%;
+  }
+  
+  &.selected ~ & {
+    top: -100px;
   }
 `;
 
