@@ -1,6 +1,6 @@
 import {Contact, Message} from "../../types";
 import {chatMessage, receivedMessage} from "./Messaging.style.ts";
-import {outWhiteShadow} from "../../ui/shadows.ts";
+import {inPrimaryShadowSmall, outWhiteShadow} from "../../ui/shadows.ts";
 
 interface Props {
   message: Message;
@@ -8,6 +8,7 @@ interface Props {
 }
 
 export function MessagingMessage({message, contact}: Props) {
-  const classes = [chatMessage, outWhiteShadow, message.sender === contact.name ? receivedMessage : ""]
+  const isReceivedMessage = message.sender === contact.name;
+  const classes = [chatMessage, isReceivedMessage ? receivedMessage : "", isReceivedMessage ? inPrimaryShadowSmall : outWhiteShadow];
   return <li css={classes}>{message.content}</li>
 }

@@ -9,6 +9,10 @@ export const outPrimaryShadowSmall = css `
   box-shadow: -5px -5px 16px ${colors.light_primary}, 5px 5px 16px ${colors.dark_primary};
 `
 
+export const inPrimaryShadowSmall = css `
+  box-shadow: inset -5px -5px 16px ${colors.light_primary}, inset 5px 5px 16px ${colors.dark_primary};
+`
+
 export const outWhiteShadow = css`
   box-shadow: -5px -5px 8px white, 5px 5px 8px #FFCAE8;
 `

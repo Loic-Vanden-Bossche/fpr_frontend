@@ -21,6 +21,10 @@ export const linearCell = css`
     color: white;
     font-size: 1rem;
     font-weight: 600;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &:hover {
@@ -29,13 +33,16 @@ export const linearCell = css`
 `;
 
 export const contactList = css`
-  margin: 0 -${borderRadius} 0 0;
-  padding: 0 ${borderRadius} 0 0;
+  margin: 0;
+  padding: 0;
   border-radius: ${borderRadius} 0 0 ${borderRadius};
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
   flex-shrink: 0;
+  max-width: 75%;
+  min-width: calc(24px + 48px + 24px);
+  resize: horizontal;
 `;
 
 export const messagingScreen = css`
@@ -90,6 +97,10 @@ export const chatHeader = css`
     letter-spacing: 0.1rem;
     font-weight: 800;
     color: ${colors.light_primary};
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `;
 
