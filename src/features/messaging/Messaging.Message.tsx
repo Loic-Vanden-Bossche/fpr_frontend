@@ -1,6 +1,6 @@
 import {Contact, Message} from "../../types";
 import {chatMessage, receivedMessage} from "./Messaging.style.ts";
-import {inPrimaryShadowSmall, outWhiteShadow} from "../../ui/shadows.ts";
+import {inPrimaryShadowSmall, outWhiteShadow} from "../../ui";
 
 interface Props {
   message: Message;

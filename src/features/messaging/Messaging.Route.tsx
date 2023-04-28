@@ -3,7 +3,7 @@ import {getDummyContacts} from "../../types";
 import {MessagingContactList} from "./Messaging.ContactList.tsx";
 import {messagingScreen} from "./Messaging.style.ts";
 import {MessagingChatWindow} from "./Messaging.ChatWindow.tsx";
-import {outPrimaryShadow} from "../../ui/shadows.ts";
+import {outPrimaryShadow} from "../../ui";
 import {useState} from "react";
 
 export function MessagingRoute() {

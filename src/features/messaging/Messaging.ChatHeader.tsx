@@ -1,6 +1,6 @@
 import {Contact} from "../../types";
 import {chatHeader, chatProfilePic} from "./Messaging.style.ts";
-import {outWhiteShadow} from "../../ui/shadows.ts";
+import {outWhiteShadow} from "../../ui";
 
 interface Props {
   contact: Contact;

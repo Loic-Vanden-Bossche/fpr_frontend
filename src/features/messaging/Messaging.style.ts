@@ -1,5 +1,5 @@
 import {css} from "@emotion/react";
-import {borderRadius, colors} from "../../ui/values.ts";
+import {borderRadius, colors} from "../../ui";
 
 export const profilePic = css`
   width: 48px;
