@@ -13,5 +13,6 @@ export function getDummyMessages (): Message[] {
     {id: "4", createdAt: new Date(), content: "What about you?", sender: "John"},
     {id: "5", createdAt: new Date(), content: "I'm fine too!", sender: "Enzo"},
     {id: "6", createdAt: new Date(), content: "Thanks!", sender: "Enzo"},
+    {id: "6", createdAt: new Date(), content: "C'est de la merde cette pipeline ...", sender: "Enzo"},
   ];
 }
