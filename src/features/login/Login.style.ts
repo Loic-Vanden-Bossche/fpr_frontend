@@ -1,5 +1,5 @@
 import {css} from "@emotion/react";
-import {colors} from "../../ui";
+import {borderRadius, colors} from "../../ui";
 
 export const loginPage = css`
   display: flex;
@@ -7,11 +7,12 @@ export const loginPage = css`
   align-items: center;
   justify-content: center;
   height: 100vh;
+  gap: 48px;
 `;
 
 export const loginHeader = css`
   display: flex;
-  align-item: center;
+  align-items: center;
   gap: 24px;
 
   h1 {
@@ -23,3 +24,31 @@ export const loginHeader = css`
     font-variation-settings: 'GRAD' 150, 'slnt' -10, 'XTRA' 468, 'XOPQ' 96, 'YOPQ' 79, 'YTLC' 514, 'YTUC' 712, 'YTAS' 750, 'YTDE' -203, 'YTFI' 738, 'opsz' 81;
   }
 `;
+
+export const loginForm = css`
+  padding: 56px;
+  border-radius: ${borderRadius};
+  background: ${colors.white};
+  
+  header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    
+    h1 {
+      color: ${colors.primary};
+      letter-spacing: 0.1rem;
+      font-weight: 800;
+      font-size: 2rem;
+      margin: 0;
+    }
+
+    p {
+      margin: 0;
+      color: ${colors.dark_primary};
+      font-weight: 800;
+    }
+  }
+`;
+
+export const loginFormHeader = css``;
