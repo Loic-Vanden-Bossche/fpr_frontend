@@ -21,7 +21,18 @@ export const loginHeader = css`
     font-weight: 900;
     font-size: 2rem;
     font-stretch: 151%;
-    font-variation-settings: 'GRAD' 150, 'slnt' -10, 'XTRA' 468, 'XOPQ' 96, 'YOPQ' 79, 'YTLC' 514, 'YTUC' 712, 'YTAS' 750, 'YTDE' -203, 'YTFI' 738, 'opsz' 81;
+    font-variation-settings: 
+      'GRAD' 150,
+      'slnt' -10,
+      'XTRA' 468,
+      'XOPQ' 96,
+      'YOPQ' 79,
+      'YTLC' 514,
+      'YTUC' 712,
+      'YTAS' 750,
+      'YTDE' -203,
+      'YTFI' 738,
+      'opsz' 81;
   }
 `;
 

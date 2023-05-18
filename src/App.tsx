@@ -5,4 +5,4 @@ function App() {
   return <BrowserRouter><RoutingRouter/></BrowserRouter>;
 }
 
-export default App
+export default App;

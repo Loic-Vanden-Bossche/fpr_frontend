@@ -7,17 +7,20 @@ export type FormRecord = Record<FormKey, FormValue>;
 export type FormModificationEvent = (key: FormKey, newValue: FormValue) => void;
 
 export function useForm(defaultValue: FormRecord) {
-  const [formState, setFormState] = useState<FormRecord>(defaultValue);
-  
+  const [
+    formState,
+    setFormState
+  ] = useState<FormRecord>(defaultValue);
+
   const changeFormState: FormModificationEvent = (key, newValue) => {
     setFormState({
       ...formState,
-      [key]: newValue,
+      [key]: newValue
     });
   };
 
   return {
-    form: formState, 
+    form: formState,
     handleFormModification: changeFormState
   };
 }

@@ -1,1 +1,1 @@
-export * from './Login.Route'
+export * from './Login.Route';

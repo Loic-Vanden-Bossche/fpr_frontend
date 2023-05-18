@@ -9,6 +9,8 @@ interface Props {
 
 export function MessagingChatBody({messages, contact}: Props) {
   return <ul css={chatMessageContainer}>
-      {messages.map((message, index) => <MessagingMessage message={message} contact={contact} key={index}/>)}
+    {messages.map((message, index) =>
+      <MessagingMessage message={message} contact={contact} key={index}/>
+    )}
   </ul>;
 }

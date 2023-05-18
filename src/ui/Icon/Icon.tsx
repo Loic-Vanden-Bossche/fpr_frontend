@@ -7,6 +7,8 @@ interface Props {
   size: string;
 }
 
-export function Icon({icon, color, size}: Props) {
+export function Icon({
+  icon, color, size
+}: Props) {
   return <div css={iconStyle(color, size)}>{icon}</div>;
 }

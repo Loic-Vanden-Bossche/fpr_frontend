@@ -7,6 +7,9 @@ interface Props {
 }
 
 export function MessagingChatInput({contact}: Props) {
-  const classes = [chatInput, inWhiteShadow];
+  const classes = [
+    chatInput,
+    inWhiteShadow
+  ];
   return <textarea css={classes} placeholder={`Send a message to ${contact.name}`}/>;
 }

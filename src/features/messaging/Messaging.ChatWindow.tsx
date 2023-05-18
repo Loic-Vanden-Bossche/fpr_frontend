@@ -10,7 +10,10 @@ interface Props {
 }
 
 export function MessagingChatWindow({contact}: Props) {
-  const classes = [messagingChat, outPrimaryShadowSmall];
+  const classes = [
+    messagingChat,
+    outPrimaryShadowSmall
+  ];
   const messagesList = getDummyMessages();
 
   return <section css={classes}>

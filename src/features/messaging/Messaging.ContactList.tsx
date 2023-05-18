@@ -8,9 +8,19 @@ interface Props {
   onContactClick: (index: number) => void;
 }
 
-export function MessagingContactList({selectedContactIndex, contacts, onContactClick}: Props) {
+export function MessagingContactList({
+  selectedContactIndex, contacts, onContactClick
+}: Props) {
   return <ul css={contactList}>
-    {contacts.map((contact, index) => <MessagingContactCell key={index} isSelected={index === selectedContactIndex} contact={contact} onClick={() => onContactClick(index)}/>)}
+    {contacts.map(
+      (contact, index) =>
+        <MessagingContactCell
+          key={index}
+          isSelected={index === selectedContactIndex}
+          contact={contact}
+          onClick={() => onContactClick(index)}
+        />
+    )}
   </ul>;
 
 }

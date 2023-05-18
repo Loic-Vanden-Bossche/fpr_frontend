@@ -8,7 +8,14 @@ interface Props {
 
 export function MessagingChatHeader({contact}: Props) {
   return <header css={chatHeader}>
-    <img src={contact.profilePic} alt={`${contact.name} profile pic`} css={[chatProfilePic, outWhiteShadow]}/>
+    <img
+      src={contact.profilePic}
+      alt={`${contact.name} profile pic`}
+      css={[
+        chatProfilePic,
+        outWhiteShadow
+      ]}
+    />
     <h1>{contact.name}</h1>
   </header>;
 }

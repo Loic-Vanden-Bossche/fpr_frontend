@@ -9,6 +9,10 @@ interface Props {
 
 export function MessagingMessage({message, contact}: Props) {
   const isReceivedMessage = message.sender === contact.name;
-  const classes = [chatMessage, isReceivedMessage ? "" : receivedMessage, isReceivedMessage ? outWhiteShadow :  inPrimaryShadowSmall];
-  return <li css={classes}>{message.content}</li>
+  const classes = [
+    chatMessage,
+    isReceivedMessage ? "" : receivedMessage,
+    isReceivedMessage ? outWhiteShadow : inPrimaryShadowSmall
+  ];
+  return <li css={classes}>{message.content}</li>;
 }

@@ -7,7 +7,6 @@ export const profilePic = css`
   border-radius: 50%;
 `;
 
-
 export const linearCell = css`
   position: relative;
   left: 0;
