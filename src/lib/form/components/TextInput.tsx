@@ -1,35 +1,38 @@
 import {ChangeEventHandler, useState} from "react";
 import {
   FormKey, FormModificationEvent, FormRecord
-} from "../../lib";
+} from "../";
 
-export type TextInputType = "password" | "text";
+enum TextInputTypeValues {
+  "password",
+  "text"
+}
+export type TextInputType = keyof typeof TextInputTypeValues;
+export const isTextInputType = (type: string): type is TextInputType =>
+  Object.values(TextInputTypeValues).includes(type);
 
 interface Props{
   label: string;
-  key: FormKey;
+  formKey: FormKey;
   form: FormRecord;
   onValueChange: FormModificationEvent;
   type?: TextInputType;
 }
 
 export function TextInput({
-  label, key, form, onValueChange, type
+  label, formKey, form, onValueChange, type
 }: Props) {
-  const [
-    inputType,
-    setInputType
-  ] = useState<TextInputType>(type ?? "text");
+  const [inputType, setInputType] = useState<TextInputType>(type ?? "text");
 
   const handleRevealIconClick = () =>
     setInputType(inputType === "password" ? "text" : "password");
 
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = ({target}) =>
-    onValueChange(key, target.value);
+    onValueChange(formKey, target.value);
 
   return <div>
     <label>{label}</label>
-    <input type={inputType} value={form[key]} onChange={handleInputChange}/>
+    <input type={inputType} value={form[formKey]} onChange={handleInputChange}/>
     {type === "password" && <div onClick={handleRevealIconClick}>certe</div>}
   </div>;
 }
