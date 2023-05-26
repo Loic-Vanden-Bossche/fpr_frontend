@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Game2DEngine } from "./Game.2DEngine";
+import { Game3DEngine } from "./Game.3DEngine";
 
 export type Display = {
   player: number;
@@ -19,7 +20,7 @@ export type DisplayContent = {
 }
 
 export function GameRoute() {
-  const [isIn3D, setIsIn3D] = useState(false);
+  const [isIn3D, setIsIn3D] = useState(true);
   const game: Display = {
     player:1,
     width:640,
@@ -51,5 +52,5 @@ export function GameRoute() {
     ]
   };
   
-  return isIn3D ? null : <Game2DEngine displayData={game}/>;
+  return isIn3D ? <Game3DEngine displayData={game}/> : <Game2DEngine displayData={game}/>;
 }
