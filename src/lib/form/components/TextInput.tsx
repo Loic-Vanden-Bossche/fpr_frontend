@@ -1,21 +1,15 @@
 import {ChangeEventHandler, useState} from "react";
-import {
-  FormKey, FormModificationEvent, FormRecord
-} from "../";
-
-enum TextInputTypeValues {
-  "password",
-  "text"
-}
-export type TextInputType = keyof typeof TextInputTypeValues;
-export const isTextInputType = (type: string): type is TextInputType =>
-  Object.values(TextInputTypeValues).includes(type);
+import {RevealButton} from "../";
+import type {
+  Data, Key, ModificationHandler, TextInputType
+} from "../types";
+import {textInputStyle} from "./TextInput.style";
 
 interface Props{
   label: string;
-  formKey: FormKey;
-  form: FormRecord;
-  onValueChange: FormModificationEvent;
+  formKey: Key;
+  form: Data;
+  onValueChange: ModificationHandler;
   type?: TextInputType;
 }
 
@@ -30,9 +24,11 @@ export function TextInput({
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = ({target}) =>
     onValueChange(formKey, target.value);
 
-  return <div>
-    <label>{label}</label>
+  return <div className="textInput" css={textInputStyle}>
+    <header>
+      <label className="label">{label}</label>
+      {type === "password" && <RevealButton isHidden={inputType === "password"} onClick={handleRevealIconClick}/>}
+    </header>
     <input type={inputType} value={form[formKey]} onChange={handleInputChange}/>
-    {type === "password" && <div onClick={handleRevealIconClick}>certe</div>}
   </div>;
 }

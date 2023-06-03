@@ -1,16 +1,10 @@
 import {useState} from "react";
+import {Data, ModificationHandler} from "../types";
 
-export type FormDataAllowedTypes = string;
-export type FormKey = string;
-export type FormValue = undefined | FormDataAllowedTypes;
+export function useForm(defaultValue: Data) {
+  const [formState, setFormState] = useState<Data>(defaultValue);
 
-export type FormRecord = Record<FormKey, FormValue>;
-export type FormModificationEvent = (key: FormKey, newValue: FormValue) => void;
-
-export function useForm(defaultValue: FormRecord) {
-  const [formState, setFormState] = useState<FormRecord>(defaultValue);
-
-  const changeFormState: FormModificationEvent = (key, newValue) => {
+  const changeFormState: ModificationHandler = (key, newValue) => {
     setFormState({
       ...formState,
       [key]: newValue

@@ -1,45 +1,39 @@
 import {FormEvent, useMemo} from "react";
-import {
-  FormRecord,
-  TextInputType, useForm
-} from "..";
+import {useForm} from "..";
 import {InputBuilder} from "./InputBuilder";
+import type {StyleProps} from "../..";
+import {css as emotionCss} from "@emotion/react";
+import {formStyle} from "./Form.style";
+import {
+  Schema, SubmitHandler, isDataSubmittable, transformSchemaToData
+} from "../types";
 
-export type FormData = {
-  key: string;
-  label: string;
-  type: TextInputType;
-  required: boolean;
-}
-const transformDataToForm = (data: FormData[]): FormRecord =>
-  data.reduce((acc, {key}) => ({
-    ...acc,
-    [key]: undefined
-  }), {});
-const isRecordSubmittable = (data: FormData[], record: FormRecord): boolean =>
-  data.every(({required, key}) => required ? record[key] : true);
-
-export type FormSubmitEvent = (data: FormRecord) => void;
-
-interface Props {
-  data: FormData[];
-  onSubmit: FormSubmitEvent;
+interface Props extends StyleProps {
+  data: Schema[];
+  onSubmit: SubmitHandler;
+  submitButtonText: string;
 }
 
-export function Form({data, onSubmit}: Props) {
-  const defaultFormValue = useMemo(() => transformDataToForm(data), [data]);
+export function Form({
+  data, onSubmit, submitButtonText, className, style
+}: Props) {
+  const css = emotionCss(formStyle, style);
+
+  const defaultFormValue = useMemo(() => transformSchemaToData(data), [data]);
   const {form: record, handleFormModification: handleRecordModification} = useForm(defaultFormValue);
-  const isFormSubmittable = useMemo(() => isRecordSubmittable(data, record), [record, data]);
+  const isFormSubmittable = useMemo(() => isDataSubmittable(data, record), [record, data]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit(record);
   };
 
-  return <form onSubmit={handleSubmit}>
-    {data.map(
-      (field) => <InputBuilder key={field.key} data={field} form={record} onValueChange={handleRecordModification}/>
-    )}
-    <input type={"submit"} disabled={!isFormSubmittable}/>
+  return <form className={className} css={css} onSubmit={handleSubmit}>
+    <main>
+      {data.map(
+        (field) => <InputBuilder key={field.key} data={field} form={record} onValueChange={handleRecordModification}/>
+      )}
+    </main>
+    <input type={"submit"} disabled={!isFormSubmittable} value={submitButtonText}/>
   </form>;
 }

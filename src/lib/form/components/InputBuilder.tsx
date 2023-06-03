@@ -1,12 +1,12 @@
+import {TextInput} from ".";
 import {
-  FormData, TextInput, isTextInputType
-} from ".";
-import {FormModificationEvent, FormRecord} from "..";
+  Data, ModificationHandler, Schema, isTextInputType
+} from "../types";
 
 interface Props {
-    data: FormData;
-    form: FormRecord;
-    onValueChange: FormModificationEvent;
+    data: Schema;
+    form: Data;
+    onValueChange: ModificationHandler;
 }
 
 export function InputBuilder({
