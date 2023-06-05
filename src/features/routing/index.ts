@@ -1,1 +1,1 @@
-export * from './Routing.Router'
+export * from './Routing.Router';

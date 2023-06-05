@@ -5,7 +5,7 @@ export const colors = {
   light_primary: "#fa3d5c",
   primary: "#D0253C",
   pale_primary: "#D9687B",
-  dark_primary: "#A5031C",
-}
+  dark_primary: "#A5031C"
+};
 
-export const borderRadius = "32px"
+export const borderRadius = "32px";
