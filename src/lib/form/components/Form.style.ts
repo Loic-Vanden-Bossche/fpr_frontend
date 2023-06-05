@@ -1,9 +1,11 @@
-import {css} from "@emotion/react";
+import { css } from "@emotion/react";
 
 export const formStyle = css`
-    main, & {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    main > :not(:first-child, .error) {
+        margin-top: 16px;
     }
 `;

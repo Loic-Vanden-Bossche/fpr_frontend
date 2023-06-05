@@ -1,9 +1,9 @@
-import {ChangeEventHandler, useState} from "react";
-import {RevealButton} from "../";
+import { ChangeEventHandler, useState } from "react";
+import { RevealButton } from "../";
 import type {
   Data, Key, ModificationHandler, TextInputType
 } from "../types";
-import {textInputStyle} from "./TextInput.style";
+import { textInputStyle } from "./TextInput.style";
 
 interface Props{
   label: string;
@@ -21,7 +21,7 @@ export function TextInput({
   const handleRevealIconClick = () =>
     setInputType(inputType === "password" ? "text" : "password");
 
-  const handleInputChange: ChangeEventHandler<HTMLInputElement> = ({target}) =>
+  const handleInputChange: ChangeEventHandler<HTMLInputElement> = ({ target }) =>
     onValueChange(formKey, target.value);
 
   return <div className="textInput" css={textInputStyle}>

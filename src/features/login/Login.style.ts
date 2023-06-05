@@ -1,5 +1,5 @@
-import {css} from "@emotion/react";
-import {borderRadius, colors} from "../../ui";
+import { css } from "@emotion/react";
+import { borderRadius, colors } from "../../ui";
 
 export const loginPage = css`
   display: flex;

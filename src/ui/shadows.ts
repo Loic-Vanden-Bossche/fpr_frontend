@@ -1,5 +1,5 @@
-import {css} from "@emotion/react";
-import {colors} from "./values.ts";
+import { css } from "@emotion/react";
+import { colors } from "./values.ts";
 
 export const outPrimaryShadow = css`
   box-shadow: -10px -10px 32px ${colors.light_primary},

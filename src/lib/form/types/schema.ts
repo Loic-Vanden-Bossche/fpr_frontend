@@ -4,7 +4,7 @@ import {
 
 export type Condition = {
     verificationMethod: (data: Value) => boolean;
-    errorMessage: () => boolean;
+    errorMessage: string;
 };
 
 export type Schema = {
@@ -16,7 +16,7 @@ export type Schema = {
 };
 
 export const transformSchemaToData = (data: Schema[]): Data =>
-  data.reduce((acc, {key}) => ({
+  data.reduce((acc, { key }) => ({
     ...acc,
     [key]: undefined
   }), {});
@@ -26,6 +26,6 @@ export const isDataSubmittable = (data: Schema[], record: Data): boolean =>
     required, key, conditions
   }) =>
     (required ? record[key] : true) &&
-    (conditions?.every(({verificationMethod}) => verificationMethod(record[key])) ?? true)
+    (conditions?.every(({ verificationMethod }) => verificationMethod(record[key])) ?? true)
   );
 

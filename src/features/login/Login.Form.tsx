@@ -1,31 +1,28 @@
 import {
-  Form, FormSubmitEvent, FormData
+  Form, Schema, SubmitHandler, emailSchema, passwordSchema
 } from "../../lib";
-import {loginForm} from "./Login.style";
+import { loginForm } from "./Login.style";
 
 export function LoginForm() {
-  const formData: FormData[] = [
+  const formSchemas: Schema[] = [
+    emailSchema,
+    passwordSchema,
     {
-      key: "email",
-      label: "email",
+      key: "username",
+      label: "Username",
       type: "text",
-      required: true
-    }, {
-      key: "password",
-      label: "password",
-      type: "password",
       required: true
     }
   ];
 
   // eslint-disable-next-line no-console
-  const handleFormSubmit: FormSubmitEvent = (data) => console.log(data);
+  const handleFormSubmit: SubmitHandler = (data) => console.log(data);
 
   return <main css={loginForm}>
     <header>
       <h1>Welcome</h1>
       <p>Enter your credentials to connect.</p>
     </header>
-    <Form data={formData} onSubmit={handleFormSubmit}/>
+    <Form schemas={formSchemas} onSubmit={handleFormSubmit} submitButtonText="Sign-in"/>
   </main>;
 }

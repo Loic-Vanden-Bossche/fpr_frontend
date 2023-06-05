@@ -1,6 +1,6 @@
-import {colors} from "../../ui";
-import {Icon, icons} from "../../lib";
-import {loginHeader} from "./Login.style.ts";
+import { colors } from "../../ui";
+import { Icon, icons } from "../../lib";
+import { loginHeader } from "./Login.style.ts";
 
 export function LoginHeader() {
   return <header css={loginHeader}>

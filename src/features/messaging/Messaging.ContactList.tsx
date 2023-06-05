@@ -1,6 +1,6 @@
-import type {Contact} from "../../types";
-import {MessagingContactCell} from "./Messaging.ContactCell.tsx";
-import {contactList} from "./Messaging.style.ts";
+import type { Contact } from "../../types";
+import { MessagingContactCell } from "./Messaging.ContactCell.tsx";
+import { contactList } from "./Messaging.style.ts";
 
 interface Props {
   selectedContactIndex: number;

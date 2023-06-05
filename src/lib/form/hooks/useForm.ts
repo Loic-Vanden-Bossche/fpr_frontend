@@ -1,5 +1,5 @@
-import {useState} from "react";
-import {Data, ModificationHandler} from "../types";
+import { useState } from "react";
+import { Data, ModificationHandler } from "../types";
 
 export function useForm(defaultValue: Data) {
   const [formState, setFormState] = useState<Data>(defaultValue);

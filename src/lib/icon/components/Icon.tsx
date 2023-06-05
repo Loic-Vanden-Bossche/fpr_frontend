@@ -1,7 +1,7 @@
-import {ReactElement} from "react";
-import {iconStyle} from "./Icon.style";
-import {css as emotionCss} from "@emotion/react";
-import type {StyleProps} from "../..";
+import { ReactElement } from "react";
+import { iconStyle } from "./Icon.style";
+import { css as emotionCss } from "@emotion/react";
+import type { StyleProps } from "../..";
 
 interface Props extends StyleProps {
   icon: ReactElement<SVGElement>;

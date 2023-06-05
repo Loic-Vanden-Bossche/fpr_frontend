@@ -1,5 +1,5 @@
-import {Contact} from "../../types";
-import {linearCell, profilePic} from "./Messaging.style.ts";
+import { Contact } from "../../types";
+import { linearCell, profilePic } from "./Messaging.style.ts";
 
 interface Props {
   isSelected: boolean;

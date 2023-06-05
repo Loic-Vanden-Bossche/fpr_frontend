@@ -1,4 +1,4 @@
-import {css} from "@emotion/react";
+import { css } from "@emotion/react";
 
 export const iconStyle = (color: string, size: string) => css`
   fill: ${color};
