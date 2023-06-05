@@ -6,8 +6,10 @@ export const loginPage = css`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: calc(100% - 32px);
   gap: 48px;
+  min-height: fit-content;
+  padding: 16px;
 `;
 
 export const loginHeader = css`
@@ -40,6 +42,8 @@ export const loginForm = css`
   padding: 56px;
   border-radius: ${borderRadius};
   background: ${colors.white};
+  width: calc(500px - 56px * 2);
+  max-width: calc(100% - 56px * 2);
   
   header {
     display: flex;
