@@ -1,0 +1,62 @@
+{
+  "env": {
+    "browser": true,
+    "es2020": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": { 
+    "ecmaVersion": "latest", 
+    "sourceType": "module" 
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "plugins": ["react-refresh", "react"],
+  "rules": {
+    "no-multi-assign": "error",
+    "semi": ["error", "always"],
+    "react-refresh/only-export-components": "warn",
+    "curly": "warn",
+    "no-trailing-spaces": "warn",
+    "object-curly-spacing": ["warn", "always"],
+    "array-bracket-spacing": ["warn", "never"],
+    "indent": ["warn", 2],
+    "no-multiple-empty-lines": ["warn", { "max": 1 }],
+    "no-console": "error",
+    "no-multi-spaces": "warn",
+    "max-len": ["warn", { "code": 120 }],
+    "dot-location": ["warn", "property"],
+    "arrow-spacing": ["warn", { "before": true, "after": true }],
+    "block-spacing": ["warn", "always"],
+    "brace-style": ["warn", "1tbs", { "allowSingleLine": true }],
+    "comma-dangle": ["warn", "never"],
+    "comma-spacing": ["warn", { "before": false, "after": true }],
+    "eol-last": ["warn", "always"],
+    "func-call-spacing": ["warn", "never"],
+    "linebreak-style": ["warn", "unix"],
+    "array-bracket-newline": ["warn", { "multiline": true, "minItems": 3 }],
+    "array-element-newline": ["warn", { "minItems": 3 }],
+    "object-curly-newline": ["warn", { "multiline": true, "minProperties": 3}],
+    "object-property-newline": ["warn", { "allowMultiplePropertiesPerLine": false }],
+    "no-sparse-arrays": "error",
+    "no-array-constructor": "error",
+    "arrow-body-style": ["warn", "as-needed"],
+    "prefer-arrow-callback": "warn",
+    "react/jsx-indent-props": [2, "first"],
+    "react/jsx-max-props-per-line": [1, {"maximum": 1, "when": "multiline"}],
+    "react/jsx-boolean-value": [1, "never"],
+    "react/jsx-closing-bracket-location": [1, "line-aligned"],
+    "react/self-closing-comp": 1,
+    "react/no-multi-comp": 2,
+    "react/boolean-prop-naming": 1,
+    "react/jsx-key": 2,
+    "react/no-children-prop": 2
+  }
+}

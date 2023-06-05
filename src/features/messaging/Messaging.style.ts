@@ -1,12 +1,11 @@
-import {css} from "@emotion/react";
-import {borderRadius, colors} from "../../ui/values.ts";
+import { css } from "@emotion/react";
+import { borderRadius, colors } from "../../ui";
 
 export const profilePic = css`
   width: 48px;
   height: 48px;
   border-radius: 50%;
 `;
-
 
 export const linearCell = css`
   position: relative;

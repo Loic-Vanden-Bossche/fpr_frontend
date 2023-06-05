@@ -5,5 +5,9 @@ export type Contact = {
 }
 
 export function getDummyContacts (): Contact {
-  return {id: "oui", name: "John", profilePic: "https://api.dicebear.com/6.x/notionists-neutral/svg?seed=Enzo" }
+  return {
+    id: "oui",
+    name: "John",
+    profilePic: "https://api.dicebear.com/6.x/notionists-neutral/svg?seed=Enzo"
+  };
 }
