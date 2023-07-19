@@ -6,7 +6,7 @@ import {
   CameraContext, Form, useCamera
 } from "../../lib";
 
-const ws = new WebSocket("ws://api.flash-player-revival.net/webrtc");
+const ws = new WebSocket("wss://api.flash-player-revival.net/webrtc");
 
 export function VideoChatRouter() {
   const video = useRef<HTMLVideoElement>(null);
