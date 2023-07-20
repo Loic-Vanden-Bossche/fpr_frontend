@@ -38,18 +38,6 @@ export function VideoChatRouter() {
       }]
   }), []);
 
-  const callGroup = useCallback(async (group: string, user: string, pc: RTCPeerConnection) => {
-    if(pc && pc.iceConnectionState === "new"){
-      const offer = await pc.createOffer();
-      await pc.setLocalDescription(new RTCSessionDescription(offer));
-      const message: SignalMessage = {
-        type: "call-group",
-        data: { offer: offer, to: user, group: group }
-      };
-      ws?.send(JSON.stringify(message));
-    }
-  }, [ws]);
-
   const addPeerConnection = useCallback((id: string, stream: MediaStream) => {
     console.log("Create connexion for", id);
     const pc = new RTCPeerConnection(servers);
@@ -72,11 +60,12 @@ export function VideoChatRouter() {
     }
     if(stream !== null && group !== null){
       group.members.filter(v => v.user.id !== self?.id).forEach((m) => {
-        const pc = addPeerConnection(m.user.id, stream);
-        callGroup(group.id, m.user.id, pc);
+        addPeerConnection(m.user.id, stream);
       });
+      ws.send(JSON.stringify({ type: "connect", data: { group: group.id } }));
+      ws.send(JSON.stringify({ type: "presence" }));
     }
-  }, [stream, group, addPeerConnection, callGroup, self?.id]);
+  }, [stream, group, addPeerConnection, self?.id, ws]);
 
   const {
     useVideo, switchUseVideo, useAudio, switchUseAudio
@@ -135,6 +124,20 @@ export function VideoChatRouter() {
       const pc = peerConnections.get(data.from);
       if(pc) {
         pc.setRemoteDescription(new RTCSessionDescription(data.answer));
+      }
+    }else if(message.type === "present"){
+      const data = message.data as {presents: string[]};
+      for (const id of data.presents) {
+        const pc = peerConnections.get(id);
+        if(pc && pc.iceConnectionState === "new"){
+          const offer = await pc.createOffer();
+          await pc.setLocalDescription(new RTCSessionDescription(offer));
+          const message: SignalMessage = {
+            type: "call-group",
+            data: { offer: offer, to: id, group: group }
+          };
+          ws.send(JSON.stringify(message));
+        }
       }
     }
   };
