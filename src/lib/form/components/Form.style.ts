@@ -8,4 +8,8 @@ export const formStyle = css`
     main > :not(:first-child, .error) {
         margin-top: 16px;
     }
+
+    input[type=submit] {
+        cursor: pointer;
+    }
 `;

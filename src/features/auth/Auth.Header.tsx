@@ -1,9 +1,9 @@
 import { colors } from "../../ui";
 import { Icon, icons } from "../../lib";
-import { loginHeader } from "./Login.style.ts";
+import { authHeader } from "./Auth.style";
 
-export function LoginHeader() {
-  return <header css={loginHeader}>
+export function AuthHeader() {
+  return <header css={authHeader}>
     <Icon icon={icons.logo} color={colors.white} size={"80px"}/>
     <section>
       <h1>Flash Player</h1>
