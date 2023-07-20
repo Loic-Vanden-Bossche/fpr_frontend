@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import {
-  createElement,
   useContext, useEffect, useRef, useState
 } from "react";
 import {
@@ -8,8 +7,6 @@ import {
 } from "../../lib";
 
 const ws = new WebSocket("ws://localhost:8080/webrtc");
-
-const self = "e971948b-55ab-41b3-89c0-36b587471589";
 
 interface SignalMessage {
   type: string,
@@ -62,6 +59,9 @@ export function VideoChatRouter(props: {group: Group}) {
   const [peerConnections, setPeerConnections] = useState<Map<string, RTCPeerConnection>>(new Map());
   const [videoElements, setVideoElements] = useState<Map<string, HTMLVideoElement>>(new Map());
 
+
+  console.log(videoElements);
+
   useEffect(() => {
     if(stream !== null && !init){
       props.group.members.forEach((m) => {
@@ -102,20 +102,20 @@ export function VideoChatRouter(props: {group: Group}) {
     }
   };
 
-  const removeConnection = (id: string) => {
-    setPeerConnections(prev => {
-      prev.delete(id);
-      return prev;
-    });
-    setVideoElements(prev => {
-      const ve = prev.get(id);
-      if(videoContainer.current && ve){
-        videoContainer.current.removeChild(ve);
-      }
-      prev.delete(id);
-      return prev;
-    });
-  };
+  // const removeConnection = (id: string) => {
+  //   setPeerConnections(prev => {
+  //     prev.delete(id);
+  //     return prev;
+  //   });
+  //   setVideoElements(prev => {
+  //     const ve = prev.get(id);
+  //     if(videoContainer.current && ve){
+  //       videoContainer.current.removeChild(ve);
+  //     }
+  //     prev.delete(id);
+  //     return prev;
+  //   });
+  // };
 
   const callGroup = async (id: string) => {
     const pc = peerConnections.get(id);
