@@ -5,6 +5,7 @@ import {
 } from "../../lib";
 import { isLoginCredentials } from "../../types";
 import { formStyle } from "../../ui";
+import { Link } from "react-router-dom";
 
 export function LoginForm() {
   const formSchemas: Schema[] = [emailSchema, passwordSchema];
@@ -26,5 +27,6 @@ export function LoginForm() {
       <p>Enter your credentials to connect.</p>
     </header>
     <Form schemas={formSchemas} onSubmit={handleFormSubmit} submitButtonText="Sign-in" style={formStyle}/>
+    <p>You don't have an account? <Link to={'/auth/register'}>Sign up</Link></p>
   </>;
 }

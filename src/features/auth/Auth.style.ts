@@ -64,4 +64,20 @@ export const authForm = css`
       font-weight: 800;
     }
   }
+
+  & > p {
+    color: ${colors.pale_primary};
+    font-size: 1.18rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+
+    a {
+      text-decoration: none;
+      color: ${colors.primary};
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
 `;
