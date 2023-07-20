@@ -3,6 +3,7 @@ import { LoginForm } from "../login";
 import { MessagingRoute } from "../messaging";
 import { AuthGuard } from "../auth";
 import { RegisterForm } from "../register";
+import { VideoChatRouter } from "../videoChat";
 
 export function RoutingRouter() {
   return <Routes>
@@ -13,5 +14,6 @@ export function RoutingRouter() {
       <Route path="register" element={<RegisterForm/>}/>
       <Route path="login" element={<LoginForm/>}/>
     </Route>
+    <Route path={"video"} element={<VideoChatRouter/>}/>
   </Routes>;
 }
