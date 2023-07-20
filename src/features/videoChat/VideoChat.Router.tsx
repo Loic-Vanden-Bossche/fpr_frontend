@@ -6,7 +6,7 @@ import {
   CameraContext, Form, useCamera
 } from "../../lib";
 
-const ws = new WebSocket("ws://localhost:8080/webrtc");
+const ws = new WebSocket("wss://api.flash-player-revival.net/webrtc");
 
 interface SignalMessage {
   type: string,
