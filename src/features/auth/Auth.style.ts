@@ -67,7 +67,7 @@ export const authForm = css`
 
   & > p {
     color: ${colors.pale_primary};
-    font-size: 1.18rem;
+    font-size: 1.1rem;
     font-weight: 800;
     letter-spacing: 2px;
 

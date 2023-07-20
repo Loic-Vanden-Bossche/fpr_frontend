@@ -12,3 +12,11 @@ export const isLoginCredentials = (data: Record<string, unknown>): data is Login
 export type RegisterCredentials = {
   username: string
 } & LoginCredentials
+
+export const isRegisterCredentials = (data: Record<string, unknown>): data is RegisterCredentials =>
+  "email" in data &&
+  "username" in data &&
+  "password" in data &&
+  typeof data.email === "string" &&
+  typeof data.username === "string" &&
+  typeof data.password === "string";
