@@ -1,17 +1,10 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { LoginCredentials, Profile, RegisterCredentials, Token } from "../types";
+import { queriesConfiguration } from "./config";
 
 export const authApi = createApi({
   reducerPath: "authApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.flash-player-revival.net/api",
-    prepareHeaders: (header) => {
-      const token = localStorage.getItem('token');
-      if (token) { header.set('authorization', `Bearer ${token}`); }
-      return header;
-    }
-  }),
-  tagTypes: ["PROFILE"],
+  baseQuery: queriesConfiguration(),
   endpoints: builder => ({
     getProfile: builder.query<Profile, void>({
       query: () => "/profile"

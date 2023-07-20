@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type { Contact } from "../../types";
 import { getDummyContacts } from "../../types";
 import { MessagingContactList } from "./Messaging.ContactList.tsx";
@@ -5,8 +6,11 @@ import { messagingScreen } from "./Messaging.style.ts";
 import { MessagingChatWindow } from "./Messaging.ChatWindow.tsx";
 import { outPrimaryShadow } from "../../ui";
 import { useState } from "react";
+import { useGetGroupsQuery } from "../../api/groups.ts";
 
 export function MessagingRoute() {
+  const { data } = useGetGroupsQuery();
+  console.log(data);
   const classes = [messagingScreen, outPrimaryShadow];
   const contactList: Contact[] = [
     getDummyContacts(),
