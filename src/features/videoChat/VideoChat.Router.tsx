@@ -82,6 +82,7 @@ export function VideoChatRouter(props: {group: Group}) {
     pc.ontrack = ({ streams: [stream] }) => {
       console.log("stream", stream);
       ve.srcObject = stream;
+      ve.play();
     };
     pc.onconnectionstatechange = () => {
       console.log(pc.connectionState);
