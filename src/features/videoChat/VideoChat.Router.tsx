@@ -70,7 +70,6 @@ export function VideoChatRouter() {
       videoContainer.current.innerHTML = "";
       setVideoElements(new Map());
     }
-    console.log(stream, group);
     if(stream !== null && group !== null){
       group.members.forEach((m) => {
         addPeerConnection(m.user.id, stream);

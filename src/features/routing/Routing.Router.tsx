@@ -9,11 +9,11 @@ export function RoutingRouter() {
   return <Routes>
     <Route path="" element={<AuthGuard shouldBeAuthenticated/>}>
       <Route index element={<MessagingRoute/>}/>
+      <Route path={"video"} element={<VideoChatRouter/>}/>
     </Route>
     <Route path="auth" element={<AuthGuard/>}>
       <Route path="register" element={<RegisterForm/>}/>
       <Route path="login" element={<LoginForm/>}/>
     </Route>
-    <Route path={"video"} element={<VideoChatRouter/>}/>
   </Routes>;
 }
