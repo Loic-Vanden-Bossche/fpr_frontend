@@ -6,7 +6,7 @@ import {
 import {
   CameraContext, useCamera
 } from "../../lib";
-import { useGetGroupsQuery } from "../../api";
+import { useGetGroupsQuery, useGetProfileQuery } from "../../api";
 import { Group } from "../../types";
 import { webRTCSocketContext } from "../../ws/webRTC.ts";
 
@@ -26,21 +26,19 @@ export function VideoChatRouter() {
   const [peerConnections, setPeerConnections] = useState<Map<string, RTCPeerConnection>>(new Map());
   const [, setVideoElements] = useState<Map<string, HTMLVideoElement>>(new Map());
 
-  const servers: RTCConfiguration = useMemo(() => {
-    return {
-      iceServers: [
-        {
-          urls: [
-            "stun:stun1.l.google.com:19302",
-            "stun:stun2.l.google.com:19302"
-          ]
-        }
-      ]
-    };
-  }, []);
+  const { data: self } = useGetProfileQuery();
 
-  const callGroup = useCallback(async (group: string, user: string) => {
-    const pc = peerConnections.get(user);
+  const servers: RTCConfiguration = useMemo(() => ({
+    iceServers: [
+      {
+        urls: [
+          "stun:stun1.l.google.com:19302",
+          "stun:stun2.l.google.com:19302"
+        ]
+      }]
+  }), []);
+
+  const callGroup = useCallback(async (group: string, user: string, pc: RTCPeerConnection) => {
     if(pc && pc.iceConnectionState === "new"){
       const offer = await pc.createOffer();
       await pc.setLocalDescription(new RTCSessionDescription(offer));
@@ -50,9 +48,10 @@ export function VideoChatRouter() {
       };
       ws?.send(JSON.stringify(message));
     }
-  }, [peerConnections, ws]);
+  }, [ws]);
 
   const addPeerConnection = useCallback((id: string, stream: MediaStream) => {
+    console.log("Create connexion for", id);
     const pc = new RTCPeerConnection(servers);
     setPeerConnections(prev => prev.set(id, pc));
     const ve = addVideoElement(id);
@@ -63,6 +62,7 @@ export function VideoChatRouter() {
       ve.srcObject = stream;
       ve.play();
     };
+    return pc;
   }, [servers]);
 
   useEffect(() => {
@@ -71,12 +71,12 @@ export function VideoChatRouter() {
       setVideoElements(new Map());
     }
     if(stream !== null && group !== null){
-      group.members.forEach((m) => {
-        addPeerConnection(m.user.id, stream);
-        callGroup(group.id, m.user.id);
+      group.members.filter(v => v.user.id !== self?.id).forEach((m) => {
+        const pc = addPeerConnection(m.user.id, stream);
+        callGroup(group.id, m.user.id, pc);
       });
     }
-  }, [stream, group, addPeerConnection, callGroup]);
+  }, [stream, group, addPeerConnection, callGroup, self?.id]);
 
   const {
     useVideo, switchUseVideo, useAudio, switchUseAudio
