@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { borderRadius, colors } from "../../ui";
 
-export const loginPage = css`
+export const authPage = css`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,7 +12,7 @@ export const loginPage = css`
   padding: 16px;
 `;
 
-export const loginHeader = css`
+export const authHeader = css`
   display: flex;
   align-items: center;
   gap: 24px;
@@ -38,14 +38,14 @@ export const loginHeader = css`
   }
 `;
 
-export const loginForm = css`
+export const authForm = css`
   padding: 56px;
   border-radius: ${borderRadius};
   background: ${colors.white};
   width: calc(500px - 56px * 2);
   max-width: calc(100% - 56px * 2);
   
-  header {
+  & > header {
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -64,6 +64,20 @@ export const loginForm = css`
       font-weight: 800;
     }
   }
-`;
 
-export const loginFormHeader = css``;
+  & > p {
+    color: ${colors.pale_primary};
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+
+    a {
+      text-decoration: none;
+      color: ${colors.primary};
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+`;
