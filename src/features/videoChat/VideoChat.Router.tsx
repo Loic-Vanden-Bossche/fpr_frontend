@@ -38,7 +38,7 @@ export function VideoChatRouter() {
         ]
       },
       {
-        urls: 'turn:localhost',
+        urls: 'turn:localhost:3478',
         credential: 'test',
         username: 'test'
       }]
