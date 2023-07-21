@@ -104,6 +104,7 @@ export function VideoChatRouter() {
       }
     }else if(m.type === "new-user"){
       const pc = peerConnections.get(m.data.from);
+      console.log(pc);
       if(!pc){
         return;
       }
@@ -121,6 +122,7 @@ export function VideoChatRouter() {
       ws.send(JSON.stringify(message));
     } else if(m.type === "new-answer"){
       const pc = peerConnections.get(m.data.from);
+      console.log(pc);
       if(!pc){
         return;
       }
