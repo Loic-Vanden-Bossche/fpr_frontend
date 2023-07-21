@@ -66,7 +66,7 @@ export function VideoChatRouter() {
           const message = {
             type: "call-group",
             data: {
-              from: id,
+              to: id,
               group: group?.id,
               offer: offer
             }
