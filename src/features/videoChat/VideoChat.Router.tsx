@@ -36,7 +36,7 @@ export function VideoChatRouter() {
       }]
   }), []);
 
-  const createVideo = useCallback((id: string) => {
+  const createVideo = useCallback(() => {
     const v = document.createElement('video');
     videoContainer.current?.appendChild(v);
     return v;
@@ -51,7 +51,7 @@ export function VideoChatRouter() {
       });
     }
     pc.ontrack = async ({ streams: [stream] }) => {
-      const video = createVideo(id);
+      const video = createVideo();
       video.srcObject = stream;
       await video.play();
       setReload(prev => !prev);
