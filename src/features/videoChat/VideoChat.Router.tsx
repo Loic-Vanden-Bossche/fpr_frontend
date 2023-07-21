@@ -23,7 +23,6 @@ export function VideoChatRouter() {
 
   const [group, setGroup] = useState<Group|null>(null);
 
-  const [peerConnections, setPeerConnections] = useState<Map<string, RTCPeerConnection>>(new Map());
   const [, setVideoElements] = useState<Map<string, HTMLVideoElement>>(new Map());
 
   const { data: self } = useGetProfileQuery();
@@ -38,26 +37,26 @@ export function VideoChatRouter() {
       }]
   }), []);
 
+  const peerConnection = useRef<RTCPeerConnection>(new RTCPeerConnection(servers));
+
   const addPeerConnection = useCallback((id: string, stream: MediaStream) => {
-    const pc = new RTCPeerConnection(servers);
-    setPeerConnections(prev => new Map(prev).set(id, pc));
     const ve = addVideoElement(id);
     stream.getTracks().forEach((track: MediaStreamTrack) => {
-      pc.addTrack(track, stream);
+      peerConnection.current.addTrack(track, stream);
     });
-    pc.ontrack = ({ streams: [stream] }) => {
-      ve.srcObject = stream;
-      ve.play();
-      // ve.play().then((e) => {
-      //   console.log("Played", e);
-      // }).catch((de) => {
-      //   console.log("error", de);
-      // });
+    peerConnection.current.ontrack = ({ streams: [stream] }) => {
+      console.log(ve.srcObject, id);
+      if(ve.srcObject === null){
+        ve.srcObject = stream;
+        console.log(ve, stream);
+        ve.play().then((e) => {
+          console.log("Played", e);
+        }).catch((de) => {
+          console.log("error", de);
+        });
+      }
     };
-    pc.oniceconnectionstatechange = () => {
-      console.log(pc.iceConnectionState);
-    };
-    return pc;
+    return peerConnection.current;
   }, [servers]);
 
   useEffect(() => {
@@ -65,10 +64,7 @@ export function VideoChatRouter() {
       videoContainer.current.innerHTML = "";
       setVideoElements(new Map());
     }
-    if(stream !== null && group !== null){
-      group.members.filter(v => v.user.id !== self?.id).forEach((m) => {
-        addPeerConnection(m.user.id, stream);
-      });
+    if(group !== null){
       ws.send(JSON.stringify({ type: "connect", data: { group: group.id } }));
       ws.send(JSON.stringify({ type: "presence" }));
     }
@@ -115,7 +111,7 @@ export function VideoChatRouter() {
     const message: SignalMessage = JSON.parse(messageEv.data);
     if(message.type === "new-user"){
       const data = message.data as {offer: RTCSessionDescriptionInit, from: string};
-      const pc = peerConnections.get(data.from);
+      const pc = peerConnection.current;
       if(pc){
         await pc.setRemoteDescription(data.offer);
         const answer = await pc.createAnswer();
@@ -132,22 +128,29 @@ export function VideoChatRouter() {
       }
     }else if(message.type === "new-answer"){
       const data = message.data as {answer: RTCSessionDescriptionInit, from: string};
-      const pc = peerConnections.get(data.from);
+      const pc = peerConnection.current;
+      console.log("pc", pc);
       if(pc) {
-        pc.setRemoteDescription(new RTCSessionDescription(data.answer));
+        await pc.setRemoteDescription(new RTCSessionDescription(data.answer));
+        console.log("remote", pc);
       }
     }else if(message.type === "present"){
       const data = message.data as {presents: string[]};
       for (const id of data.presents) {
-        const pc = peerConnections.get(id);
-        if(pc && pc.iceConnectionState === "new"){
-          const offer = await pc.createOffer();
-          await pc.setLocalDescription(new RTCSessionDescription(offer));
-          const message: SignalMessage = {
-            type: "call-group",
-            data: { offer: offer, to: id, group: group?.id }
+        if(stream !== null && group !== null){
+          const pc = addPeerConnection(id, stream);
+          pc.oniceconnectionstatechange = () => {
+            console.log(pc.iceConnectionState);
           };
-          ws.send(JSON.stringify(message));
+          if(pc && pc.iceConnectionState === "new"){
+            const offer = await pc.createOffer();
+            await pc.setLocalDescription(new RTCSessionDescription(offer));
+            const message: SignalMessage = {
+              type: "call-group",
+              data: { offer: offer, to: id, group: group?.id }
+            };
+            ws.send(JSON.stringify(message));
+          }
         }
       }
     }
