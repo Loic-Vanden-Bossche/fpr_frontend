@@ -17,7 +17,7 @@ export interface SignalMessage {
 export function VideoChatRouter() {
   const ws = useContext(webRTCSocketContext);
   const video = useRef<HTMLVideoElement>(null);
-  const videoContainer = useRef<HTMLDivElement>(null);
+  const videoContainer = useRef<HTMLVideoElement>(null);
   const { isLoading, stream } = useCamera();
 
   const {
@@ -38,7 +38,22 @@ export function VideoChatRouter() {
       }]
   }), []);
 
-  const peerConnection = useMemo(() => new RTCPeerConnection(servers), [servers]);
+  const peerConnection = useMemo(() =>{
+    const pc = new RTCPeerConnection(servers);
+    if(stream !== null){
+      stream.getTracks().forEach((track) => {
+        pc.addTrack(track, stream);
+      });
+    }
+    pc.ontrack = async ({ streams: [stream] }) => {
+      console.log(stream);
+      if(videoContainer.current !== null){
+        videoContainer.current.srcObject = stream;
+        await videoContainer.current.play();
+      }
+    };
+    return pc;
+  }, [stream, servers]);
 
   const [group, setGroup] = useState<Group | null>(null);
 
@@ -117,7 +132,7 @@ export function VideoChatRouter() {
     <button onClick={switchUseVideo}>{useVideo ? "disable video" : "enable video"}</button>
     <button onClick={switchUseAudio}>{useAudio ? "disable audio" : "enable audio"}</button>
     <video ref={video}/>
-    <div ref={videoContainer}/>
+    <video ref={videoContainer}/>
   </>;
 
 }
