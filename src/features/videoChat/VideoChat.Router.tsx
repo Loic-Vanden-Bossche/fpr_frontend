@@ -40,7 +40,7 @@ export function VideoChatRouter() {
 
   const addPeerConnection = useCallback((id: string, stream: MediaStream) => {
     const pc = new RTCPeerConnection(servers);
-    setPeerConnections(prev => prev.set(id, pc));
+    setPeerConnections(prev => new Map(prev).set(id, pc));
     const ve = addVideoElement(id);
     stream.getTracks().forEach((track: MediaStreamTrack) => {
       pc.addTrack(track, stream);
@@ -48,6 +48,14 @@ export function VideoChatRouter() {
     pc.ontrack = ({ streams: [stream] }) => {
       ve.srcObject = stream;
       ve.play();
+      // ve.play().then((e) => {
+      //   console.log("Played", e);
+      // }).catch((de) => {
+      //   console.log("error", de);
+      // });
+    };
+    pc.oniceconnectionstatechange = () => {
+      console.log(pc.iceConnectionState);
     };
     return pc;
   }, [servers]);
@@ -75,9 +83,13 @@ export function VideoChatRouter() {
   const addVideoElement = (id: string) => {
     if(videoContainer.current !== null){
       const videoElement = document.createElement('video');
+      // const button = document.createElement("button");
       videoElement.id = id;
+      // button.onclick = () => videoElement.play();
+      // button.innerText = "Play";
       setVideoElements(prev => prev.set(id, videoElement));
       videoContainer.current.appendChild(videoElement);
+      // videoContainer.current.appendChild(button);
       return videoElement;
     } else {
       throw Error();
