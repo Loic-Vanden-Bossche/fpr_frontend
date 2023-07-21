@@ -95,6 +95,8 @@ export function VideoChatRouter() {
     }
   };
 
+  console.log(peerConnection);
+
   useEffect(() => {
     if (video.current && stream ) {
       video.current.srcObject = stream;
