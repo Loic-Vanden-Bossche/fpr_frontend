@@ -86,6 +86,9 @@ export function VideoChatRouter() {
       for(const id of (m.data.presents as string[])){
         const pc = peerConnection;
         if(pc.iceConnectionState === "new"){
+          pc.onicecandidate = (ev) => {
+            ws.send(JSON.stringify({ type: "candidate", data: { to: id, candidate: ev.candidate } }));
+          };
           const offer = await pc.createOffer();
           await pc.setLocalDescription(offer);
           const message = {
@@ -116,6 +119,9 @@ export function VideoChatRouter() {
     } else if(m.type === "new-answer"){
       const pc = peerConnection;
       await pc.setRemoteDescription(m.data.answer);
+    } else if(m.type === "candidate"){
+      const pc = peerConnection;
+      await pc.addIceCandidate(m.data.candidate);
     }
   };
 
