@@ -54,6 +54,9 @@ export function VideoChatRouter() {
         setReload(prev => !prev);
       }
     };
+    pc.oniceconnectionstatechange = () => {
+      console.log("ICE STATE " + pc.iceConnectionState);
+    };
     return pc;
   }, [stream, servers]);
 
