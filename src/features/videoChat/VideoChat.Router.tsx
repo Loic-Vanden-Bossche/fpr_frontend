@@ -39,7 +39,6 @@ export function VideoChatRouter() {
   }), []);
 
   const addPeerConnection = useCallback((id: string, stream: MediaStream) => {
-    console.log("Create connexion for", id);
     const pc = new RTCPeerConnection(servers);
     setPeerConnections(prev => prev.set(id, pc));
     const ve = addVideoElement(id);
