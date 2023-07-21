@@ -60,9 +60,10 @@ export function VideoChatRouter() {
     console.log(m);
     if(m.type === "present"){
       for(const id of (m.data.presents as string[])){
-        if(peerConnection.iceConnectionState === "new"){
-          const offer = await peerConnection.createOffer();
-          await peerConnection.setLocalDescription(offer);
+        const pc = peerConnection;
+        if(pc.iceConnectionState === "new"){
+          const offer = await pc.createOffer();
+          await pc.setLocalDescription(offer);
           const message = {
             type: "call-group",
             data: {
@@ -74,6 +75,20 @@ export function VideoChatRouter() {
           ws.send(JSON.stringify(message));
         }
       }
+    }else if(m.type === "new-user"){
+      const pc = peerConnection;
+      await pc.setRemoteDescription(m.data.offer);
+      const answer = await pc.createAnswer();
+      await pc.setLocalDescription(answer);
+      const message = {
+        type: "make-answer",
+        data: {
+          answer: answer,
+          group: group?.id,
+          to: m.data.from
+        }
+      };
+      ws.send(JSON.stringify(message));
     }
   };
 
