@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import {
+  useCallback,
   useContext, useEffect, useMemo, useRef, useState
 } from "react";
 import {
@@ -17,9 +18,11 @@ export interface SignalMessage {
 export function VideoChatRouter() {
   const ws = useContext(webRTCSocketContext);
   const video = useRef<HTMLVideoElement>(null);
-  const videoContainer = useRef<HTMLVideoElement>(null);
+  const videoContainer = useRef<HTMLDivElement>(null);
   const { isLoading, stream } = useCamera();
   const [reload, setReload] = useState(false);
+  const [peerConnections, setPeerConnections] = useState<Map<string, RTCPeerConnection>>(new Map());
+  const [videos, setVideos] = useState<Map<string, HTMLVideoElement>>(new Map());
 
   const {
     useVideo, switchUseVideo, useAudio, switchUseAudio
@@ -39,7 +42,13 @@ export function VideoChatRouter() {
       }]
   }), []);
 
-  const peerConnection = useMemo(() =>{
+  const createVideo = useCallback((id: string) => {
+    const v = document.createElement('video');
+    setVideos(prev => new Map(prev).set(id, v));
+    return v;
+  }, []);
+
+  const createPeerConnection = useCallback((id: string) => {
     const pc = new RTCPeerConnection(servers);
     if(stream !== null){
       stream.getTracks().forEach((track) => {
@@ -47,17 +56,17 @@ export function VideoChatRouter() {
       });
     }
     pc.ontrack = async ({ streams: [stream] }) => {
-      if(videoContainer.current !== null){
-        videoContainer.current.srcObject = stream;
-        await videoContainer.current.play();
-        setReload(prev => !prev);
-      }
+      const video = createVideo(id);
+      video.srcObject = stream;
+      await video.play();
+      setReload(prev => !prev);
     };
     pc.oniceconnectionstatechange = () => {
       console.log("ICE STATE " + pc.iceConnectionState);
     };
+    setPeerConnections(prev => new Map(prev).set(id, pc));
     return pc;
-  }, [stream, servers]);
+  }, [servers, stream, createVideo]);
 
   const [group, setGroup] = useState<Group | null>(null);
 
@@ -76,14 +85,10 @@ export function VideoChatRouter() {
 
   ws.onmessage = async (message) => {
     const m = JSON.parse(message.data);
-    console.log(m);
     if(m.type === "present"){
       for(const id of (m.data.presents as string[])){
-        const pc = peerConnection;
+        const pc = createPeerConnection(id);
         if(pc.iceConnectionState === "new"){
-          // pc.onicecandidate = (ev) => {
-          //   ws.send(JSON.stringify({ type: "candidate", data: { to: id, candidate: ev.candidate } }));
-          // };
           const offer = await pc.createOffer();
           await pc.setLocalDescription(offer);
           const message = {
@@ -98,7 +103,10 @@ export function VideoChatRouter() {
         }
       }
     }else if(m.type === "new-user"){
-      const pc = peerConnection;
+      const pc = peerConnections.get(m.data.from);
+      if(!pc){
+        return;
+      }
       await pc.setRemoteDescription(m.data.offer);
       const answer = await pc.createAnswer();
       await pc.setLocalDescription(answer);
@@ -112,11 +120,11 @@ export function VideoChatRouter() {
       };
       ws.send(JSON.stringify(message));
     } else if(m.type === "new-answer"){
-      const pc = peerConnection;
+      const pc = peerConnections.get(m.data.from);
+      if(!pc){
+        return;
+      }
       await pc.setRemoteDescription(m.data.answer);
-    } else if(m.type === "candidate"){
-      const pc = peerConnection;
-      await pc.addIceCandidate(m.data.candidate);
     }
   };
 
@@ -144,7 +152,9 @@ export function VideoChatRouter() {
     <button onClick={switchUseVideo}>{useVideo ? "disable video" : "enable video"}</button>
     <button onClick={switchUseAudio}>{useAudio ? "disable audio" : "enable audio"}</button>
     <video ref={video}/>
-    <video ref={videoContainer}/>
+    <div ref={videoContainer}>
+      {videos.entries()}
+    </div>
   </>;
 
 }
