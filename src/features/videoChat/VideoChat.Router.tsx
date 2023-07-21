@@ -134,7 +134,7 @@ export function VideoChatRouter() {
           await pc.setLocalDescription(new RTCSessionDescription(offer));
           const message: SignalMessage = {
             type: "call-group",
-            data: { offer: offer, to: id, group: group }
+            data: { offer: offer, to: id, group: group?.id }
           };
           ws.send(JSON.stringify(message));
         }
