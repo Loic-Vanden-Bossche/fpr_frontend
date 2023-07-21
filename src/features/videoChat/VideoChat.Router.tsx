@@ -89,6 +89,9 @@ export function VideoChatRouter() {
         }
       };
       ws.send(JSON.stringify(message));
+    } else if(m.type === "new-answer"){
+      const pc = peerConnection;
+      await pc.setRemoteDescription(m.data.answer);
     }
   };
 
