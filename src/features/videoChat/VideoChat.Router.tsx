@@ -38,9 +38,9 @@ export function VideoChatRouter() {
         ]
       },
       {
-        urls: 'turn:127.0.0.1:3478',
-        credential: 'test',
-        username: 'test'
+        urls: 'turn:flashplayer.metered.live:443',
+        credential: 'bVEXPVtMQkk0ww6H',
+        username: '0d531b879ba37bdb8a76a561'
       }]
   }), []);
 
