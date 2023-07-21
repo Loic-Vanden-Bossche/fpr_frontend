@@ -17,7 +17,6 @@ export function VideoChatRouter() {
   const { isLoading, stream } = useCamera();
   const [reload, setReload] = useState(false);
   const [peerConnections, setPeerConnections] = useState<Map<string, RTCPeerConnection>>(new Map());
-  const [videos, setVideos] = useState<Map<string, HTMLVideoElement>>(new Map());
 
   const {
     useVideo, switchUseVideo, useAudio, switchUseAudio
@@ -39,7 +38,7 @@ export function VideoChatRouter() {
 
   const createVideo = useCallback((id: string) => {
     const v = document.createElement('video');
-    setVideos(prev => new Map(prev).set(id, v));
+    videoContainer.current?.appendChild(v);
     return v;
   }, []);
 
@@ -144,9 +143,7 @@ export function VideoChatRouter() {
     <button onClick={switchUseVideo}>{useVideo ? "disable video" : "enable video"}</button>
     <button onClick={switchUseAudio}>{useAudio ? "disable audio" : "enable audio"}</button>
     <video ref={video}/>
-    <div ref={videoContainer}>
-      {videos.entries()}
-    </div>
+    <div ref={videoContainer}/>
   </>;
 
 }
