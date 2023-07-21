@@ -119,7 +119,11 @@ export function VideoChatRouter() {
   //   });
   // };
 
-  ws.onmessage = async (messageEv: MessageEvent<string>) => {
+  useEffect(() => {
+    console.log(peerConnections);
+  }, [peerConnections]);
+
+  const wsOnMessage = useCallback(async (messageEv: MessageEvent<string>) => {
     const message: SignalMessage = JSON.parse(messageEv.data);
     if(message.type === "new-user"){
       const data = message.data as {offer: RTCSessionDescriptionInit, from: string};
@@ -141,10 +145,13 @@ export function VideoChatRouter() {
     }else if(message.type === "new-answer"){
       const data = message.data as {answer: RTCSessionDescriptionInit, from: string};
       const pc = peerConnections.get(data.from);
-      console.log("pc", pc);
-      if(pc) {
+      console.log("pc", pc?.remoteDescription);
+      if(pc && stream !== null) {
         await pc.setRemoteDescription(new RTCSessionDescription(data.answer));
-        console.log("remote", pc);
+        console.log("remote", pc.remoteDescription);
+        stream.getTracks().forEach((track: MediaStreamTrack) => {
+          pc.addTrack(track, stream);
+        });
       }
     }else if(message.type === "present"){
       const data = message.data as {presents: string[]};
@@ -166,7 +173,12 @@ export function VideoChatRouter() {
         }
       }
     }
-  };
+  }, [addPeerConnection, group, peerConnections, stream, ws]);
+
+  useEffect(() => {
+    ws.onmessage = wsOnMessage;
+    console.log("onmessage");
+  }, [wsOnMessage, ws]);
 
   useEffect(() => {
     if (video.current && stream ) {
