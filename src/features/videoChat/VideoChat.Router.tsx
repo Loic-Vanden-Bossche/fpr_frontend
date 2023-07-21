@@ -19,6 +19,7 @@ export function VideoChatRouter() {
   const video = useRef<HTMLVideoElement>(null);
   const videoContainer = useRef<HTMLVideoElement>(null);
   const { isLoading, stream } = useCamera();
+  const [reload, setReload] = useState(false);
 
   const {
     useVideo, switchUseVideo, useAudio, switchUseAudio
@@ -49,6 +50,7 @@ export function VideoChatRouter() {
       if(videoContainer.current !== null){
         videoContainer.current.srcObject = stream;
         await videoContainer.current.play();
+        setReload(prev => !prev);
       }
     };
     return pc;
@@ -78,7 +80,6 @@ export function VideoChatRouter() {
         if(pc.iceConnectionState === "new"){
           const offer = await pc.createOffer();
           await pc.setLocalDescription(offer);
-          console.log(pc);
           const message = {
             type: "call-group",
             data: {
@@ -103,16 +104,12 @@ export function VideoChatRouter() {
           to: m.data.from
         }
       };
-      console.log(pc);
       ws.send(JSON.stringify(message));
     } else if(m.type === "new-answer"){
       const pc = peerConnection;
       await pc.setRemoteDescription(m.data.answer);
-      console.log(pc);
     }
   };
-
-  console.log(peerConnection.ontrack);
 
   useEffect(() => {
     if (video.current && stream ) {
@@ -122,8 +119,8 @@ export function VideoChatRouter() {
   }, [stream, video]);
 
   useEffect(() => {
-    console.log("rerender");
-  });
+    console.log(reload);
+  }, [reload]);
 
   return <>
     {isLoading ? "loading" : "not loading"}
