@@ -1,9 +1,9 @@
-import { colors } from "../../ui";
 import { Icon, icons } from "../../lib";
-import { authHeader } from "./Auth.style";
+import { colors } from "../../ui";
+import { header } from "./NotAuthenticated.style";
 
-export function AuthHeader() {
-  return <header css={authHeader}>
+export function NotAuthenticatedHeader() {
+  return <header css={header}>
     <Icon icon={icons.logo} color={colors.white} size={"80px"}/>
     <section>
       <h1>Flash Player</h1>
