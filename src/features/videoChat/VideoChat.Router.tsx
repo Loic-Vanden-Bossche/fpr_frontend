@@ -36,11 +36,6 @@ export function VideoChatRouter() {
           "stun:stun1.l.google.com:19302",
           "stun:stun2.l.google.com:19302"
         ]
-      },
-      {
-        urls: 'turn:flashplayer.metered.live:443',
-        credential: 'bVEXPVtMQkk0ww6H',
-        username: '0d531b879ba37bdb8a76a561'
       }]
   }), []);
 
