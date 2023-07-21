@@ -15,6 +15,11 @@ export interface SignalMessage {
   data: object
 }
 
+function createRTC(configuration?: RTCConfiguration): RTCPeerConnection{
+  console.log("create");
+  return new RTCPeerConnection(configuration);
+}
+
 export function VideoChatRouter() {
   const ws = useContext(webRTCSocketContext);
   const video = useRef<HTMLVideoElement>(null);
@@ -22,6 +27,7 @@ export function VideoChatRouter() {
   const { isLoading, stream } = useCamera();
 
   const [group, setGroup] = useState<Group|null>(null);
+  const [peerConnections, setPeerConnections] = useState<Map<string, RTCPeerConnection>>(new Map());
 
   const [, setVideoElements] = useState<Map<string, HTMLVideoElement>>(new Map());
 
@@ -37,14 +43,20 @@ export function VideoChatRouter() {
       }]
   }), []);
 
-  const peerConnection = useRef<RTCPeerConnection>(new RTCPeerConnection(servers));
-
   const addPeerConnection = useCallback((id: string, stream: MediaStream) => {
+    const pc = createRTC(servers);
+    setPeerConnections(prev => {
+      const m = new Map(prev);
+      console.log(m, prev);
+      m.set(id, pc);
+      console.log(m, prev);
+      return m;
+    });
     const ve = addVideoElement(id);
     stream.getTracks().forEach((track: MediaStreamTrack) => {
-      peerConnection.current.addTrack(track, stream);
+      pc.addTrack(track, stream);
     });
-    peerConnection.current.ontrack = ({ streams: [stream] }) => {
+    pc.ontrack = ({ streams: [stream] }) => {
       console.log(ve.srcObject, id);
       if(ve.srcObject === null){
         ve.srcObject = stream;
@@ -56,7 +68,7 @@ export function VideoChatRouter() {
         });
       }
     };
-    return peerConnection.current;
+    return pc;
   }, [servers]);
 
   useEffect(() => {
@@ -111,7 +123,7 @@ export function VideoChatRouter() {
     const message: SignalMessage = JSON.parse(messageEv.data);
     if(message.type === "new-user"){
       const data = message.data as {offer: RTCSessionDescriptionInit, from: string};
-      const pc = peerConnection.current;
+      const pc = peerConnections.get(data.from);
       if(pc){
         await pc.setRemoteDescription(data.offer);
         const answer = await pc.createAnswer();
@@ -128,7 +140,7 @@ export function VideoChatRouter() {
       }
     }else if(message.type === "new-answer"){
       const data = message.data as {answer: RTCSessionDescriptionInit, from: string};
-      const pc = peerConnection.current;
+      const pc = peerConnections.get(data.from);
       console.log("pc", pc);
       if(pc) {
         await pc.setRemoteDescription(new RTCSessionDescription(data.answer));
