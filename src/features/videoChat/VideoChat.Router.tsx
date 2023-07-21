@@ -1,11 +1,6 @@
 /* eslint-disable no-console */
-import {
-  useCallback,
-  useContext, useEffect, useMemo, useRef, useState
-} from "react";
-import {
-  CameraContext, useCamera
-} from "../../lib";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { CameraContext, useCamera } from "../../lib";
 import { useGetGroupsQuery } from "../../api";
 import { webRTCSocketContext } from "../../ws/webRTC.ts";
 import { Group } from "../../types";
@@ -50,6 +45,7 @@ export function VideoChatRouter() {
 
   const createPeerConnection = useCallback((id: string) => {
     const pc = new RTCPeerConnection(servers);
+    setPeerConnections(prev => new Map(prev).set(id, pc));
     if(stream !== null){
       stream.getTracks().forEach((track) => {
         pc.addTrack(track, stream);
@@ -64,7 +60,6 @@ export function VideoChatRouter() {
     pc.oniceconnectionstatechange = () => {
       console.log("ICE STATE " + pc.iceConnectionState);
     };
-    setPeerConnections(prev => new Map(prev).set(id, pc));
     return pc;
   }, [servers, stream, createVideo]);
 
@@ -83,12 +78,12 @@ export function VideoChatRouter() {
     }
   }, [group, ws]);
 
-  ws.onmessage = async (message) => {
+  ws.onmessage = async (message: MessageEvent<any>) => {
     const m = JSON.parse(message.data);
-    if(m.type === "present"){
-      for(const id of (m.data.presents as string[])){
+    if (m.type === "present") {
+      for (const id of (m.data.presents as string[])) {
         const pc = createPeerConnection(id);
-        if(pc.iceConnectionState === "new"){
+        if (pc.iceConnectionState === "new") {
           const offer = await pc.createOffer();
           await pc.setLocalDescription(offer);
           const message = {
@@ -102,12 +97,8 @@ export function VideoChatRouter() {
           ws.send(JSON.stringify(message));
         }
       }
-    }else if(m.type === "new-user"){
-      const pc = peerConnections.get(m.data.from);
-      console.log(pc);
-      if(!pc){
-        return;
-      }
+    } else if (m.type === "new-user") {
+      const pc = createPeerConnection(m.data.from);
       await pc.setRemoteDescription(m.data.offer);
       const answer = await pc.createAnswer();
       await pc.setLocalDescription(answer);
@@ -120,10 +111,9 @@ export function VideoChatRouter() {
         }
       };
       ws.send(JSON.stringify(message));
-    } else if(m.type === "new-answer"){
+    } else if (m.type === "new-answer") {
       const pc = peerConnections.get(m.data.from);
-      console.log(pc);
-      if(!pc){
+      if (!pc) {
         return;
       }
       await pc.setRemoteDescription(m.data.answer);
