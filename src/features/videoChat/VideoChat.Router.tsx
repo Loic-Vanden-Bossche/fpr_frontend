@@ -121,6 +121,10 @@ export function VideoChatRouter() {
     }
   }, [stream, video]);
 
+  useEffect(() => {
+    console.log("rerender");
+  });
+
   return <>
     {isLoading ? "loading" : "not loading"}
     <div>
