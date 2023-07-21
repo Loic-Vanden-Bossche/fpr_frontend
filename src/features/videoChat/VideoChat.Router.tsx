@@ -46,7 +46,6 @@ export function VideoChatRouter() {
       });
     }
     pc.ontrack = async ({ streams: [stream] }) => {
-      console.log(stream);
       if(videoContainer.current !== null){
         videoContainer.current.srcObject = stream;
         await videoContainer.current.play();
@@ -79,6 +78,7 @@ export function VideoChatRouter() {
         if(pc.iceConnectionState === "new"){
           const offer = await pc.createOffer();
           await pc.setLocalDescription(offer);
+          console.log(pc);
           const message = {
             type: "call-group",
             data: {
@@ -103,14 +103,16 @@ export function VideoChatRouter() {
           to: m.data.from
         }
       };
+      console.log(pc);
       ws.send(JSON.stringify(message));
     } else if(m.type === "new-answer"){
       const pc = peerConnection;
       await pc.setRemoteDescription(m.data.answer);
+      console.log(pc);
     }
   };
 
-  console.log(peerConnection);
+  console.log(peerConnection.ontrack);
 
   useEffect(() => {
     if (video.current && stream ) {
