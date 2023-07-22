@@ -19,7 +19,10 @@ export function MessagingRoute() {
       const subs = data
         .filter((_, i) => i !== selectedIndex)
         .map((group) => ws.subscribe("/groups/" + group.id + "/messages", message => {
-          console.log("NOTIFICATION", message);
+          const data = JSON.parse(message.body);
+          if(data.type === "NEW"){
+            console.log("NOTIFICATION", data, group);
+          }
         }));
       return () => {
         subs.forEach(s => s.unsubscribe);
