@@ -47,7 +47,8 @@ export function MessagingChatWindow({ group, self }: Props) {
           newMessages.splice(0, 0, data);
           return newMessages;
         });
-      } else if(data.type === "EDIT") {
+      }
+      else if(data.type === "EDIT") {
         setMessages(prev => {
           const newMessages = prev.slice(0);
           const m = newMessages.findIndex(m => m.id === data.id);
@@ -56,7 +57,8 @@ export function MessagingChatWindow({ group, self }: Props) {
           }
           return newMessages;
         });
-      } else if(data.type === "DELETE") {
+      }
+      else if(data.type === "DELETE") {
         setMessages(prev => {
           const newMessages = prev.slice(0);
           const m = newMessages.findIndex(m => m.id === data.id);

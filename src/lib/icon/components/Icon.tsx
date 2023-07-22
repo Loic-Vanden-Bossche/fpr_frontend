@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { iconStyle } from "./Icon.style";
+import { clickableIcon, iconStyle } from "./Icon.style";
 import { css as emotionCss } from "@emotion/react";
 import type { StyleProps } from "../..";
 
@@ -12,8 +12,14 @@ interface Props extends StyleProps {
 }
 
 export function Icon({
-  icon, color, size, style, className, title, onClick
+  icon,
+  color = "black",
+  size = "24px",
+  style,
+  className,
+  title,
+  onClick
 }: Props) {
-  const css = emotionCss(iconStyle(color ?? "black", size ?? "24px"), style);
+  const css = emotionCss(iconStyle(color, size), onClick && clickableIcon, style);
   return <div css={css} className={className} title={title} onClick={onClick}>{icon}</div>;
 }

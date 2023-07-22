@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { borderRadius, colors } from "../../ui";
 
-export const authPage = css`
+export const page = css`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,7 +12,7 @@ export const authPage = css`
   padding: 16px;
 `;
 
-export const authHeader = css`
+export const header = css`
   display: flex;
   align-items: center;
   gap: 24px;
@@ -38,7 +38,7 @@ export const authHeader = css`
   }
 `;
 
-export const authForm = css`
+export const form = css`
   padding: 56px;
   border-radius: ${borderRadius};
   background: ${colors.white};
