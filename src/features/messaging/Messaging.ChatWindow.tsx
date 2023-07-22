@@ -40,11 +40,23 @@ export function MessagingChatWindow({ group, self }: Props) {
 
   useEffect(() => {
     const s = stomp.subscribe("/groups/" + group.id + "/messages", message => {
-      setMessages(prev => {
-        const newMessages = prev.slice(0);
-        newMessages.splice(0, 0, JSON.parse(message.body));
-        return newMessages;
-      });
+      const data = JSON.parse(message.body);
+      if(data.type === "NEW"){
+        setMessages(prev => {
+          const newMessages = prev.slice(0);
+          newMessages.splice(0, 0, data);
+          return newMessages;
+        });
+      } else if(data.type === "EDIT") {
+        setMessages(prev => {
+          const newMessages = prev.slice(0);
+          const m = newMessages.findIndex(m => m.id === data.id);
+          if(m !== -1){
+            newMessages[m] = data;
+          }
+          return newMessages;
+        });
+      }
     });
     return () => {
       s.unsubscribe();
