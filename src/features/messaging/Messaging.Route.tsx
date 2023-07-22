@@ -12,21 +12,22 @@ export function MessagingRoute() {
   const { data } = useGetGroupsQuery();
   const { data: self } = useGetProfileQuery();
   const ws = useContext(stompSocket);
-  useEffect(() => {
-    if(data){
-      data.forEach((group) => {
-        ws.subscribe("/groups/" + group.id + "/messages", message => {
-          console.log(message);
-        });
-      });
-    }
-  });
   const classes = [messagingScreen, outPrimaryShadow];
   const [selectedIndex, setSelectedIndex] = useState(0);
+  useEffect(() => {
+    if(data){
+      const subs = data
+        .filter((_, i) => i !== selectedIndex)
+        .map((group) => ws.subscribe("/groups/" + group.id + "/messages", message => {
+          console.log("NOTIFICATION", message);
+        }));
+      return () => {
+        subs.forEach(s => s.unsubscribe);
+      };
+    }
+  }, [data, ws, selectedIndex]);
 
   const handleContactClick = (index: number) => setSelectedIndex(index);
-
-  console.log(data);
 
   return <main css={classes}>
     <MessagingContactList
@@ -34,6 +35,6 @@ export function MessagingRoute() {
       contacts={data ?? []}
       onContactClick={handleContactClick}
     />
-    {data !== undefined && self !== undefined && <MessagingChatWindow group={data[selectedIndex]} self={self} />}
+    {data !== undefined && self !== undefined && <MessagingChatWindow group={data[selectedIndex]} self={self}/>}
   </main>;
 }

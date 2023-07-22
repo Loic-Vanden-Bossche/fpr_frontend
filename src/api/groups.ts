@@ -10,8 +10,8 @@ export const groupsApi = createApi({
     getGroups: builder.query<Group[], void>({
       query: () => ""
     }),
-    getGroupMessage: builder.query<Message[], string>({
-      query: id => `/${id}/messages?page=0&size=20`
+    getGroupMessage: builder.query<Message[], {id: string, page?: number, size?: number}>({
+      query: ({ id, page = 0, size = 20 }) => `/${id}/messages?page=${page}&size=${size}`
     })
   })
 });

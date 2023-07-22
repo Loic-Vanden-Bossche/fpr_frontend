@@ -118,7 +118,7 @@ export const chatMessage = css`
 
 export const chatMessageContainer = css`
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   overflow-y: auto;
   overflow-x: hidden;
   gap: 16px;
