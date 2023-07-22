@@ -1,6 +1,7 @@
 import { Message, Profile } from "../../types";
 import { chatMessage, receivedMessage } from "./Messaging.style.ts";
 import { inPrimaryShadowSmall, outWhiteShadow } from "../../ui";
+import { FormattedDate, FormattedTime } from "react-intl";
 
 interface Props {
   message: Message;
@@ -14,5 +15,10 @@ export function MessagingMessage({ message, self }: Props) {
     isReceivedMessage ? "" : receivedMessage,
     isReceivedMessage ? outWhiteShadow : inPrimaryShadowSmall
   ];
-  return <li css={classes}>{message.message}</li>;
+  return <li css={classes}>
+    <span>
+      {message.user.nickname} - <FormattedDate value={message.createdAt}/> <FormattedTime value={message.createdAt}/>
+    </span><br/>
+    {message.message}
+  </li>;
 }

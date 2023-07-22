@@ -52,7 +52,7 @@ export const contactList = css`
   height: 100%;
   flex-shrink: 0;
   max-width: 75%;
-  min-width: calc(24px + 48px + 24px);
+  min-width: calc(24px + 64px + 24px);
   resize: horizontal;
 `;
 
@@ -111,6 +111,11 @@ export const chatMessage = css`
   color: ${colors.black};
   width: fit-content;
   max-width: 75%;
+  white-space: pre-wrap;
+  position: relative;
+  span {
+    font-weight: 900;
+  }
 `;
 
 export const chatMessageContainer = css`
@@ -141,5 +146,30 @@ export const chatInput = css`
   height: 1.4rem;
   min-height: calc(1rem + 3px);
   font-size: 1rem;
+  overflow-x: hidden;
   overflow-y: auto;
+
+  &::placeholder {
+    white-space: nowrap;
+  }
+`;
+
+export const groupPicture = (columnNumber: number) => css`
+  height: 64px;
+  width: 64px;
+  display: grid;
+  grid-template-columns: repeat(${columnNumber}, 1fr);
+  margin: 0;
+  flex-shrink: 0;
+  gap: 8px;
+`;
+
+export const groupPictureImage = (rotation:number, x:number, y:number, scale: number) => css`
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  align-self: center;
+  rotate: ${rotation}deg;
+  translate: ${x}% ${y}%;
+  scale: calc(1 * ${scale});
+  border-radius: 50%;
 `;

@@ -64,10 +64,12 @@ export function VideoChatRouter() {
       if(v !== null) {
         if(v.srcObject !== null){
           v.srcObject = stream;
-        }else {
+        }
+        else {
           console.log("already");
         }
-      }else {
+      }
+      else {
         console.log("create");
         const video = createVideo(id);
         video.srcObject = stream;
@@ -113,7 +115,8 @@ export function VideoChatRouter() {
           ws.send(JSON.stringify(message));
         }
       }
-    } else if (m.type === "new-user") {
+    }
+    else if (m.type === "new-user") {
       const pc = createPeerConnection(m.data.from);
       await pc.setRemoteDescription(m.data.offer);
       const answer = await pc.createAnswer();
@@ -127,13 +130,15 @@ export function VideoChatRouter() {
         }
       };
       ws.send(JSON.stringify(message));
-    } else if (m.type === "new-answer") {
+    }
+    else if (m.type === "new-answer") {
       const pc = peerConnections.get(m.data.from);
       if (!pc) {
         return;
       }
       await pc.setRemoteDescription(m.data.answer);
-    } else if(m.type === "candidate") {
+    }
+    else if(m.type === "candidate") {
       const pc = peerConnections.get(m.data.from);
       if(!pc){
         return;
@@ -153,9 +158,11 @@ export function VideoChatRouter() {
     {isLoading ? "loading" : "not loading"}
     <div>
       {data?.map((e, i) =>
-        <button key={i} onClick={() => {
-          setGroup(e);
-        }}>{e.name}</button>
+        <button key={i}
+          onClick={() => {
+            setGroup(e);
+          }}
+        >{e.name}</button>
       )}
       <button onClick={() => setGroup(null)}>Remove</button>
     </div>
