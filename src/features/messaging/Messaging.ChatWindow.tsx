@@ -56,6 +56,15 @@ export function MessagingChatWindow({ group, self }: Props) {
           }
           return newMessages;
         });
+      } else if(data.type === "DELETE") {
+        setMessages(prev => {
+          const newMessages = prev.slice(0);
+          const m = newMessages.findIndex(m => m.id === data.id);
+          if(m !== -1) {
+            newMessages.splice(m, 1);
+          }
+          return newMessages;
+        });
       }
     });
     return () => {
