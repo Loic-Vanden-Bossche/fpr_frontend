@@ -15,7 +15,6 @@ export function VideoChatRouter() {
   const video = useRef<HTMLVideoElement>(null);
   const videoContainer = useRef<HTMLDivElement>(null);
   const { isLoading, stream } = useCamera();
-  const [reload, setReload] = useState(false);
   const [peerConnections, setPeerConnections] = useState<Map<string, RTCPeerConnection>>(new Map());
 
   const {
@@ -29,8 +28,10 @@ export function VideoChatRouter() {
   const servers: RTCConfiguration = useMemo(() => ({
     iceServers: [
       {
+        urls: "stun:turn.flash-player-revival.net"
+      },
+      {
         urls: [
-          "stun:turn.flash-player-revival.net",
           "turn:turn.flash-player-revival.net"
         ],
         username: "fpr-turn",
@@ -38,8 +39,9 @@ export function VideoChatRouter() {
       }]
   }), []);
 
-  const createVideo = useCallback(() => {
+  const createVideo = useCallback((id: string) => {
     const v = document.createElement('video');
+    v.id = id;
     videoContainer.current?.appendChild(v);
     return v;
   }, []);
@@ -52,17 +54,29 @@ export function VideoChatRouter() {
         pc.addTrack(track, stream);
       });
     }
+    pc.onicecandidate = async (ev) => {
+      ws.send(JSON.stringify({ type: "candidate", data: { to: id, candidate: ev.candidate } }));
+    };
     pc.ontrack = async ({ streams: [stream] }) => {
-      const video = createVideo();
-      video.srcObject = stream;
-      await video.play();
-      setReload(prev => !prev);
+      console.log("track", id);
+      const v: HTMLVideoElement | null = document.getElementById(id) as HTMLVideoElement | null;
+      if(v !== null) {
+        if(v.srcObject !== null){
+          v.srcObject = stream;
+        }else {
+          console.log("already");
+        }
+      }else {
+        console.log("create");
+        const video = createVideo(id);
+        video.srcObject = stream;
+      }
     };
     pc.oniceconnectionstatechange = () => {
       console.log("ICE STATE " + pc.iceConnectionState);
     };
     return pc;
-  }, [servers, stream, createVideo]);
+  }, [servers, stream, ws, createVideo]);
 
   const [group, setGroup] = useState<Group | null>(null);
 
@@ -118,6 +132,12 @@ export function VideoChatRouter() {
         return;
       }
       await pc.setRemoteDescription(m.data.answer);
+    } else if(m.type === "candidate") {
+      const pc = peerConnections.get(m.data.from);
+      if(!pc){
+        return;
+      }
+      await pc.addIceCandidate(m.data.candidate);
     }
   };
 
@@ -127,10 +147,6 @@ export function VideoChatRouter() {
       video.current.play();
     }
   }, [stream, video]);
-
-  useEffect(() => {
-    console.log(reload);
-  }, [reload]);
 
   return <>
     {isLoading ? "loading" : "not loading"}
