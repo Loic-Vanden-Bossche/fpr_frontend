@@ -111,6 +111,7 @@ export const chatMessage = css`
   color: ${colors.black};
   width: fit-content;
   max-width: 75%;
+  white-space: pre-wrap;
 `;
 
 export const chatMessageContainer = css`

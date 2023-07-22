@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { chatInput } from "./Messaging.style.ts";
 import { Group } from "../../types";
 import { inWhiteShadow } from "../../ui";

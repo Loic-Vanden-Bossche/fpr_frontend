@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { ReactElement } from "react";
 import { Identity } from "../../types";
 import { infoText, line, profilePicture, profilesList, profilesListCell } from "./Friends.style";
@@ -11,7 +10,6 @@ interface Props{
 }
 
 export function FriendsIdentitiesList({ profiles, rightPart }: Props) {
-  console.log(profiles);
   return <ul css={profilesList}>
     {profiles.map(profile =>
       <li key={profile.email} css={css(profilesListCell, outWhiteShadow)}>
