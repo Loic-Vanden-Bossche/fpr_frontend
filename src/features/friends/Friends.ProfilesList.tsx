@@ -17,7 +17,7 @@ export function FriendsProfilesList({ profiles, rightPart }: Props) {
       <li key={profile.email} css={css(profilesListCell, outWhiteShadow)}>
         <div css={line("flex-start")}>
           <img
-            src={profile.picture === "true" ?
+            src={profile.picture?
               `https://medias.flash-player-revival.net/p/${profile.id}` :
               `https://api.dicebear.com/6.x/notionists-neutral/svg?seed=${profile.id}`}
             css={css(profilePicture, outWhiteShadow)}
