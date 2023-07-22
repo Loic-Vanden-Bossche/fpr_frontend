@@ -5,7 +5,6 @@ import { Group, Message } from "../types";
 export const groupsApi = createApi({
   reducerPath: "groupsApi",
   baseQuery: queriesConfiguration('groups'),
-  tagTypes: ["PROFILE"],
   endpoints: builder => ({
     getGroups: builder.query<Group[], void>({
       query: () => ""
