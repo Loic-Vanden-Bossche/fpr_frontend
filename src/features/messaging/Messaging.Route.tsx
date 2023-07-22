@@ -1,54 +1,39 @@
 /* eslint-disable no-console */
-import type { Contact } from "../../types";
-import { getDummyContacts } from "../../types";
 import { MessagingContactList } from "./Messaging.ContactList.tsx";
 import { messagingScreen } from "./Messaging.style.ts";
 import { MessagingChatWindow } from "./Messaging.ChatWindow.tsx";
 import { outPrimaryShadow } from "../../ui";
-import { useState } from "react";
-import { useGetGroupsQuery } from "../../api/groups.ts";
+import { useContext, useEffect, useState } from "react";
+import { useGetGroupsQuery } from "../../api";
+import { stompSocket } from "../../ws/messaging.ts";
+import { useGetProfileQuery } from "../../api";
 
 export function MessagingRoute() {
   const { data } = useGetGroupsQuery();
-  console.log(data);
-  const classes = [messagingScreen, outPrimaryShadow];
-  const contactList: Contact[] = [
-    getDummyContacts(),
-    {
-      id: "oui",
-      name: "Enzo",
-      profilePic:
-        "https://api.dicebear.com/6.x/notionists-neutral/svg?seed=John"
-    },
-    {
-      id: "oui",
-      name: "Benoit",
-      profilePic:
-        "https://api.dicebear.com/6.x/notionists-neutral/svg?seed=Didier"
-    },
-    {
-      id: "oui",
-      name: "Francois",
-      profilePic:
-        "https://api.dicebear.com/6.x/notionists-neutral/svg?seed=Ahmid"
-    },
-    {
-      id: "oui",
-      name: "Jean",
-      profilePic:
-        "https://api.dicebear.com/6.x/notionists-neutral/svg?seed=Jon"
+  const { data: self } = useGetProfileQuery();
+  const ws = useContext(stompSocket);
+  useEffect(() => {
+    if(data){
+      data.forEach((group) => {
+        ws.subscribe("/groups/" + group.id + "/messages", message => {
+          console.log(message);
+        });
+      });
     }
-  ];
+  });
+  const classes = [messagingScreen, outPrimaryShadow];
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleContactClick = (index: number) => setSelectedIndex(index);
 
+  console.log(data);
+
   return <main css={classes}>
     <MessagingContactList
       selectedContactIndex={selectedIndex}
-      contacts={contactList}
+      contacts={data ?? []}
       onContactClick={handleContactClick}
     />
-    <MessagingChatWindow contact={contactList[selectedIndex]} />
+    {data !== undefined && self !== undefined && <MessagingChatWindow group={data[selectedIndex]} self={self} />}
   </main>;
 }

@@ -1,9 +1,9 @@
-import { Contact } from "../../types";
+import { Group } from "../../types";
 import { linearCell, profilePic } from "./Messaging.style.ts";
 
 interface Props {
   isSelected: boolean;
-  contact: Contact;
+  contact: Group;
   onClick: () => void;
 }
 
@@ -13,7 +13,7 @@ export function MessagingContactCell({
   const classes = [linearCell];
 
   return <li css={classes} className={isSelected ? "selected" : ""} onClick={onClick} >
-    <img css={profilePic} src={contact.profilePic} alt={`${contact.name} profile pic`}/>
+    <img css={profilePic} src={"https://api.dicebear.com/6.x/notionists-neutral/svg?seed=Jon"} alt={`${contact.name} profile pic`}/>
     <p>{contact.name}</p>
   </li>;
 }

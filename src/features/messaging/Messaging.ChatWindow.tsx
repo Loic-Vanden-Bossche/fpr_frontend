@@ -1,21 +1,23 @@
-import { Contact, getDummyMessages } from "../../types";
+import { Group, Profile } from "../../types";
 import { MessagingChatHeader } from "./Messaging.ChatHeader.tsx";
 import { messagingChat } from "./Messaging.style.ts";
 import { MessagingChatBody } from "./Messaging.ChatBody.tsx";
 import { outPrimaryShadowSmall } from "../../ui";
 import { MessagingChatInput } from "./Messaging.ChatInput.tsx";
+import { useGetGroupMessageQuery } from "../../api";
 
 interface Props {
-  contact: Contact;
+  group: Group;
+  self: Profile
 }
 
-export function MessagingChatWindow({ contact }: Props) {
+export function MessagingChatWindow({ group, self }: Props) {
   const classes = [messagingChat, outPrimaryShadowSmall];
-  const messagesList = getDummyMessages();
+  const { data: messages } = useGetGroupMessageQuery(group.id);
 
   return <section css={classes}>
-    <MessagingChatHeader contact={contact} />
-    <MessagingChatBody messages={messagesList} contact={contact} />
-    <MessagingChatInput contact={contact} />
+    <MessagingChatHeader contact={group} />
+    <MessagingChatBody messages={messages ?? []} self={self} />
+    <MessagingChatInput group={group} />
   </section>;
 }
