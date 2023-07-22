@@ -34,7 +34,7 @@ export function VideoChatRouter() {
           "turn:turn.flash-player-revival.net"
         ],
         username: "fpr-turn",
-        credentials: "root",
+        credential: "root"
       }]
   }), []);
 
