@@ -30,10 +30,11 @@ export function VideoChatRouter() {
     iceServers: [
       {
         urls: [
-          "stun:13.39.23.24",
-          "turn:admin@13.39.23.24"
+          "stun:turn.flash-player-revival.net",
+          "turn:turn.flash-player-revival.net"
         ],
-        credentials: "webkul123",
+        username: "fpr-turn",
+        credentials: "root",
       }]
   }), []);
 
