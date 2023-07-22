@@ -4,6 +4,8 @@ import { Navigate, Outlet } from "react-router-dom";
 import { webRTCSocketContext } from "../../ws/webRTC";
 import { stompSocket } from "../../ws/messaging";
 import { SignalMessage } from "../videoChat";
+import { page } from "./IsAuthenticated.style";
+import { IsAuthenticatedHeader } from "./IsAuthenticated.Header";
 
 export function IsAuthenticatedGuard() {
   const authToken = useMemo(() => localStorage.getItem('token'), []);
@@ -28,5 +30,8 @@ export function IsAuthenticatedGuard() {
 
   if(!authToken || (!isLoading && isError)) { return <Navigate to={"/auth/login"}/>; }
   else if(isLoading) { return null; }
-  return <Outlet/>;
+  return <section css={page}>
+    <IsAuthenticatedHeader/>
+    <Outlet/>
+  </section>;
 }
