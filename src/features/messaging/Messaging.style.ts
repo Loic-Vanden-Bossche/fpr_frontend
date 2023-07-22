@@ -141,5 +141,10 @@ export const chatInput = css`
   height: 1.4rem;
   min-height: calc(1rem + 3px);
   font-size: 1rem;
+  overflow-x: hidden;
   overflow-y: auto;
+
+  &::placeholder {
+    white-space: nowrap;
+  }
 `;
