@@ -30,9 +30,10 @@ export function VideoChatRouter() {
     iceServers: [
       {
         urls: [
-          "stun:stun1.l.google.com:19302",
-          "stun:stun2.l.google.com:19302"
-        ]
+          "stun:13.39.23.24",
+          "turn:admin@13.39.23.24"
+        ],
+        credentials: "webkul123",
       }]
   }), []);
 
