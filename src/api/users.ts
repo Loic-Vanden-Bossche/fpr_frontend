@@ -1,12 +1,12 @@
 import { createApi } from "@reduxjs/toolkit/dist/query/react";
 import { queriesConfiguration } from "./config";
-import { Profile } from "../types";
+import { SearchResult } from "../types";
 
 export const usersApi = createApi({
   reducerPath: "usersApi",
   baseQuery: queriesConfiguration('users'),
   endpoints: builder => ({
-    searchUsers: builder.query<Profile[], string>({
+    searchUsers: builder.query<SearchResult[], string>({
       query: (search) => `search/${search}`
     })
   })

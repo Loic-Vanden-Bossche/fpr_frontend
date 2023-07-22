@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { useMemo } from "react";
 import { useSearchUsersQuery } from "../../api";
 import { FriendsDetails } from "./Friends.Details";
 import { FriendsOtherUsersList } from "./Friends.OtherUsers.List";
@@ -9,10 +10,11 @@ interface Props{
 
 export function FriendsOtherUsers({ search }: Props) {
   const { data } = useSearchUsersQuery(search);
+  const filteredSearch = useMemo(() => data?.filter(({ status }) => !status), [data]);
 
   if(!search) { return null; }
 
-  return <FriendsDetails title="Other users" numberOfElements={data?.length} >
-    <FriendsOtherUsersList profiles={data} />
+  return <FriendsDetails title="Other users" numberOfElements={filteredSearch?.length} >
+    <FriendsOtherUsersList profiles={filteredSearch} />
   </FriendsDetails>;
 }

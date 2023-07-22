@@ -2,7 +2,7 @@ import { useAcceptInviteMutation, useRefuseInviteMutation } from "../../api";
 import { Icon, icons } from "../../lib";
 import { Profile } from "../../types";
 import { Button, colors } from "../../ui";
-import { FriendsProfilesList } from "./Friends.ProfilesList";
+import { FriendsIdentitiesList } from "./Friends.IdentitiesList";
 import { infoText, line } from "./Friends.style";
 
 interface Props{
@@ -15,7 +15,7 @@ export function FriendsPendingInvitesList({ profiles }: Props) {
 
   if(!profiles){ return <p css={infoText}>We are searching for pending invites please wait...</p>; }
   if (!profiles.length){ return <p css={infoText}>You don't have any pending invites</p>; }
-  return <FriendsProfilesList
+  return <FriendsIdentitiesList
     profiles={profiles}
     rightPart={({ id }) => <div css={line("flex-end")}>
       <Button onClick={() => acceptInvitation(id)} background="#bb0f26">

@@ -1,10 +1,8 @@
-export type Profile = {
-  id: string;
-  email: string;
+import { Identity } from ".";
+
+export interface Profile extends Identity{
   role: string;
-  nickname: string;
   coins: number;
   updatedAt: Date;
   createdAt: Date;
-  picture: string;
 }

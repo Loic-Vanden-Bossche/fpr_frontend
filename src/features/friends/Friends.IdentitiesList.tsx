@@ -1,16 +1,16 @@
 /* eslint-disable no-console */
 import { ReactElement } from "react";
-import { Profile } from "../../types";
+import { Identity } from "../../types";
 import { infoText, line, profilePicture, profilesList, profilesListCell } from "./Friends.style";
 import { css } from "@emotion/react";
 import { outWhiteShadow } from "../../ui";
 
 interface Props{
-  profiles: Profile[]
-  rightPart: (profile: Profile) => ReactElement
+  profiles: Identity[]
+  rightPart: (identity: Identity) => ReactElement
 }
 
-export function FriendsProfilesList({ profiles, rightPart }: Props) {
+export function FriendsIdentitiesList({ profiles, rightPart }: Props) {
   console.log(profiles);
   return <ul css={profilesList}>
     {profiles.map(profile =>

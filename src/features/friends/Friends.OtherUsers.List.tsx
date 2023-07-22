@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
 import { useAddFriendMutation } from "../../api";
 import { Icon, icons } from "../../lib";
-import { Profile } from "../../types";
+import { SearchResult } from "../../types";
 import { Button, colors } from "../../ui";
-import { FriendsProfilesList } from "./Friends.ProfilesList";
+import { FriendsIdentitiesList } from "./Friends.IdentitiesList";
 import { infoText } from "./Friends.style";
 
 interface Props{
-  profiles?: Profile[]
+  profiles?: SearchResult[]
 }
 
 export function FriendsOtherUsersList({ profiles }: Props) {
@@ -15,7 +15,7 @@ export function FriendsOtherUsersList({ profiles }: Props) {
 
   if (!profiles) { return <p css={infoText}>We are searching for users please wait...</p>; }
   if (!profiles.length) { return <p css={infoText}>No users were find with this username or email</p>; }
-  return <FriendsProfilesList
+  return <FriendsIdentitiesList
     profiles={profiles}
     rightPart={profile =>
       <Button onClick={() => sendInvite(profile.id)}>
