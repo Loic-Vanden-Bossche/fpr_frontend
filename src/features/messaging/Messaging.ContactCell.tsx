@@ -1,5 +1,5 @@
 import { Group } from "../../types";
-import { outPrimaryFilter, outPrimaryShadow } from "../../ui/shadows.ts";
+import { outPrimaryFilter } from "../../ui/shadows.ts";
 import { MessagingContactPicture } from "./Messaging.ContactPicture.tsx";
 import { linearCell } from "./Messaging.style.ts";
 
