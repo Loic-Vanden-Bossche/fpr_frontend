@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
-import { colors, inPrimaryShadowSmall, outWhiteShadow } from "..";
+import { inPrimaryShadowSmall, outWhiteShadow } from "..";
 
-export const buttonStyle = css`
+export const buttonStyle = (background: string, color: string) => css`
 cursor: pointer;
   display: flex;
   align-items: center;
@@ -9,8 +9,8 @@ cursor: pointer;
   padding: 8px 16px;
   border-radius: 8px;
   border: hidden;
-  background: ${colors.primary};
-  color: ${colors.white};
+  background: ${background};
+  color: ${color};
   font-size: 1rem;
   font-weight: 600;
 

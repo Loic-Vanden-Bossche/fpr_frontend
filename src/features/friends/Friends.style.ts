@@ -96,3 +96,17 @@ export const profilesListCell = css`
   align-items: center;
   border-radius: calc(${borderRadius} / 2);
 `;
+
+export const line = (justify: string) => css`
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: ${justify};
+`;
+
+export const profilePicture = css`
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+`;
