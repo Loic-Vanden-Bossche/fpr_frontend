@@ -1,5 +1,7 @@
 import { Group } from "../../types";
-import { linearCell, profilePic } from "./Messaging.style.ts";
+import { outPrimaryFilter, outPrimaryShadow } from "../../ui/shadows.ts";
+import { MessagingContactPicture } from "./Messaging.ContactPicture.tsx";
+import { linearCell } from "./Messaging.style.ts";
 
 interface Props {
   isSelected: boolean;
@@ -13,7 +15,7 @@ export function MessagingContactCell({
   const classes = [linearCell];
 
   return <li css={classes} className={isSelected ? "selected" : ""} onClick={onClick} >
-    <img css={profilePic} src={"https://api.dicebear.com/6.x/notionists-neutral/svg?seed=Jon"} alt={`${contact.name} profile pic`}/>
+    <MessagingContactPicture group={contact} shadow={outPrimaryFilter}/>
     <p>{contact.name}</p>
   </li>;
 }
