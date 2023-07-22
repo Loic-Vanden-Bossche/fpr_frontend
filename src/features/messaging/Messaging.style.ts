@@ -112,6 +112,10 @@ export const chatMessage = css`
   width: fit-content;
   max-width: 75%;
   white-space: pre-wrap;
+  position: relative;
+  span {
+    font-weight: 900;
+  }
 `;
 
 export const chatMessageContainer = css`
