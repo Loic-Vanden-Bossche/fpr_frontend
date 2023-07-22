@@ -26,6 +26,7 @@ export function VideoChatRouter() {
   const { data } = useGetGroupsQuery();
 
   const servers: RTCConfiguration = useMemo(() => ({
+    iceTransportPolicy: "relay",
     iceServers: [
       {
         urls: "stun:turn.flash-player-revival.net"
