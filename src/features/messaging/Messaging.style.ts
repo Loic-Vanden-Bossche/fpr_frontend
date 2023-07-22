@@ -139,7 +139,7 @@ export const chatInput = css`
   resize: vertical;
   max-height: 50%;
   height: 1.4rem;
-  min-height: 1.2rem;
+  min-height: calc(1rem + 3px);
   font-size: 1rem;
   overflow-y: auto;
 `;
