@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { Game } from "../../types";
+import { Games } from "../../types";
 import { Button, outWhiteShadow } from "../../ui";
 import { gameCard } from "./Account.style";
 import { AccountGamePicture } from "./Account.GamePicture";
@@ -7,7 +7,7 @@ import { useDeleteGameMutation } from "../../api/games";
 import { AccountGameBuild } from "./Account.GameBuild";
 
 interface Props {
-  game: Game
+  game: Games
 }
 
 export function AccountGamesListCard({ game }: Props) {

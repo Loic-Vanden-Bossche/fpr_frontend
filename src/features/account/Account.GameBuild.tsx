@@ -1,11 +1,11 @@
 import { ChangeEvent, useRef, useState } from "react";
-import { Game } from "../../types";
+import { Games } from "../../types";
 import { Button } from "../../ui";
 import { css } from "@emotion/react";
 import { useBuildGameMutation } from "../../api/games";
 
 interface Props{
-  game: Game
+  game: Games
 }
 
 export function AccountGameBuild({ game }: Props) {

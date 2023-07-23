@@ -1,6 +1,6 @@
 import { useCreateGameMutation } from "../../api/games";
 import { Data, Form, Schema, Value } from "../../lib";
-import { isMinimalGame } from "../../types";
+import { isMinimalGames } from "../../types";
 import { AccountGamesList } from "./Account.GamesList";
 import { newGameForm, title } from "./Account.style";
 
@@ -61,7 +61,7 @@ export function AccountGames() {
     }
   ];
 
-  const handleFormSubmit = (e: Data) => isMinimalGame(e) && createGame(e);
+  const handleFormSubmit = (e: Data) => isMinimalGames(e) && createGame(e);
 
   return <>
     <h1 css={title}>Your games</h1>
