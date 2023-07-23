@@ -7,7 +7,7 @@ import { MessagingChatInput } from "./Messaging.ChatInput.tsx";
 import { useGetGroupMessageQuery, useGetGroupsQuery } from "../../api";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { stompSocket } from "../../ws/messaging.ts";
-import { IMessage } from "@stomp/stompjs";
+import { IMessage, StompSubscription } from "@stomp/stompjs";
 import { GamesModal } from "../games/Games.Modal.tsx";
 
 interface Props {
@@ -77,27 +77,37 @@ export function MessagingChatWindow({ group, self }: Props) {
     }
   }, []);
 
+  const InitStompSub = useCallback(() => {
+    if (data) {
+      return data.map((g) => stomp.subscribe("/groups/" + g.id + "/messages", message => {
+        if(g.id === group.id){
+          currentSubscribe(message);
+        }
+        else {
+          const data = JSON.parse(message.body);
+          if (data.type === "NEW") {
+            // eslint-disable-next-line no-console
+            console.log("NOTIFICATION", data, g);
+          }
+        }
+      }));
+    }
+  }, [currentSubscribe, data, group.id, stomp]);
+
   useEffect(() => {
+    let subs: StompSubscription[] | undefined = undefined;
+    stomp.onConnect = () => {
+      subs = InitStompSub();
+    };
     if(!stomp.connected) {
       stomp.activate();
+    } else {
+      subs = InitStompSub();
     }
-    stomp.onConnect = () => {
-      if (data) {
-        data.map((g) => stomp.subscribe("/groups/" + g.id + "/messages", message => {
-          if(g.id === group.id){
-            currentSubscribe(message);
-          }
-          else {
-            const data = JSON.parse(message.body);
-            if (data.type === "NEW") {
-              // eslint-disable-next-line no-console
-              console.log("NOTIFICATION", data, g);
-            }
-          }
-        }));
-      }
+    return () => {
+      subs?.forEach(s => s.unsubscribe());
     };
-  }, [currentSubscribe, data, group.id, stomp]);
+  }, [InitStompSub, stomp]);
 
   return <section css={classes}>
     <MessagingChatHeader
