@@ -1,9 +1,9 @@
+/* eslint-disable no-console */
 import { createElement, useMemo, useRef, MouseEvent, useEffect } from "react";
 import { ClickAction, ClickZone, DisplayContent, Game, KeyAction, TextAction } from "../../types";
-import { form, gameDisplay } from "./Game.style";
+import { gameDisplay } from "./Game.style";
 import { css } from "@emotion/react";
 import { outPrimaryShadow } from "../../ui";
-import { Form, Schema } from "../../lib";
 
 interface Props {
   game: Game
@@ -29,7 +29,7 @@ export function Game2DEngine({ game: { display, requested_actions } }: Props) {
     return createElement(tag, componentProps, securedContent);
   };
 
-  const { clickActions, keyActions, textActions } = useMemo(() => {
+  const { clickActions, keyActions } = useMemo(() => {
     const clickActions: ClickAction[] = [];
     const keyActions: KeyAction[] = [];
     const textActions: TextAction[] = [];
@@ -101,7 +101,7 @@ export function Game2DEngine({ game: { display, requested_actions } }: Props) {
   };
 
   useEffect(() => {
-    const handleKeyPressed = e => {
+    const handleKeyPressed = (e:any) => {
       !keyActions.find(action => action.keys) ||
       keyActions.find(
         action => action.keys?.split('').map(letter => letter.toLowerCase()).includes(e.key.toLowerCase())
@@ -114,11 +114,11 @@ export function Game2DEngine({ game: { display, requested_actions } }: Props) {
     return () => window.removeEventListener("keydown", handleKeyPressed);
   }, [keyActions]);
 
-  const schemas: Schema[] = [
-    { label: "", key: "", type: "text", required: true }
-  ];
+  // const schemas: Schema[] = [
+  //   { label: "", key: "", type: "text", required: true }
+  // ];
 
-  return <section css={css(gameDisplay(display.height, display.width), outPrimaryShadow)}>
+  return <section css={css(gameDisplay, outPrimaryShadow)}>
     <section className="screen" onClick={() => svgRef.current?.focus}>
       <svg
         className="gameEngine"
@@ -132,6 +132,6 @@ export function Game2DEngine({ game: { display, requested_actions } }: Props) {
         {display.content.map(convertDisplayContentToHTML)}
       </svg>
     </section>
-    {!!textActions.length && <Form schemas={schemas} submitButtonText="submit" style={form}/>}
+    {/* {!!textActions.length && <Form schemas={schemas} submitButtonText="submit" style={form}/>} */}
   </section>;
 }

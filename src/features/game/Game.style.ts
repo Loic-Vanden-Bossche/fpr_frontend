@@ -1,7 +1,7 @@
 import { css } from "@emotion/react";
 import { colors } from "../../ui";
 
-export const gameDisplay = (height: number, width: number) => css`
+export const gameDisplay = css`
   display: flex;
   flex-direction: column;
   gap: 16px;
