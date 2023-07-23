@@ -11,8 +11,7 @@ export type MinimalGame = {
 export const isMinimalGame = (data: Data): data is MinimalGame =>
   ("title" in data && typeof data.title === "string") &&
   ("nbMinPlayers" in data && typeof data.nbMinPlayers === "number") &&
-  ("nbMaxPlayers" in data && typeof data.nbMaxPlayers === "number") &&
-  ("isDeterministic" in data && typeof data.isDeterministic === "boolean");
+  ("nbMaxPlayers" in data && typeof data.nbMaxPlayers === "number");
 
 export interface Game extends MinimalGame{
   id: string,

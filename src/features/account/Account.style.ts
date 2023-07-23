@@ -11,11 +11,13 @@ export const page = css`
   gap: 16px;
   flex-direction: column;
   padding: 16px;
+  overflow-y: scroll;
 `;
 
 export const profilePicture = css`
   width: min(20rem, 100%);
   aspect-ratio: 1 / 1;
+  flex-shrink: 0;
   margin: 0;
   border-radius: 50%;
   overflow: hidden;
@@ -133,7 +135,7 @@ export const newGameForm = css`
     font-size: 1.1rem;
     font-weight: 600;
     padding: 8px;
-    border-radius: 16px;
+    border-radius: 18px;
     background: ${colors.primary};
     color: ${colors.white};
     ${outWhiteShadow}
@@ -217,4 +219,9 @@ export const gamePicture = css`
       opacity: 1;
     }
   }
+`;
+
+export const button = css`
+  justify-content: center;
+  border-radius: 18px;
 `;
