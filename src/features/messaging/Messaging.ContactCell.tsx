@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+import { useGetProfileQuery } from "../../api/auth.ts";
 import { Group } from "../../types";
 import { outPrimaryFilter } from "../../ui/shadows.ts";
 import { MessagingContactPicture } from "./Messaging.ContactPicture.tsx";
@@ -13,9 +15,12 @@ export function MessagingContactCell({
   contact, isSelected, onClick
 }: Props) {
   const classes = [linearCell];
+  const { data: self } = useGetProfileQuery();
+
+  const members = useMemo(() => contact.members.filter(({ user }) => user.id !== self?.id), [contact, self]);
 
   return <li css={classes} className={isSelected ? "selected" : ""} onClick={onClick} >
-    <MessagingContactPicture group={contact} shadow={outPrimaryFilter}/>
-    <p>{contact.name}</p>
+    <MessagingContactPicture members={members} shadow={outPrimaryFilter}/>
+    <p>{members.map(member => member.user.nickname).join(', ')}</p>
   </li>;
 }

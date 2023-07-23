@@ -1,15 +1,19 @@
 import { SerializedStyles, css } from "@emotion/react";
-import { Group } from "../../types";
+import { GroupMember } from "../../types";
 import { MessagingContactPictureImage } from "./Messaging.ContactPicture.Image";
 import { groupPicture } from "./Messaging.style";
 
 interface Props{
-  group: Group;
+  members?: GroupMember[];
   shadow: SerializedStyles;
 }
 
-export function MessagingContactPicture({ group, shadow }: Props) {
-  return <figure css={css([groupPicture(Math.ceil(Math.sqrt(group.members.length))), shadow])}>
-    {group.members.map(({ user }) => <MessagingContactPictureImage key={user.email} user={user}/>)}
+export function MessagingContactPicture({ members, shadow }: Props) {
+  if (!members?.length) { return null; }
+
+  else if (members?.length === 1) { return <MessagingContactPictureImage user={members[0].user}/>; }
+
+  return <figure css={css([groupPicture(Math.ceil(Math.sqrt(members.length ?? 4))), shadow])}>
+    {members.map(({ user }) => <MessagingContactPictureImage key={user.email} user={user}/>)}
   </figure>;
 }

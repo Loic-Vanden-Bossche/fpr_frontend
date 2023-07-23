@@ -3,6 +3,8 @@ import { chatHeader } from "./Messaging.style.ts";
 import { MessagingContactPicture } from "./Messaging.ContactPicture.tsx";
 import { outWhiteFilter } from "../../ui/shadows.ts";
 import { GamesToogleButton } from "../games/Games.ToogleButton.tsx";
+import { useGetProfileQuery } from "../../api/auth.ts";
+import { useMemo } from "react";
 
 interface Props {
   contact: Group;
@@ -11,9 +13,13 @@ interface Props {
 }
 
 export function MessagingChatHeader({ contact, showGames, handleOnShowGamesClick }: Props) {
+  const { data: self } = useGetProfileQuery();
+
+  const members = useMemo(() => contact.members.filter(({ user }) => user.id !== self?.id), [contact, self]);
+
   return <header css={chatHeader}>
-    <MessagingContactPicture group={contact} shadow={outWhiteFilter}/>
-    <h1>{contact.name}</h1>
+    <MessagingContactPicture members={members} shadow={outWhiteFilter}/>
+    <h1>{members.map(member => member.user.nickname).join(', ')}</h1>
     <GamesToogleButton isActive={showGames} onClick={handleOnShowGamesClick}/>
   </header>;
 }
