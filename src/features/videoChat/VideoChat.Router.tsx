@@ -66,7 +66,7 @@ export function VideoChatRouter() {
       v.onplay = () => {
         console.log("PLAYED");
       };
-      // await v.play();
+      await v.play();
     };
     pc.onicecandidate = async (ev) => {
       ws.send(JSON.stringify({ type: "candidate", data: { to: id, candidate: ev.candidate } }));
@@ -139,7 +139,9 @@ export function VideoChatRouter() {
       if(!pc){
         return;
       }
-      await pc.addIceCandidate(m.data.candidate);
+      if(pc.currentRemoteDescription !== null){
+        await pc.addIceCandidate(m.data.candidate);
+      }
     }
   };
 
