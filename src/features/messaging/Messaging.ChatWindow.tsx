@@ -105,7 +105,7 @@ export function MessagingChatWindow({ group, self }: Props) {
       showGames={showGames}
       handleOnShowGamesClick={() => setShowGames(prev => !prev)}
     />
-    <GamesModal show={showGames}/>
+    <GamesModal show={showGames} group={group}/>
     <MessagingChatBody
       messages={messages ?? [] }
       self={self}

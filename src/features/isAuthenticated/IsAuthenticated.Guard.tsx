@@ -6,6 +6,7 @@ import { stompSocket } from "../../ws/messaging";
 import { SignalMessage } from "../videoChat";
 import { page } from "./IsAuthenticated.style";
 import { IsAuthenticatedHeader } from "./IsAuthenticated.Header";
+import { gameStompSocket } from "../../ws/gaming.ts";
 
 export function IsAuthenticatedGuard() {
   const authToken = useMemo(() => localStorage.getItem('token'), []);
@@ -13,6 +14,7 @@ export function IsAuthenticatedGuard() {
 
   const ws = useContext(webRTCSocketContext);
   const stomp = useContext(stompSocket);
+  const gaming = useContext(gameStompSocket);
 
   useEffect(() => {
     if(authToken) {
@@ -24,8 +26,9 @@ export function IsAuthenticatedGuard() {
         ws.send(JSON.stringify(msg));
       };
       stomp.connectHeaders = { "Authorization": authToken };
+      gaming.connectHeaders = { "Authorization": authToken };
     }
-  }, [authToken, ws, stomp]);
+  }, [authToken, ws, stomp, gaming]);
 
   if(!authToken || (!isLoading && isError)) { return <Navigate to={"/auth/login"}/>; }
   else if(isLoading) { return null; }

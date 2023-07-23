@@ -1,13 +1,41 @@
-import { section } from "../friends/Friends.style.ts";
-import { useState } from "react";
-import { GamesModal } from "./Games.Modal.tsx";
-import { GamesToogleButton } from "./Games.ToogleButton.tsx";
+import { useNavigate, useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { gameStompSocket } from "../../ws/gaming.ts";
 
 export function GamesRoute() {
-  const [showGames, setShowGames] = useState(false);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const gaming = useContext(gameStompSocket);
 
-  return <section css={section(showGames)}>
-    <GamesToogleButton isActive={showGames} onClick={() => setShowGames(prev => !prev)}/>
-    <GamesModal show={showGames}/>
+  console.log(gaming);
+
+  useEffect(() => {
+    console.log(gaming.connected);
+    if(!gaming.connected) {
+      console.log("nav");
+      navigate("/");
+    }
+  }, [gaming.connected, navigate]);
+
+  const [input, setInput] = useState("");
+
+  const [render, setRender] = useState("");
+
+  useEffect(() => {
+    gaming.subscribe("/rooms/" + id, message => {
+      setRender(message.body);
+    });
+    gaming.onConnect = () => {
+      gaming.subscribe("/rooms/" + id, message => {
+        setRender(message.body);
+      });
+    };
+  }, [gaming, id]);
+
+  return <section>
+    <button onClick={() => gaming.publish({ destination: "/app/startGame/" + id })}>Start game</button>
+    <input value={input} onChange={e => setInput(e.target.value)}/>
+    <button onClick={() => gaming.publish({ destination: "/app/play/" + id, body: input })}>Send input</button>
+    {render}
   </section>;
 }

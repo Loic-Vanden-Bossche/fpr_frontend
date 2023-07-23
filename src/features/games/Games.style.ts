@@ -52,6 +52,7 @@ export const gameCard = (gameId: string) => css`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 
   h2, p {
     margin: 0;

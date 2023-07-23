@@ -6,6 +6,7 @@ import { VideoChatRouter } from "../videoChat";
 import { NotAuthenticatedGuard } from "../notAuthenticated";
 import { IsAuthenticatedGuard } from "../isAuthenticated";
 import { AccountRoute } from "../account";
+import { GamesRoute } from "../games/Games.Route.tsx";
 
 export function RoutingRouter() {
   return <Routes>
@@ -13,6 +14,7 @@ export function RoutingRouter() {
       <Route index element={<MessagingRoute/>}/>
       <Route path="account" element={<AccountRoute/>}/>
       <Route path={"video"} element={<VideoChatRouter/>}/>
+      <Route path={"room/:id"} element={<GamesRoute/>}/>
     </Route>
     <Route path="auth" element={<NotAuthenticatedGuard/>}>
       <Route path="register" element={<RegisterForm/>}/>
