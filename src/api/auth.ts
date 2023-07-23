@@ -5,9 +5,15 @@ import { queriesConfiguration } from "./config";
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: queriesConfiguration(),
+  tagTypes: ["PROFILE"],
   endpoints: builder => ({
     getProfile: builder.query<Profile, void>({
-      query: () => "/profile"
+      query: () => "/profile",
+      providesTags: ["PROFILE"]
+    }),
+    changeNickname: builder.mutation<Profile, string>({
+      query: (nickname) => ({ url: "/profile", body: { nickname }, method: "PATCH" }),
+      invalidatesTags: ["PROFILE"]
     }),
     register: builder.mutation<Token, RegisterCredentials>({
       query: credentials => ({ url: "/auth/register", method: "POST", body: credentials })
@@ -18,4 +24,4 @@ export const authApi = createApi({
   })
 });
 
-export const { useGetProfileQuery, useLazyGetProfileQuery, useRegisterMutation, useLoginMutation } = authApi;
+export const { useGetProfileQuery, useLazyGetProfileQuery, useRegisterMutation, useLoginMutation, useChangeNicknameMutation } = authApi;

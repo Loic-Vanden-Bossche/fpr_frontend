@@ -10,6 +10,7 @@ export type Condition = {
 export type Schema = {
     key: string;
     label: string;
+    placeholder?: string;
     type: TextInputType;
     required: boolean;
     conditions?: Condition[];

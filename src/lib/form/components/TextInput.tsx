@@ -9,12 +9,13 @@ interface Props{
   label: string;
   formKey: Key;
   form: Data;
+  placeholder?: string;
   onValueChange: ModificationHandler;
   type?: TextInputType;
 }
 
 export function TextInput({
-  label, formKey, form, onValueChange, type
+  label, formKey, form, placeholder, onValueChange, type
 }: Props) {
   const [inputType, setInputType] = useState<TextInputType>(type ?? "text");
 
@@ -29,6 +30,6 @@ export function TextInput({
       <label className="label">{label}</label>
       {type === "password" && <RevealButton isHidden={inputType === "password"} onClick={handleRevealIconClick}/>}
     </header>
-    <input type={inputType} value={form[formKey]} onChange={handleInputChange}/>
+    <input type={inputType} value={form[formKey]} placeholder={placeholder} onChange={handleInputChange}/>
   </div>;
 }

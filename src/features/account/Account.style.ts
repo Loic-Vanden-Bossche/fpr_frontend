@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { borderRadius, colors } from "../../ui";
+import { borderRadius, colors, outWhiteFilter, outWhiteShadow } from "../../ui";
 
 export const page = css`
   height: calc(100% - 32px - 40px);
@@ -8,6 +8,7 @@ export const page = css`
   background: ${colors.white};
   border-radius: ${borderRadius};
   display: flex;
+  gap: 16px;
   flex-direction: column;
   padding: 16px;
 `;
@@ -58,4 +59,50 @@ export const profilePicture = css`
       opacity: 1;
     }
   }
+`;
+
+export const usernameForm = css`
+  flex-direction: row;
+
+  main {
+    width: 100%;
+    gap: 30px;
+    header {
+      font-size: 1.2rem;
+      font-weight: 800;
+      text-transform: capitalize;
+    }
+    input {
+      border: hidden;
+      border-bottom: 1px solid ${colors.grey};
+      font-size: 1rem;
+      font-weight: 300;
+      padding: 8px 0;
+      background: none;
+    }
+  }
+  
+
+
+  input[type=submit] {
+    border: hidden;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 8px;
+    border-radius: 16px;
+    background: ${colors.primary};
+    color: ${colors.white};
+    ${outWhiteShadow}
+
+    &:disabled {
+      background: red;
+    }
+  }
+`;
+
+export const title = css`
+  font-size: 2rem;
+  font-weight: 800;
+  color: ${colors.primary};
+  margin: 0;
 `;
