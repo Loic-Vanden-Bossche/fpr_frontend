@@ -71,7 +71,6 @@ export const usernameForm = css`
       font-size: 1.2rem;
       font-weight: 800;
       text-transform: capitalize;
-      color: ${colors.primary};
     }
     input {
       border: hidden;
@@ -99,4 +98,11 @@ export const usernameForm = css`
       background: red;
     }
   }
+`;
+
+export const title = css`
+  font-size: 2rem;
+  font-weight: 800;
+  color: ${colors.primary};
+  margin: 0;
 `;
