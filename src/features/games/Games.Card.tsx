@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import { Game } from "../../types/Games.ts";
-import { gameCard } from "./Games.style.ts";
+import { gameCard, gameLoading } from "./Games.style.ts";
 import { outWhiteShadow } from "../../ui";
 import { useContext, useState } from "react";
 import { gameStompSocket } from "../../ws/gaming.ts";
@@ -42,5 +42,6 @@ export function GamesCard({ game, group }: Props){
   }}>
     <h2>{game.title}</h2>
     <p>Players : {game.nbMinPlayers} - {game.nbMaxPlayers}</p>
+    {creating && <div css={gameLoading}><div/></div>}
   </div>;
 }

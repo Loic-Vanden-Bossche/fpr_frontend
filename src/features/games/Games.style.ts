@@ -47,6 +47,7 @@ export const gameCard = (gameId: string) => css`
   width: calc(100% - 32px);
   aspect-ratio: 16 / 9;
   display: flex;
+  position: relative;
   padding: 16px;
   gap: 16px;
   flex-direction: column;
@@ -56,5 +57,31 @@ export const gameCard = (gameId: string) => css`
 
   h2, p {
     margin: 0;
+  }
+`;
+
+export const gameLoading = css`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: default;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  div {
+    border-radius: 100%;
+    border: 2px gray solid;
+    border-bottom: 2px solid transparent;
+    width: 24px;
+    height: 24px;
+    animation: spin 1000ms infinite linear;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg) }
+    to { transform: rotate(360deg) }
   }
 `;
