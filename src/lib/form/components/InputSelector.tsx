@@ -1,7 +1,9 @@
 import type {
   Data, ModificationHandler, Schema
 } from "..";
-import { TextInput, isTextInputType } from "..";
+import { TextInput, isBooleanInputType, isNumberInputType, isTextInputType } from "..";
+import { BooleanInput } from "./BooleanInput";
+import { NumberInput } from "./NumberInput";
 
 interface Props {
     data: Schema;
@@ -19,8 +21,7 @@ export function InputSelector({
   form,
   onValueChange
 }: Props) {
-  switch (true) {
-  case isTextInputType(type):
+  if(isTextInputType(type)){
     return <TextInput
       type={type}
       label={label}
@@ -29,7 +30,26 @@ export function InputSelector({
       form={form}
       onValueChange={onValueChange}
     />;
-  default:
-    return <div>Unknown input type</div>;
   }
+
+  if (isNumberInputType(type)) {
+    return <NumberInput
+      label={label}
+      placeholder={placeholder}
+      formKey={key}
+      form={form}
+      onValueChange={onValueChange}
+    />;
+  }
+
+  if (isBooleanInputType(type)) {
+    return <BooleanInput
+      label={label}
+      formKey={key}
+      form={form}
+      onValueChange={onValueChange}
+    />;
+  }
+
+  return <div>Unknown input type</div>;
 }

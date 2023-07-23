@@ -1,9 +1,13 @@
 import {
-  Value, Data, TextInputType
+  Value,
+  Data,
+  TextInputType,
+  NumberInputType,
+  BooleanInputType
 } from ".";
 
 export type Condition = {
-    verificationMethod: (data: Value) => boolean;
+    verificationMethod: (data: Value, record: Data) => boolean;
     errorMessage: string;
 };
 
@@ -11,7 +15,7 @@ export type Schema = {
     key: string;
     label: string;
     placeholder?: string;
-    type: TextInputType;
+    type: TextInputType | NumberInputType | BooleanInputType;
     required: boolean;
     conditions?: Condition[];
 };
@@ -27,6 +31,5 @@ export const isDataSubmittable = (data: Schema[], record: Data): boolean =>
     required, key, conditions
   }) =>
     (required ? record[key] : true) &&
-    (conditions?.every(({ verificationMethod }) => verificationMethod(record[key])) ?? true)
+    (conditions?.every(({ verificationMethod }) => verificationMethod(record[key], record)) ?? true)
   );
-

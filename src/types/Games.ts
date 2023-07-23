@@ -1,13 +1,22 @@
+import { Data } from "../lib/index.ts";
 import { Profile } from "./Profile.ts";
 
-export type Game = {
+export type MinimalGame = {
+  title: string;
+  nbMinPlayers: number;
+  nbMaxPlayers: number;
+  isDeterministic: boolean;
+}
+
+export const isMinimalGame = (data: Data): data is MinimalGame =>
+  ("title" in data && typeof data.title === "string") &&
+  ("nbMinPlayers" in data && typeof data.nbMinPlayers === "number") &&
+  ("nbMaxPlayers" in data && typeof data.nbMaxPlayers === "number");
+
+export interface Game extends MinimalGame{
   id: string,
-  title: string,
   owner: Profile,
   picture: boolean,
-  nbMinPlayers: number,
-  nbMaxPlayers: number,
-  isDeterministic: boolean,
   isPublic: boolean,
-  lastBuildDate?: string,
+  lastBuildDate: Date | null,
 }

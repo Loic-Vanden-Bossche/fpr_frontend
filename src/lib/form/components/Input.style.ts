@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 
-export const textInputStyle = css`
+export const inputStyle = css`
     width: 100%;
 
     header {
@@ -17,6 +17,19 @@ export const textInputStyle = css`
 
     input {
         width: calc(100% - 4px);
+        padding: 0;
+        margin: 0;
+    }
+`;
+
+export const checkboxStyle = css`
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+
+    input {
         padding: 0;
         margin: 0;
     }
