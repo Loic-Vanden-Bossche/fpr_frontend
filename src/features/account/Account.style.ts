@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { borderRadius, colors, outWhiteFilter, outWhiteShadow } from "../../ui";
+import { borderRadius, colors, outWhiteShadow } from "../../ui";
 
 export const page = css`
   height: calc(100% - 32px - 40px);

@@ -167,11 +167,17 @@ export const groupPicture = (columnNumber: number) => css`
 `;
 
 export const groupPictureImage = (rotation:number, x:number, y:number, scale: number) => css`
-  width: 100%;
+  height: 64px;
+  width: 64px;
   aspect-ratio: 1 / 1;
   align-self: center;
-  rotate: ${rotation}deg;
-  translate: ${x}% ${y}%;
-  scale: calc(1 * ${scale});
   border-radius: 50%;
+
+  figure > & {
+    height: auto;
+    width: 100%;  
+    rotate: ${rotation}deg;
+    translate: ${x}% ${y}%;
+    scale: calc(1 * ${scale});
+  }
 `;
