@@ -4,12 +4,14 @@ import { gameStompSocket } from "../../ws/gaming.ts";
 import { IMessage } from "@stomp/stompjs";
 import { useGetRoomQuery } from "../../api/rooms.ts";
 import toast from "react-hot-toast";
+import { useGetProfileQuery } from "../../api";
 
 export function GamesRoute() {
   const navigate = useNavigate();
   const { id } = useParams();
   const gaming = useContext(gameStompSocket);
   const { data: room } = useGetRoomQuery(id ?? "");
+  const { data: self } = useGetProfileQuery();
 
   useEffect(() => {
     if(!gaming.connected) {
@@ -40,14 +42,15 @@ export function GamesRoute() {
   }, []);
 
   useEffect(() => {
-    const sub = gaming.subscribe("/rooms/" + id, onSub);
+    const sub = [gaming.subscribe("/rooms/" + id, onSub), gaming.subscribe("/rooms" + id + "/" + self?.id, onSub)];
     gaming.onConnect = () => {
       gaming.subscribe("/rooms/" + id, onSub);
+      gaming.subscribe("/rooms" + id + "/" + self?.id, onSub);
     };
     return () => {
-      sub.unsubscribe();
+      sub.forEach(s => s.unsubscribe());
     };
-  }, [gaming, id, onSub]);
+  }, [gaming, id, onSub, self]);
 
   useEffect(() => {
     if(room?.status === "STARTED") {
@@ -60,7 +63,7 @@ export function GamesRoute() {
     <button onClick={() => gaming.publish({ destination: "/app/startGame/" + id })}>Start game</button>
     <input value={input} onChange={e => setInput(e.target.value)}/>
     <button onClick={() => gaming.publish({ destination: "/app/play/" + id, body: input })}>Send input</button>
-    {render}
+    {JSON.stringify(render)}
     {/*<Game2DEngine displayData={render !== "" ? JSON.parse(render) : ""}/>*/}
   </section>;
 }
