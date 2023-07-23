@@ -10,8 +10,12 @@ export const roomsApi = createApi({
     getRooms: builder.query<Room[], void>({
       query: () => "",
       providesTags: ["room"]
+    }),
+    getRoom: builder.query<Room, string>({
+      query: (id) => "/" + id,
+      providesTags: ["room"]
     })
   })
 });
 
-export const { useGetRoomsQuery } = roomsApi;
+export const { useGetRoomsQuery, useGetRoomQuery } = roomsApi;

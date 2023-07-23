@@ -3,11 +3,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { gameStompSocket } from "../../ws/gaming.ts";
 import { IMessage } from "@stomp/stompjs";
+import { useGetRoomQuery } from "../../api/rooms.ts";
 
 export function GamesRoute() {
   const navigate = useNavigate();
   const { id } = useParams();
   const gaming = useContext(gameStompSocket);
+  const { data: room } = useGetRoomQuery(id ?? "");
 
   useEffect(() => {
     if(!gaming.connected) {
@@ -47,6 +49,12 @@ export function GamesRoute() {
       sub.unsubscribe();
     };
   }, [gaming, id, onSub]);
+
+  useEffect(() => {
+    if(room?.status === "STARTED") {
+      setStarted(true);
+    }
+  }, [room]);
 
   return <section>
     {started ? "Started" : "Not started"}
