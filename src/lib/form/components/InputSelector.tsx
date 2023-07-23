@@ -13,6 +13,7 @@ export function InputSelector({
   data: {
     type,
     label,
+    placeholder,
     key
   },
   form,
@@ -20,7 +21,14 @@ export function InputSelector({
 }: Props) {
   switch (true) {
   case isTextInputType(type):
-    return <TextInput type={type} label={label} formKey={key} form={form} onValueChange={onValueChange}/>;
+    return <TextInput
+      type={type}
+      label={label}
+      placeholder={placeholder}
+      formKey={key}
+      form={form}
+      onValueChange={onValueChange}
+    />;
   default:
     return <div>Unknown input type</div>;
   }
