@@ -6,6 +6,7 @@ import { useContext, useState } from "react";
 import { gameStompSocket } from "../../ws/gaming.ts";
 import { Group } from "../../types";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 interface Props {
   game: Game,
@@ -26,8 +27,7 @@ export function GamesCard({ game, group }: Props){
         if(response.created){
           navigator("/room/" + response.id);
         } else {
-          /* eslint-disable no-console */
-          console.log(response.reason);
+          toast.error(response.reason);
         }
       });
       if(!creating) {

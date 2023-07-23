@@ -9,6 +9,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { stompSocket } from "../../ws/messaging.ts";
 import { IMessage, StompSubscription } from "@stomp/stompjs";
 import { GamesModal } from "../games/Games.Modal.tsx";
+import toast from "react-hot-toast";
 
 interface Props {
   group: Group;
@@ -86,8 +87,12 @@ export function MessagingChatWindow({ group, self }: Props) {
         else {
           const data = JSON.parse(message.body);
           if (data.type === "NEW") {
-            // eslint-disable-next-line no-console
-            console.log("NOTIFICATION", data, g);
+            toast( () =>
+              <div>
+                <p>{g.name}</p>
+                <p style={{ width: "100%", textAlign: "end" }}>{data.message}</p>
+              </div>
+            );
           }
         }
       }));

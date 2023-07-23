@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useAddFriendMutation } from "../../api";
 import { Icon, icons } from "../../lib";
 import { SearchResult } from "../../types";

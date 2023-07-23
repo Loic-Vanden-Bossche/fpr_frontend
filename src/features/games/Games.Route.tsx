@@ -1,9 +1,9 @@
-/* eslint-disable no-console */
 import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { gameStompSocket } from "../../ws/gaming.ts";
 import { IMessage } from "@stomp/stompjs";
 import { useGetRoomQuery } from "../../api/rooms.ts";
+import toast from "react-hot-toast";
 
 export function GamesRoute() {
   const navigate = useNavigate();
@@ -26,23 +26,22 @@ export function GamesRoute() {
   const onSub = useCallback((message: IMessage) => {
     const data = JSON.parse(message.body);
     if(data.joined === true) {
-      console.log("Joined");
+      toast.success("Joined");
     } else if(data.joined === false) {
-      console.log("Error", data.reason);
+      toast.error(data.reason);
     } else if(data.started === true) {
       setStarted(true);
+      toast.success("Game started");
     } else if(data.started === false) {
-      console.log("Error on start", data.reason);
+      toast.error(data.reason);
     } else {
       setRender(data);
     }
   }, []);
 
   useEffect(() => {
-    console.log("sub", id);
     const sub = gaming.subscribe("/rooms/" + id, onSub);
     gaming.onConnect = () => {
-      console.log("onconnect sub");
       gaming.subscribe("/rooms/" + id, onSub);
     };
     return () => {

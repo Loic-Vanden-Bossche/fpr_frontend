@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useMemo } from "react";
 import { Form, Schema, SubmitHandler } from "../../lib";
 import { Profile } from "../../types";

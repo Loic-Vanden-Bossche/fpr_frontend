@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { useMemo } from "react";
 import { useSearchUsersQuery } from "../../api";
 import { FriendsDetails } from "./Friends.Details";

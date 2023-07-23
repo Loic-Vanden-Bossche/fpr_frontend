@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { MessagingContactList } from "./Messaging.ContactList.tsx";
 import { messagingScreen } from "./Messaging.style.ts";
 import { MessagingChatWindow } from "./Messaging.ChatWindow.tsx";
