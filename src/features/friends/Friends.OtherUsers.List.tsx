@@ -19,7 +19,7 @@ export function FriendsOtherUsersList({ profiles }: Props) {
     profiles={profiles}
     rightPart={profile =>
       <Button onClick={() => sendInvite(profile.id)}>
-        <Icon icon={icons.addFriend} color={colors.white}/>
+        <Icon icon={icons.add} color={colors.white}/>
             add to friends
       </Button>
     }
