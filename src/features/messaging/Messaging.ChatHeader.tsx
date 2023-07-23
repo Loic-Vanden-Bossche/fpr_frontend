@@ -1,7 +1,7 @@
 import { Group } from "../../types";
 import { chatHeader } from "./Messaging.style.ts";
 import { MessagingContactPicture } from "./Messaging.ContactPicture.tsx";
-import { outWhiteFilter } from "../../ui/shadows.ts";
+import { outWhiteFilter } from "../../ui";
 import { GamesRoute } from "../games/Games.Route.tsx";
 
 interface Props {
