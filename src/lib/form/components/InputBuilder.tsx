@@ -13,6 +13,6 @@ interface Props {
 export function InputBuilder(props: Props) {
   return <>
     <InputSelector {...props}/>
-    <InputError value={props.form[props.data.key]} schema={props.data}/>
+    <InputError value={props.form[props.data.key]} schema={props.data} record={props.form}/>
   </>;
 }

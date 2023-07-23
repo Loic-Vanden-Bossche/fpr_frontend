@@ -93,10 +93,6 @@ export const usernameForm = css`
     background: ${colors.primary};
     color: ${colors.white};
     ${outWhiteShadow}
-
-    &:disabled {
-      background: red;
-    }
   }
 `;
 
@@ -105,4 +101,45 @@ export const title = css`
   font-weight: 800;
   color: ${colors.primary};
   margin: 0;
+`;
+
+export const newGameForm = css`
+  main{
+    label {
+      font-size: 1.2rem;
+      font-weight: 800;
+
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+
+    & > div:not(.booleanInput) input {
+      border: hidden;
+      border-bottom: 1px solid ${colors.grey};
+      font-size: 1rem;
+      font-weight: 300;
+      padding: 8px 0;
+      background: none;
+    }
+    & > div {
+      gap: 8px;
+      accent-color: ${colors.primary};
+    }
+  }
+
+  input[type=submit] {
+    border: hidden;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 8px;
+    border-radius: 16px;
+    background: ${colors.primary};
+    color: ${colors.white};
+    ${outWhiteShadow}
+
+    &:disabled {
+      background: ${colors.pale_primary};
+    }
+  }
 `;

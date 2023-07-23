@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import { queriesConfiguration } from "./config.ts";
-import { Game } from "../types/Games.ts";
+import { Game, MinimalGame } from "../types";
 
 export const gamesApi = createApi({
   reducerPath: "gamesApi",
@@ -10,8 +10,12 @@ export const gamesApi = createApi({
     getGames: builder.query<Game[], void>({
       query: () => "",
       providesTags: ["games"]
+    }),
+    createGame: builder.mutation<Game, MinimalGame>({
+      query: (game) => ({ method: "POST", url: "create", body: game }),
+      invalidatesTags: ["games"]
     })
   })
 });
 
-export const { useGetGamesQuery } = gamesApi;
+export const { useGetGamesQuery, useCreateGameMutation } = gamesApi;

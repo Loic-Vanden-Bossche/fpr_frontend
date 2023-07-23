@@ -7,7 +7,7 @@ import {
 } from ".";
 
 export type Condition = {
-    verificationMethod: (data: Value) => boolean;
+    verificationMethod: (data: Value, record: Data) => boolean;
     errorMessage: string;
 };
 
@@ -31,5 +31,5 @@ export const isDataSubmittable = (data: Schema[], record: Data): boolean =>
     required, key, conditions
   }) =>
     (required ? record[key] : true) &&
-    (conditions?.every(({ verificationMethod }) => verificationMethod(record[key])) ?? true)
+    (conditions?.every(({ verificationMethod }) => verificationMethod(record[key], record)) ?? true)
   );

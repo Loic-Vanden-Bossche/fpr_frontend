@@ -1,7 +1,12 @@
-import { Form, Schema } from "../../lib";
-import { title } from "./Account.style";
+import { useCreateGameMutation } from "../../api/games";
+import { Data, Form, Schema, Value } from "../../lib";
+import { isMinimalGame } from "../../types";
+import { newGameForm, title } from "./Account.style";
 
 export function AccountGames() {
+  const [createGame] = useCreateGameMutation();
+
+  const maxHigherThanMin = (min: Value, max: Value) => (min as number) <= (max as number);
   const schemas: Schema[] = [
     {
       key: "title",
@@ -11,15 +16,41 @@ export function AccountGames() {
     },
     {
       key: "nbMinPlayers",
-      label: "minimal number of players",
+      label: "min players",
       type: "number",
-      required: true
+      required: true,
+      conditions: [
+        {
+          verificationMethod: (value) => value as number > 0,
+          errorMessage: "cannot be 0 or less"
+        },
+        {
+          verificationMethod: (value, record) => {
+            if(record?.["nbMaxPlayers"]) { return maxHigherThanMin(value, record.nbMaxPlayers); }
+            return true;
+          },
+          errorMessage: "cannot be higher than max players"
+        }
+      ]
     },
     {
       key: "nbMaxPlayers",
-      label: "maximal number of players",
+      label: "max players",
       type: "number",
-      required: true
+      required: true,
+      conditions: [
+        {
+          verificationMethod: (value) => value as number > 0,
+          errorMessage: "cannot be 0 or less"
+        },
+        {
+          verificationMethod: (value, record) => {
+            if(record?.["nbMinPlayers"]) { return maxHigherThanMin(record.nbMinPlayers, value); }
+            return true;
+          },
+          errorMessage: "cannot be lower than min players"
+        }
+      ]
     },
     {
       key: "isDeterministic",
@@ -29,8 +60,10 @@ export function AccountGames() {
     }
   ];
 
+  const handleFormSubmit = (e: Data) => isMinimalGame(e) && createGame(e);
+
   return <>
     <h1 css={title}>Your games</h1>
-    <Form schemas={schemas} submitButtonText="Create new game" onSubmit={e => console.log(e)}/>
+    <Form schemas={schemas} submitButtonText="Create new game" onSubmit={handleFormSubmit} style={newGameForm}/>
   </>;
 }

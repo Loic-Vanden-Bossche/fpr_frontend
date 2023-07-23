@@ -13,7 +13,7 @@ export function BooleanInput({
   label, formKey, form, onValueChange
 }: Props) {
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = ({ target }) => {
-    onValueChange(formKey, target.checked);
+    onValueChange(formKey, Boolean(target.checked));
   };
 
   return <div className="booleanInput" css={checkboxStyle}>
