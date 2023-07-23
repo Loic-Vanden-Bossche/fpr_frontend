@@ -3,7 +3,7 @@ import { RevealButton } from "../";
 import type {
   Data, Key, ModificationHandler, TextInputType
 } from "../types";
-import { textInputStyle } from "./TextInput.style";
+import { inputStyle } from "./Input.style";
 
 interface Props{
   label: string;
@@ -25,11 +25,11 @@ export function TextInput({
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = ({ target }) =>
     onValueChange(formKey, target.value);
 
-  return <div className="textInput" css={textInputStyle}>
+  return <div className="textInput" css={inputStyle}>
     <header>
       <label className="label">{label}</label>
       {type === "password" && <RevealButton isHidden={inputType === "password"} onClick={handleRevealIconClick}/>}
     </header>
-    <input type={inputType} value={form[formKey]} placeholder={placeholder} onChange={handleInputChange}/>
+    <input type={inputType} value={form[formKey]?.toString()} placeholder={placeholder} onChange={handleInputChange}/>
   </div>;
 }
