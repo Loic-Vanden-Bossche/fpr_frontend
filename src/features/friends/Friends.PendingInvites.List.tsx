@@ -19,11 +19,11 @@ export function FriendsPendingInvitesList({ profiles }: Props) {
     profiles={profiles}
     rightPart={({ id }) => <div css={line("flex-end")}>
       <Button onClick={() => acceptInvitation(id)} background="#bb0f26">
-        <Icon icon={icons.acceptFriend} color={colors.white}/>
+        <Icon icon={icons.accept} color={colors.white}/>
         accept
       </Button>
       <Button onClick={() => refuseInvitation(id)} background="#0c8033">
-        <Icon icon={icons.refuseFriend} color={colors.white}/>
+        <Icon icon={icons.refuse} color={colors.white}/>
         refuse
       </Button>
     </div>}

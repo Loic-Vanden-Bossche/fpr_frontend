@@ -16,7 +16,7 @@ export function FriendsCurrentFriendsList({ profiles }: Props) {
   return <FriendsIdentitiesList
     profiles={profiles}
     rightPart={({ id }) => <Button onClick={() => removeFriend(id)} background="#bb0f26">
-      <Icon icon={icons.refuseFriend} color={colors.white}/>
+      <Icon icon={icons.refuse} color={colors.white}/>
       delete
     </Button>}
   />;
