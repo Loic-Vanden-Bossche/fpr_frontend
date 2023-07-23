@@ -16,7 +16,7 @@ export function BooleanInput({
     onValueChange(formKey, target.checked);
   };
 
-  return <div className="numberInput" css={checkboxStyle}>
+  return <div className="booleanInput" css={checkboxStyle}>
     <input type={"checkbox"} value={form[formKey]?.toString()} onChange={handleInputChange}/>
     <label className="label">{label}</label>
   </div>;
