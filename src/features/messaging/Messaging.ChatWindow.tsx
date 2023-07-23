@@ -8,6 +8,7 @@ import { useGetGroupMessageQuery, useGetGroupsQuery } from "../../api";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { stompSocket } from "../../ws/messaging.ts";
 import { IMessage } from "@stomp/stompjs";
+import { GamesModal } from "../games/Games.Modal.tsx";
 
 interface Props {
   group: Group;
@@ -19,6 +20,7 @@ export function MessagingChatWindow({ group, self }: Props) {
   const classes = [messagingChat, outPrimaryShadowSmall];
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
+  const [showGames, setShowGames] = useState(false);
   const { data: historyMessages } = useGetGroupMessageQuery({ id: group.id, page: page });
   const stomp = useContext(stompSocket);
 
@@ -84,7 +86,8 @@ export function MessagingChatWindow({ group, self }: Props) {
         data.map((g) => stomp.subscribe("/groups/" + g.id + "/messages", message => {
           if(g.id === group.id){
             currentSubscribe(message);
-          } else {
+          }
+          else {
             const data = JSON.parse(message.body);
             if (data.type === "NEW") {
               // eslint-disable-next-line no-console
@@ -97,7 +100,12 @@ export function MessagingChatWindow({ group, self }: Props) {
   }, [currentSubscribe, data, group.id, stomp]);
 
   return <section css={classes}>
-    <MessagingChatHeader contact={group} />
+    <MessagingChatHeader
+      contact={group}
+      showGames={showGames}
+      handleOnShowGamesClick={() => setShowGames(prev => !prev)}
+    />
+    <GamesModal show={showGames}/>
     <MessagingChatBody
       messages={messages ?? [] }
       self={self}

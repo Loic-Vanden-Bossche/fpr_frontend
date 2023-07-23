@@ -1,6 +1,6 @@
-import { button, toggled } from "../friends/Friends.style.ts";
+import { button, toggled } from "./Games.style";
 import { css } from "@emotion/react";
-import { colors, outPrimaryShadow } from "../../ui";
+import { colors, outWhiteShadow } from "../../ui";
 import { Icon, icons } from "../../lib";
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export function GamesToogleButton({ isActive, onClick }: Props) {
-  return <button css={css(button, isActive && toggled, outPrimaryShadow)} onClick={onClick}>
+  return <button css={css(button, isActive && toggled, outWhiteShadow)} onClick={onClick}>
     <Icon icon={icons.games} color={isActive ? colors.primary : colors.white}/>
     Games
   </button>;

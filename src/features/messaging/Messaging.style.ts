@@ -126,8 +126,10 @@ export const chatMessageContainer = css`
   gap: 16px;
   list-style: none;
   height: 92%;
-  margin: -24px;
-  padding: 24px;
+  margin-inline: -24px;
+  margin-block: 0;
+  padding-inline: 24px;
+  padding-block: 0;
 `;
 
 export const receivedMessage = css`
