@@ -7,12 +7,8 @@ export function GamesRoute() {
   const { id } = useParams();
   const gaming = useContext(gameStompSocket);
 
-  console.log(gaming);
-
   useEffect(() => {
-    console.log(gaming.connected);
     if(!gaming.connected) {
-      console.log("nav");
       navigate("/");
     }
   }, [gaming.connected, navigate]);
@@ -37,5 +33,6 @@ export function GamesRoute() {
     <input value={input} onChange={e => setInput(e.target.value)}/>
     <button onClick={() => gaming.publish({ destination: "/app/play/" + id, body: input })}>Send input</button>
     {render}
+    {/*<Game2DEngine displayData={render !== "" ? JSON.parse(render) : ""}/>*/}
   </section>;
 }
