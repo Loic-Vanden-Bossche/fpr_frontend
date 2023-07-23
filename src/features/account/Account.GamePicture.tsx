@@ -1,10 +1,10 @@
 import { ChangeEvent, useMemo, useRef } from "react";
-import { Game } from "../../types";
+import { Games } from "../../types";
 import { gamePicture } from "./Account.style";
 import { useUploadGameThumbnailMutation } from "../../api/games";
 
 interface Props{
-  game: Game
+  game: Games
 }
 
 export function AccountGamePicture({ game }:Props) {

@@ -7,3 +7,4 @@ export * from "./Group";
 export * from "./Identity";
 export * from "./Search";
 export * from "./Games";
+export * from "./Game";

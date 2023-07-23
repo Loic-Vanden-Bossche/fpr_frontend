@@ -1,11 +1,11 @@
-import { Game } from "./Games.ts";
+import { Games } from "./Games.ts";
 
 export type Room = {
   id: string,
   status: string,
   players: RoomPlayer[],
   invitationStatus: string,
-  game: Game
+  game: Games
 }
 
 export type RoomPlayer = {
