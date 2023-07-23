@@ -24,7 +24,6 @@ export function IsAuthenticatedGuard() {
         ws.send(JSON.stringify(msg));
       };
       stomp.connectHeaders = { "Authorization": authToken };
-      stomp.activate();
     }
   }, [authToken, ws, stomp]);
 

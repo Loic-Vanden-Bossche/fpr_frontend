@@ -4,9 +4,10 @@ import { messagingChat } from "./Messaging.style.ts";
 import { MessagingChatBody } from "./Messaging.ChatBody.tsx";
 import { outPrimaryShadowSmall } from "../../ui";
 import { MessagingChatInput } from "./Messaging.ChatInput.tsx";
-import { useGetGroupMessageQuery } from "../../api";
-import { useContext, useEffect, useState } from "react";
+import { useGetGroupMessageQuery, useGetGroupsQuery } from "../../api";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { stompSocket } from "../../ws/messaging.ts";
+import { IMessage } from "@stomp/stompjs";
 
 interface Props {
   group: Group;
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export function MessagingChatWindow({ group, self }: Props) {
+  const { data } = useGetGroupsQuery();
   const classes = [messagingChat, outPrimaryShadowSmall];
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
@@ -24,6 +26,8 @@ export function MessagingChatWindow({ group, self }: Props) {
 
   useEffect(() => {
     setMessages([]);
+    setPage(0);
+    setLoading(true);
   }, [group.id]);
 
   useEffect(() => {
@@ -34,45 +38,63 @@ export function MessagingChatWindow({ group, self }: Props) {
         array.push(...historyMessages.filter(m => !ids.includes(m.id)));
         return array;
       });
-      setLoading(false);
+      if(historyMessages.length > 0){
+        setLoading(false);
+      }
     }
   }, [historyMessages]);
 
+  const currentSubscribe = useCallback((message: IMessage) => {
+    const data = JSON.parse(message.body);
+    if(data.type === "NEW"){
+      setMessages(prev => {
+        const newMessages = prev.slice(0);
+        newMessages.splice(0, 0, data);
+        return newMessages;
+      });
+    }
+    else if(data.type === "EDIT") {
+      setMessages(prev => {
+        const newMessages = prev.slice(0);
+        const m = newMessages.findIndex(m => m.id === data.id);
+        if(m !== -1){
+          newMessages[m] = data;
+        }
+        return newMessages;
+      });
+    }
+    else if(data.type === "DELETE") {
+      setMessages(prev => {
+        const newMessages = prev.slice(0);
+        const m = newMessages.findIndex(m => m.id === data.id);
+        if(m !== -1) {
+          newMessages.splice(m, 1);
+        }
+        return newMessages;
+      });
+    }
+  }, []);
+
   useEffect(() => {
-    const s = stomp.subscribe("/groups/" + group.id + "/messages", message => {
-      const data = JSON.parse(message.body);
-      if(data.type === "NEW"){
-        setMessages(prev => {
-          const newMessages = prev.slice(0);
-          newMessages.splice(0, 0, data);
-          return newMessages;
-        });
-      }
-      else if(data.type === "EDIT") {
-        setMessages(prev => {
-          const newMessages = prev.slice(0);
-          const m = newMessages.findIndex(m => m.id === data.id);
-          if(m !== -1){
-            newMessages[m] = data;
+    if(!stomp.connected) {
+      stomp.activate();
+    }
+    stomp.onConnect = () => {
+      if (data) {
+        data.map((g) => stomp.subscribe("/groups/" + g.id + "/messages", message => {
+          if(g.id === group.id){
+            currentSubscribe(message);
+          } else {
+            const data = JSON.parse(message.body);
+            if (data.type === "NEW") {
+              // eslint-disable-next-line no-console
+              console.log("NOTIFICATION", data, g);
+            }
           }
-          return newMessages;
-        });
+        }));
       }
-      else if(data.type === "DELETE") {
-        setMessages(prev => {
-          const newMessages = prev.slice(0);
-          const m = newMessages.findIndex(m => m.id === data.id);
-          if(m !== -1) {
-            newMessages.splice(m, 1);
-          }
-          return newMessages;
-        });
-      }
-    });
-    return () => {
-      s.unsubscribe();
     };
-  }, [group.id, stomp]);
+  }, [currentSubscribe, data, group.id, stomp]);
 
   return <section css={classes}>
     <MessagingChatHeader contact={group} />

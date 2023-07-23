@@ -16,7 +16,7 @@ export function MessagingChatBody({ messages, self, onTop }: Props) {
     const c = container.current;
     if(c !== null){
       c.onscroll = () => {
-        if(c.offsetHeight - c.scrollTop === c.scrollHeight){
+        if(c.offsetHeight - c.scrollTop + 50 >= c.scrollHeight){
           onTop();
         }
       };
