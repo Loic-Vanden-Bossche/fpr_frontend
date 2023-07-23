@@ -16,7 +16,8 @@ export const modal = css`
 `;
 
 export const visible = css`
-  height: 280px;
+  height: 480px;
+  padding-bottom: 16px;
 `;
 
 export const button = css`

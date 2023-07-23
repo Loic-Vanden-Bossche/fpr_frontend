@@ -130,6 +130,7 @@ export const chatMessageContainer = css`
   margin-block: 0;
   padding-inline: 24px;
   padding-block: 0;
+  padding-bottom: 16px;
 `;
 
 export const receivedMessage = css`

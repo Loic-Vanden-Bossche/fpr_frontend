@@ -65,7 +65,7 @@ export function AccountGames() {
 
   return <>
     <h1 css={title}>Your games</h1>
-    <Form schemas={schemas} submitButtonText="Create new game" onSubmit={handleFormSubmit} style={newGameForm}/>
     <AccountGamesList />
+    <Form schemas={schemas} submitButtonText="Create new game" onSubmit={handleFormSubmit} style={newGameForm}/>
   </>;
 }
