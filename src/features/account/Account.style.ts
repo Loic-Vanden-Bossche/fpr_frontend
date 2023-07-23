@@ -17,7 +17,7 @@ export const profilePicture = css`
   width: min(20rem, 100%);
   aspect-ratio: 1 / 1;
   margin: 0;
-  border-radius: 16px;
+  border-radius: 50%;
   overflow: hidden;
   cursor: pointer;
   align-self: center;
@@ -140,6 +140,81 @@ export const newGameForm = css`
 
     &:disabled {
       background: ${colors.pale_primary};
+    }
+  }
+`;
+
+export const gamesList = css`
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
+
+export const gameCard = css`
+  padding: 8px;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 16px;
+  background: ${colors.white};
+
+  header, footer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  h2 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 0;
+
+    &::first-letter {
+      text-transform: uppercase;
+    }
+  }
+`;
+
+export const gamePicture = css`
+  position: relative;
+  height: 64px;
+  aspect-ratio: 1 / 1;
+  background: red;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+
+  img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transition: 0.3s;
+  }
+
+  p{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: ${colors.white};
+    opacity: 0;
+    transition: 0.3s;
+  }
+
+  &:hover {
+    img{
+      filter: brightness(0.6);
+    }
+    p{
+      opacity: 1;
     }
   }
 `;

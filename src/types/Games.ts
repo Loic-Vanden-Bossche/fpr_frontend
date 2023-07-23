@@ -19,5 +19,5 @@ export interface Game extends MinimalGame{
   owner: Profile,
   picture: boolean,
   isPublic: boolean,
-  lastBuildDate: Date,
+  lastBuildDate: Date | null,
 }
