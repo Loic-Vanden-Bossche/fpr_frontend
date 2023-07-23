@@ -55,25 +55,21 @@ export function VideoChatRouter() {
         pc.addTrack(track, stream);
       });
     }
+    pc.ontrack = async (event) => {
+      console.log("event", event);
+      if(document.getElementById(id) !== null){
+        console.log("already");
+        return;
+      }
+      const v = createVideo(id);
+      v.srcObject = event.streams[0];
+      v.onplay = () => {
+        console.log("PLAYED");
+      };
+      // await v.play();
+    };
     pc.onicecandidate = async (ev) => {
       ws.send(JSON.stringify({ type: "candidate", data: { to: id, candidate: ev.candidate } }));
-    };
-    pc.ontrack = async ({ streams: [stream] }) => {
-      console.log("track", id);
-      const v: HTMLVideoElement | null = document.getElementById(id) as HTMLVideoElement | null;
-      if(v !== null) {
-        if(v.srcObject !== null){
-          v.srcObject = stream;
-        }
-        else {
-          console.log("already");
-        }
-      }
-      else {
-        console.log("create");
-        const video = createVideo(id);
-        video.srcObject = stream;
-      }
     };
     pc.oniceconnectionstatechange = () => {
       console.log("ICE STATE " + pc.iceConnectionState);
