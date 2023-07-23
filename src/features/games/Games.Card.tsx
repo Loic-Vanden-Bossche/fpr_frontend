@@ -22,8 +22,13 @@ export function GamesCard({ game, group }: Props){
   return <div css={css(gameCard(game.id), outWhiteShadow)} onClick={() => {
     gaming.onConnect = () => {
       gaming.subscribe("/rooms/created", message => {
-        const id = message.body.split(" ")[2];
-        navigator("/room/" + id);
+        const response = JSON.parse(message.body);
+        if(response.created){
+          navigator("/room/" + response.id);
+        } else {
+          /* eslint-disable no-console */
+          console.log(response.reason);
+        }
       });
       if(!creating) {
         setCreating(true);
