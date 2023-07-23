@@ -12,3 +12,9 @@ export const header = css`
   display: flex;
   justify-content: space-between;
 `;
+
+export const actions = css`
+  display: flex;
+  align-items: center;
+  gap: 32px;
+`;

@@ -5,11 +5,13 @@ import { RegisterForm } from "../register";
 import { VideoChatRouter } from "../videoChat";
 import { NotAuthenticatedGuard } from "../notAuthenticated";
 import { IsAuthenticatedGuard } from "../isAuthenticated";
+import { AccountRoute } from "../account";
 
 export function RoutingRouter() {
   return <Routes>
     <Route path="" element={<IsAuthenticatedGuard/>}>
       <Route index element={<MessagingRoute/>}/>
+      <Route path="account" element={<AccountRoute/>}/>
       <Route path={"video"} element={<VideoChatRouter/>}/>
     </Route>
     <Route path="auth" element={<NotAuthenticatedGuard/>}>
