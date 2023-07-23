@@ -25,7 +25,7 @@ export function AccountNickname({ profile }: Props) {
   const handleSubmit: SubmitHandler = (data) => {
     const newNickname = data["nickname"];
     if(newNickname) {
-      changeNickname(newNickname);
+      changeNickname(newNickname as string);
     }
   };
 
