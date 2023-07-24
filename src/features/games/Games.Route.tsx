@@ -44,7 +44,7 @@ export function GamesRoute() {
   }, []);
 
   useEffect(() => {
-    const sub = [gaming.subscribe("/rooms/" + id, onSub), gaming.subscribe("/rooms" + id + "/" + self?.id, onSub)];
+    const sub = [gaming.subscribe("/rooms/" + id, onSub), gaming.subscribe("/rooms/" + id + "/" + self?.id, onSub)];
     gaming.onConnect = () => {
       gaming.subscribe("/rooms/" + id, onSub);
       gaming.subscribe("/rooms/" + id + "/" + self?.id, onSub);
