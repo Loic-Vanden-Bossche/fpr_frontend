@@ -29,12 +29,17 @@ export function GamesRoute() {
 
   const [joined, setJoined] = useState(false);
 
+  const [joining, setJoining] = useState(false);
+
   const onSub = useCallback((message: IMessage) => {
     const data = JSON.parse(message.body);
     if(data.joined === true) {
       toast.success("Joined");
       setJoined(true);
     } else if(data.joined === false) {
+      if(!joined) {
+        navigate("/");
+      }
       toast.error(data.reason);
     } else if(data.started === true) {
       setStarted(true);
@@ -44,12 +49,16 @@ export function GamesRoute() {
     } else {
       setRender(data);
     }
-  }, []);
+  }, [joined, navigate]);
 
   useEffect(() => {
+    if(!gaming.connected){
+      return;
+    }
     const sub = [gaming.subscribe("/rooms/" + id, onSub), gaming.subscribe("/rooms/" + id + "/" + self?.id, onSub)];
-    if(!joined) {
+    if(!joined && !joining) {
       gaming.publish({ destination: "/app/joinRoom/" + id });
+      setJoining(true);
     }
     gaming.onConnect = () => {
       gaming.subscribe("/rooms/" + id, onSub);
@@ -68,6 +77,10 @@ export function GamesRoute() {
       setStarted(true);
     }
   }, [room]);
+
+  if(!gaming.connected){
+    return null;
+  }
 
   return <section>
     {started ? "Started" : "Not started"}

@@ -84,6 +84,7 @@ export function Game2DEngine({ game: { display, requested_actions }, onAction }:
 
   const verifyClick = (e: MouseEvent<SVGSVGElement>, clicks: ClickAction[]): {x: number, y: number} | null => {
     const coordinates = getClickCoordinates(e.currentTarget.getBoundingClientRect(), e.clientX, e.clientY);
+    console.log(coordinates);
     return (clicks.length && !clicks.find(click => click.zones)) ||
       clicks.find(click => click.zones?.find(zone => isInZone(coordinates, zone))) ? coordinates : null;
   };
