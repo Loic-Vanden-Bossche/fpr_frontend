@@ -72,12 +72,13 @@ export function GameRoute() {
       gaming.subscribe("/rooms/" + id + "/" + self?.id, onSub);
       if(!joined && ! joining){
         gaming.publish({ destination: "/app/joinRoom/" + id });
+        setJoining(true);
       }
     };
     return () => {
       sub.forEach(s => s.unsubscribe());
     };
-  }, [gaming, id, joined, onSub, self]);
+  }, [gaming, id, joined, joining, onSub, self]);
 
   useEffect(() => {
     if(room?.status === "STARTED") {
