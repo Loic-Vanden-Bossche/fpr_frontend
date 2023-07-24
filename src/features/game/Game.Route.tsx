@@ -87,10 +87,9 @@ export function GameRoute() {
   }
 
   return <section css={css(gameDisplay, outPrimaryShadow)}>
-    <GameStartScreen
-      isStarted={started}
-      handleStartClick={() => gaming.publish({ destination: "/app/startGame/" + id })}
-    />
+    {!(started && render)
+      && <GameStartScreen isStarted={started} handleStartClick={() => gaming.publish({ destination: "/app/startGame/" + id })} />
+    }
     {(started && render)&& <Game2DEngine
       game={render as Game}
       onAction={(action => gaming.publish({ destination: "/app/play/" + id, body: JSON.stringify(action) }))}

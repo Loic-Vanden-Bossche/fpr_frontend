@@ -84,7 +84,7 @@ export const startScreen = css`
     }
   }
   height: 100%;
-  width: calc(100% - 32px);
+  width: calc(100% - 64px);
   background: #000;
   display: flex;
   justify-content: center;

@@ -73,8 +73,8 @@ export function Game2DEngine({ game: { display, requestedActions }, onAction }: 
     clientX: number,
     clientY: number
   ): {x:number, y:number} => ({
-    x: (clientX - x) / width * display.width,
-    y: (clientY - y) / height * display.height
+    x: (clientX - x) / width * (display?.width ?? 0),
+    y: (clientY - y) / height * (display?.height ?? 0)
   });
 
   const isInZone = ({ x, y }: {x:number, y:number}, zone: ClickZone): boolean =>
@@ -178,7 +178,7 @@ export function Game2DEngine({ game: { display, requestedActions }, onAction }: 
         onAuxClick={handleAuxClick}
         onDoubleClick={handleDoubleClick}
       >
-        {display.content.map(convertDisplayContentToHTML)}
+        {display?.content.map(convertDisplayContentToHTML)}
       </svg>
     </section>
     {!!textActions.length &&
