@@ -10,7 +10,6 @@ interface Props {
 }
 
 export function Game2DEngine({ game: { display, requestedActions }, onAction }: Props) {
-  console.log(display);
   const svgRef = useRef<SVGSVGElement>(null);
   const convertDisplayContentToHTML = (data: DisplayContent) => {
     const { content, tag } = data;
@@ -83,15 +82,12 @@ export function Game2DEngine({ game: { display, requestedActions }, onAction }: 
 
   const verifyClick = (e: MouseEvent<SVGSVGElement>, clicks: ClickAction[]): {x: number, y: number} | null => {
     const coordinates = getClickCoordinates(e.currentTarget.getBoundingClientRect(), e.clientX, e.clientY);
-    console.log(coordinates);
-    console.log("coucou", requestedActions);
     return (clicks.length && !clicks.find(click => click.zones)) ||
       clicks.find(click => click.zones?.find(zone => isInZone(coordinates, zone))) ? coordinates : null;
   };
 
   const handleLeftClick = (e: MouseEvent<SVGSVGElement>) => {
     const coord = verifyClick(e, leftClicks);
-    console.log(coord);
     if(coord === null){
       return;
     }
@@ -123,15 +119,13 @@ export function Game2DEngine({ game: { display, requestedActions }, onAction }: 
       return;
     }
     }
-    console.log(false);
   };
 
   useEffect(() => {
     const handleKeyPressed = (e: any) => {
-      !keyActions.find(action => action.keys) ||
-      keyActions.find(
-        action => action.keys?.split('').map(letter => letter.toLowerCase()).includes(e.key.toLowerCase())
-      ) ? console.log(true) : console.log(false);
+      if(!keyActions.find(action => action.keys) || keyActions.find(action => action.keys?.split('').map(letter => letter.toLowerCase().includes(e.key.toLowerCase())))){
+        onAction( { actions: [{ keys: e.key.toUpperCase() }] } );
+      }
     };
 
     if (keyActions.length) { window.addEventListener("keydown", handleKeyPressed); }
@@ -181,8 +175,8 @@ export function Game2DEngine({ game: { display, requestedActions }, onAction }: 
         {display?.content.map(convertDisplayContentToHTML)}
       </svg>
     </section>
-    {!!textActions.length &&
-      <Form schemas={schemas} submitButtonText="submit" style={form} onSubmit={() => console.log(true)}/>
+    {
+      <Form schemas={schemas} submitButtonText="submit" style={form} onSubmit={e => onAction({ actions: [{ text: e.text }] })}/>
     }
   </>;
 }

@@ -7,6 +7,7 @@ import { gameStompSocket } from "../../ws/gaming.ts";
 import { useNavigate } from "react-router-dom";
 import { icons } from "../../lib";
 import JSX = jsx.JSX;
+import toast from "react-hot-toast";
 
 interface Props {
   room: Room
@@ -21,9 +22,14 @@ export function RoomsCard({ room }: Props) {
   let status: JSX.Element;
   if(room.status === "STARTED") {
     status = icons.play;
-  } else if(room.status === "WAITING"){
+  }
+  else if(room.status === "WAITING"){
     status = icons.wait;
-  } else {
+  }
+  else if(room.status === "PAUSED"){
+    status = icons.pause;
+  }
+  else {
     status = <p/>;
   }
 
@@ -33,10 +39,26 @@ export function RoomsCard({ room }: Props) {
       if (gaming.connected) {
         gaming.forceDisconnect();
       }
-      gaming.onConnect = () => {
-        setLoading(false);
-        navigate("/room/" + room.id);
-      };
+      if(room.status !== "PAUSED") {
+        gaming.onConnect = () => {
+          setLoading(false);
+          navigate("/room/" + room.id);
+        };
+      }
+      else {
+        gaming.onConnect = () => {
+          gaming.subscribe("/rooms/" + room.id, message => {
+            const response = JSON.parse(message.body);
+            if (response.resumed) {
+              navigate("/room/" + room.id);
+            }
+            else {
+              toast.error(response.reason);
+            }
+          });
+          gaming.publish({ destination: "/app/resumeGame/" + room.id });
+        };
+      }
       gaming.activate();
     }
   }}>
