@@ -1,9 +1,7 @@
 /* eslint-disable no-console */
 import { createElement, useMemo, useRef, MouseEvent, useEffect } from "react";
 import { ClickAction, ClickZone, DisplayContent, Game, KeyAction, TextAction } from "../../types";
-import { form, gameDisplay, startScreen } from "./Game.style";
-import { css } from "@emotion/react";
-import { outPrimaryShadow } from "../../ui";
+import { form } from "./Game.style";
 import { Condition, Form, Schema } from "../../lib";
 
 interface Props {
