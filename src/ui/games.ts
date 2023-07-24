@@ -18,3 +18,33 @@ export const gamesCard = css`
   justify-content: end;
   cursor: pointer;
 `;
+
+export const gamesResultContainer = css`
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  color: ${colors.white};
+  font-size: 2rem;
+  text-align: center;
+  align-items: center;
+  
+  h1 {
+    margin: 0;
+  }
+  
+  h2 {
+    margin: 0;
+  }
+  
+  button {
+    margin: 0 auto;
+    margin-top: 40px;
+  }
+`;
+
+export const gamesResultImage = css`
+  border-radius: 20px;
+  width: 50%;
+`;
+
