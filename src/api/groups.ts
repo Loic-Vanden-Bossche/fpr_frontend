@@ -15,4 +15,4 @@ export const groupsApi = createApi({
   })
 });
 
-export const { useGetGroupsQuery, useGetGroupMessageQuery } = groupsApi;
+export const { useGetGroupsQuery, useGetGroupMessageQuery, useLazyGetGroupMessageQuery } = groupsApi;

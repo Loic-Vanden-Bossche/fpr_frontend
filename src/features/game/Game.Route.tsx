@@ -23,7 +23,7 @@ export function GameRoute() {
     if(!gaming.connected) {
       gaming.activate();
     }
-  }, [gaming.connected, navigate]);
+  }, [gaming, navigate]);
 
   const [render, setRender] = useState<object | null>(null);
 
@@ -51,7 +51,9 @@ export function GameRoute() {
       toast.error(data.reason);
     }
     else if(data.played !== undefined) {
-      console.log("played");
+      if(!data.played) {
+        toast.error(data.reason);
+      }
     }
     else {
       setRender(data);
@@ -78,7 +80,7 @@ export function GameRoute() {
     return () => {
       sub.forEach(s => s.unsubscribe());
     };
-  }, [gaming, id, joined, joining, onSub, self]);
+  }, [gaming, gaming.connected, id, joined, joining, onSub, self]);
 
   useEffect(() => {
     if(room?.status === "STARTED") {

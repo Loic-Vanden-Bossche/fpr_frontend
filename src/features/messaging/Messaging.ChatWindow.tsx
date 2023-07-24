@@ -4,7 +4,7 @@ import { messagingChat } from "./Messaging.style.ts";
 import { MessagingChatBody } from "./Messaging.ChatBody.tsx";
 import { outPrimaryShadowSmall } from "../../ui";
 import { MessagingChatInput } from "./Messaging.ChatInput.tsx";
-import { useGetGroupMessageQuery, useGetGroupsQuery } from "../../api";
+import { useGetGroupMessageQuery, useGetGroupsQuery, useLazyGetGroupMessageQuery } from "../../api";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { stompSocket } from "../../ws/messaging.ts";
 import { IMessage, StompSubscription } from "@stomp/stompjs";
@@ -23,6 +23,7 @@ export function MessagingChatWindow({ group, self }: Props) {
   const [page, setPage] = useState(0);
   const [showGames, setShowGames] = useState(false);
   const { data: historyMessages } = useGetGroupMessageQuery({ id: group.id, page: page });
+  const [reloadMessages] = useLazyGetGroupMessageQuery();
   const stomp = useContext(stompSocket);
 
   const [messages, setMessages] = useState<Message[]>([]);
@@ -31,7 +32,8 @@ export function MessagingChatWindow({ group, self }: Props) {
     setMessages([]);
     setPage(0);
     setLoading(true);
-  }, [group.id]);
+    reloadMessages({ id: group.id, page: 0 });
+  }, [group.id, reloadMessages]);
 
   useEffect(() => {
     if(historyMessages !== undefined) {
