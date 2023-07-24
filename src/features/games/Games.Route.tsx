@@ -5,6 +5,8 @@ import { IMessage } from "@stomp/stompjs";
 import { useGetRoomQuery } from "../../api/rooms.ts";
 import toast from "react-hot-toast";
 import { useGetProfileQuery } from "../../api";
+import { Game2DEngine } from "../game/Game.2DEngine.tsx";
+import { Game } from "../../types";
 
 export function GamesRoute() {
   const navigate = useNavigate();
@@ -21,7 +23,7 @@ export function GamesRoute() {
 
   const [input, setInput] = useState("");
 
-  const [render, setRender] = useState("");
+  const [render, setRender] = useState<object | null>(null);
 
   const [started, setStarted] = useState(false);
 
@@ -45,7 +47,7 @@ export function GamesRoute() {
     const sub = [gaming.subscribe("/rooms/" + id, onSub), gaming.subscribe("/rooms" + id + "/" + self?.id, onSub)];
     gaming.onConnect = () => {
       gaming.subscribe("/rooms/" + id, onSub);
-      gaming.subscribe("/rooms" + id + "/" + self?.id, onSub);
+      gaming.subscribe("/rooms/" + id + "/" + self?.id, onSub);
     };
     return () => {
       sub.forEach(s => s.unsubscribe());
@@ -64,6 +66,6 @@ export function GamesRoute() {
     <input value={input} onChange={e => setInput(e.target.value)}/>
     <button onClick={() => gaming.publish({ destination: "/app/play/" + id, body: input })}>Send input</button>
     {JSON.stringify(render)}
-    {/*<Game2DEngine displayData={render !== "" ? JSON.parse(render) : ""}/>*/}
+    {render !== null && <Game2DEngine game={render as Game}/>}
   </section>;
 }
