@@ -5,7 +5,8 @@ export const gameDisplay = css`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  height: calc(100% - 32px - 40px - 32px);
+  height: calc(100% - 32px);
+  width: 100%;
   padding: 16px;
   border-radius: 32px;
 
@@ -23,6 +24,9 @@ export const gameDisplay = css`
     max-width: fit-content;
     height: fit-content;
     max-height: 100%;
+  }
+  @media screen and (max-width: 950px) {
+    width: calc(100% - 32px);
   }
 `;
 
@@ -183,5 +187,31 @@ export const startScreen = css`
     animation: screenScroll 10s infinite linear;
     background-size: 100% 50%;
     filter: blur(5px);
+  }
+`;
+
+export const linearLayout = css`
+  display: flex;
+  width: 100%;
+  height: calc(100% - 32px - 40px);
+  gap: 32px;
+
+  @media screen and (max-width: 950px) {
+    flex-direction: column;
+  }
+`;
+
+export const chat = css`
+  border-radius: 32px;
+  resize: horizontal;
+
+  @media screen and (max-width: 950px) {
+    resize: vertical;
+    min-width: calc(100% - 48px);
+    max-width: calc(100% - 48px);
+  }
+  @media screen and (min-width: 950px) {
+    min-height: calc(100% - 48px);
+    max-height: calc(100% - 48px);
   }
 `;
