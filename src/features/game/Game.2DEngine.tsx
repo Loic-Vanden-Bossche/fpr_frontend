@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
 import { createElement, useMemo, useRef, MouseEvent, useEffect } from "react";
 import { ClickAction, ClickZone, DisplayContent, Game, KeyAction, TextAction } from "../../types";
-import { gameDisplay } from "./Game.style";
+import { form, gameDisplay } from "./Game.style";
 import { css } from "@emotion/react";
 import { outPrimaryShadow } from "../../ui";
+import { Condition, Form, Schema } from "../../lib";
 
 interface Props {
   game: Game
@@ -29,7 +30,7 @@ export function Game2DEngine({ game: { display, requested_actions } }: Props) {
     return createElement(tag, componentProps, securedContent);
   };
 
-  const { clickActions, keyActions } = useMemo(() => {
+  const { clickActions, keyActions, textActions } = useMemo(() => {
     const clickActions: ClickAction[] = [];
     const keyActions: KeyAction[] = [];
     const textActions: TextAction[] = [];
@@ -114,11 +115,35 @@ export function Game2DEngine({ game: { display, requested_actions } }: Props) {
     return () => window.removeEventListener("keydown", handleKeyPressed);
   }, [keyActions]);
 
-  // const schemas: Schema[] = [
-  //   { label: "", key: "", type: "text", required: true }
-  // ];
+  const schemas: Schema[] = useMemo(() => {
+    const conditions: Condition[] = [];
+    textActions.forEach(action => {
+      if(action.regex) {
+        conditions.push({
+          verificationMethod: (data) => new RegExp(action.regex ?? "").test(data as string),
+          errorMessage: `should correspond the regex /${action.regex}/`
+        });
+      }
+      if(action.max_length) {
+        conditions.push({
+          verificationMethod: (data) => (data as string).length <= (action.max_length ?? 0),
+          errorMessage: `cant't be longer than ${action.max_length}`
+        });
+      }
+    });
 
-  return <section css={css(gameDisplay, outPrimaryShadow)}>
+    console.log(conditions);
+    const schemas: Schema[] = [{
+      type: "text",
+      label: "",
+      key: "text",
+      required: false,
+      conditions
+    }];
+    return schemas;
+  }, [textActions]);
+
+  return <section css={css(gameDisplay(!!textActions.length), outPrimaryShadow)}>
     <section className="screen" onClick={() => svgRef.current?.focus}>
       <svg
         className="gameEngine"
@@ -132,6 +157,8 @@ export function Game2DEngine({ game: { display, requested_actions } }: Props) {
         {display.content.map(convertDisplayContentToHTML)}
       </svg>
     </section>
-    {/* {!!textActions.length && <Form schemas={schemas} submitButtonText="submit" style={form}/>} */}
+    {!!textActions.length &&
+      <Form schemas={schemas} submitButtonText="submit" style={form} onSubmit={() => console.log(true)}/>
+    }
   </section>;
 }

@@ -115,7 +115,9 @@ export const gameExample: Game = {
     },
     {
       type: "TEXT",
-      player: 1
+      player: 1,
+      regex: "OUI|NON",
+      max_length: 3
     }
   ]
 };
