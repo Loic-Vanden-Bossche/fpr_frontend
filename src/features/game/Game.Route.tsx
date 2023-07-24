@@ -26,7 +26,7 @@ export function GameRoute() {
     }
   }, [gaming, navigate]);
 
-  const [render, setRender] = useState<object | null>(null);
+  const [render, setRender] = useState<Game | null>(null);
 
   const [started, setStarted] = useState(false);
   const [joined, setJoined] = useState(false);
@@ -74,6 +74,7 @@ export function GameRoute() {
       else {
         toast.error("Error on pause: " + data.reason);
       }
+      navigate("/");
     }
     else {
       setRender(data);
@@ -114,6 +115,10 @@ export function GameRoute() {
 
   return <div css={linearLayout}>
     <section css={css(gameDisplay, outPrimaryShadow)}>
+      <div>
+        {Array.from(render?.gameState?.scores?.keys() ?? []).map(v => <p key={v}><span>v</span>: {render?.gameState?.scores?.get(v)}</p>)}
+      </div>
+      {render?.gameState?.game_over === true && <p>Terminated</p> }
       <button onClick={() => gaming.publish({ destination: "/app/stopGame/" + id })}>Stop</button>
       <button onClick={() => gaming.publish({ destination: "/app/pauseGame/" + id })}>Pause</button>
       {!(started && render)

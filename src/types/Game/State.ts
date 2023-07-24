@@ -1,4 +1,4 @@
 export type State = {
-  scores: number[];
+  scores: Map<string, number>;
   game_over: boolean;
 }
