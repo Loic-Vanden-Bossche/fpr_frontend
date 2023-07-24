@@ -22,26 +22,27 @@ export function GamesCard({ game, group }: Props){
 
   return <div css={css(gameCard(game.id), outWhiteShadow)}
     onClick={() => {
-      console.log(gaming);
-      gaming.onConnect = () => {
-        gaming.subscribe("/rooms/created", message => {
-          const response = JSON.parse(message.body);
-          if(response.created){
-            navigator("/room/" + response.id);
-          }
-          else {
-            toast.error(response.reason);
-          }
-        });
-        if(!creating) {
-          setCreating(true);
+      if(!creating) {
+        setCreating(true);
+        if (gaming.connected) {
+          gaming.forceDisconnect();
+        }
+        gaming.onConnect = () => {
+          gaming.subscribe("/rooms/created", message => {
+            const response = JSON.parse(message.body);
+            if (response.created) {
+              navigator("/room/" + response.id);
+            } else {
+              toast.error(response.reason);
+            }
+          });
           gaming.publish({
             destination: "/app/createRoom",
             body: JSON.stringify({ gameId: game.id, groupId: group.id })
           });
-        }
-      };
-      gaming.activate();
+        };
+        gaming.activate();
+      }
     }}
   >
     <h2>{game.title}</h2>
