@@ -115,7 +115,7 @@ export function GameRoute() {
   return <div css={linearLayout}>
     <section css={css(gameDisplay, outPrimaryShadow)}>
       <button onClick={() => gaming.publish({ destination: "/app/stopGame/" + id })}>Stop</button>
-      <button onClick={() => gaming.publish({ destination: "/app/pauseGame/" + id })}>Stop</button>
+      <button onClick={() => gaming.publish({ destination: "/app/pauseGame/" + id })}>Pause</button>
       {!(started && render)
         && <GameStartScreen isStarted={started} handleStartClick={() => gaming.publish({ destination: "/app/startGame/" + id })} />
       }
