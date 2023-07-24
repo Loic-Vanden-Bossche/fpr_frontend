@@ -12,6 +12,7 @@ import { outPrimaryShadow } from "../../ui/shadows.ts";
 import { GameStartScreen } from "./Game.StartScreen.tsx";
 import { Game } from "../../types";
 import { GameChat } from "./Game.Chat.tsx";
+import { GamesLeaderBoard } from "./Games.LeaderBoard.tsx";
 
 export function GameRoute() {
   const navigate = useNavigate();
@@ -115,9 +116,7 @@ export function GameRoute() {
 
   return <div css={linearLayout}>
     <section css={css(gameDisplay, outPrimaryShadow)}>
-      <div>
-        {Array.from(render?.gameState?.scores?.keys() ?? []).map(v => <p key={v}><span>v</span>: {render?.gameState?.scores?.get(v)}</p>)}
-      </div>
+      <GamesLeaderBoard scores={render?.gameState?.scores ?? {}} players={room?.players ?? []}/>
       {render?.gameState?.game_over === true && <p>Terminated</p> }
       <button onClick={() => gaming.publish({ destination: "/app/stopGame/" + id })}>Stop</button>
       <button onClick={() => gaming.publish({ destination: "/app/pauseGame/" + id })}>Pause</button>
