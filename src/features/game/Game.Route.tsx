@@ -21,7 +21,7 @@ export function GameRoute() {
 
   useEffect(() => {
     if(!gaming.connected) {
-      navigate("/");
+      gaming.activate();
     }
   }, [gaming.connected, navigate]);
 
