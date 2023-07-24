@@ -51,6 +51,7 @@ export function VideoChatRouter() {
     const pc = new RTCPeerConnection(servers);
     setPeerConnections(prev => new Map(prev).set(id, pc));
     if(stream !== null){
+      console.log(stream);
       stream.getTracks().forEach((track) => {
         pc.addTrack(track, stream);
       });
@@ -94,9 +95,9 @@ export function VideoChatRouter() {
 
   ws.onmessage = async (message: MessageEvent<any>) => {
     const m = JSON.parse(message.data);
+    const pc = peerConnections.get(m.data.from) ?? createPeerConnection(m.data.from);
     if (m.type === "present") {
       for (const id of (m.data.presents as string[])) {
-        const pc = createPeerConnection(id);
         if (pc.iceConnectionState === "new") {
           const offer = await pc.createOffer();
           await pc.setLocalDescription(offer);
@@ -113,7 +114,6 @@ export function VideoChatRouter() {
       }
     }
     else if (m.type === "new-user") {
-      const pc = createPeerConnection(m.data.from);
       await pc.setRemoteDescription(m.data.offer);
       const answer = await pc.createAnswer();
       await pc.setLocalDescription(answer);
@@ -128,17 +128,9 @@ export function VideoChatRouter() {
       ws.send(JSON.stringify(message));
     }
     else if (m.type === "new-answer") {
-      const pc = peerConnections.get(m.data.from);
-      if (!pc) {
-        return;
-      }
       await pc.setRemoteDescription(m.data.answer);
     }
     else if(m.type === "candidate") {
-      const pc = peerConnections.get(m.data.from);
-      if(!pc){
-        return;
-      }
       if(pc.currentRemoteDescription !== null){
         await pc.addIceCandidate(m.data.candidate);
       }
