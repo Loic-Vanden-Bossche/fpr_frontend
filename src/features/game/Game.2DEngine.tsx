@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { createElement, useMemo, useRef, MouseEvent, useEffect } from "react";
 import { ClickAction, ClickZone, DisplayContent, Game, KeyAction, TextAction } from "../../types";
-import { form, gameDisplay } from "./Game.style";
+import { form, gameDisplay, startScreen } from "./Game.style";
 import { css } from "@emotion/react";
 import { outPrimaryShadow } from "../../ui";
 import { Condition, Form, Schema } from "../../lib";
@@ -167,7 +167,7 @@ export function Game2DEngine({ game: { display, requested_actions }, onAction }:
     return schemas;
   }, [textActions]);
 
-  return <section css={css(gameDisplay(!!textActions.length), outPrimaryShadow)}>
+  return <>
     <section className="screen" onClick={() => svgRef.current?.focus}>
       <svg
         className="gameEngine"
@@ -184,5 +184,5 @@ export function Game2DEngine({ game: { display, requested_actions }, onAction }:
     {!!textActions.length &&
       <Form schemas={schemas} submitButtonText="submit" style={form} onSubmit={() => console.log(true)}/>
     }
-  </section>;
+  </>;
 }
