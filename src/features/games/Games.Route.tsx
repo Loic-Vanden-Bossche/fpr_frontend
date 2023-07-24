@@ -27,10 +27,13 @@ export function GamesRoute() {
 
   const [started, setStarted] = useState(false);
 
+  const [joined, setJoined] = useState(false);
+
   const onSub = useCallback((message: IMessage) => {
     const data = JSON.parse(message.body);
     if(data.joined === true) {
       toast.success("Joined");
+      setJoined(true);
     } else if(data.joined === false) {
       toast.error(data.reason);
     } else if(data.started === true) {
@@ -45,14 +48,20 @@ export function GamesRoute() {
 
   useEffect(() => {
     const sub = [gaming.subscribe("/rooms/" + id, onSub), gaming.subscribe("/rooms/" + id + "/" + self?.id, onSub)];
+    if(!joined) {
+      gaming.publish({ destination: "/app/joinRoom/" + id });
+    }
     gaming.onConnect = () => {
       gaming.subscribe("/rooms/" + id, onSub);
       gaming.subscribe("/rooms/" + id + "/" + self?.id, onSub);
+      if(!joined){
+        gaming.publish({ destination: "/app/joinRoom/" + id });
+      }
     };
     return () => {
       sub.forEach(s => s.unsubscribe());
     };
-  }, [gaming, id, onSub, self]);
+  }, [gaming, id, joined, onSub, self]);
 
   useEffect(() => {
     if(room?.status === "STARTED") {
@@ -66,6 +75,6 @@ export function GamesRoute() {
     <input value={input} onChange={e => setInput(e.target.value)}/>
     <button onClick={() => gaming.publish({ destination: "/app/play/" + id, body: input })}>Send input</button>
     {JSON.stringify(render)}
-    {render !== null && <Game2DEngine game={render as Game}/>}
+    {render !== null && <Game2DEngine game={render as Game} onAction={(action => gaming.publish({ destination: "/app/play/" + id, body: JSON.stringify(action) }))}/>}
   </section>;
 }

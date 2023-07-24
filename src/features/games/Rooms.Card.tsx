@@ -27,7 +27,6 @@ export function RoomsCard({ room }: Props) {
 
   return <div css={css(gameCard(room.game.id), outWhiteShadow)} onClick={() => {
     gaming.onConnect = () => {
-      gaming.publish({ destination: "/app/joinRoom/" + room.id });
       navigate("/room/" + room.id);
     };
     gaming.activate();

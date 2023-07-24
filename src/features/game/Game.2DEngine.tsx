@@ -7,10 +7,11 @@ import { outPrimaryShadow } from "../../ui";
 import { Condition, Form, Schema } from "../../lib";
 
 interface Props {
-  game: Game
+  game: Game,
+  onAction: (action: object) => void
 }
 
-export function Game2DEngine({ game: { display, requested_actions } }: Props) {
+export function Game2DEngine({ game: { display, requested_actions }, onAction }: Props) {
   const svgRef = useRef<SVGSVGElement>(null);
   const convertDisplayContentToHTML = (data: DisplayContent) => {
     const { content, tag } = data;
@@ -35,7 +36,7 @@ export function Game2DEngine({ game: { display, requested_actions } }: Props) {
     const keyActions: KeyAction[] = [];
     const textActions: TextAction[] = [];
 
-    requested_actions.forEach(action => {
+    requested_actions?.forEach(action => {
       switch(action.type) {
       case "CLICK":
         clickActions.push(action);
@@ -81,28 +82,51 @@ export function Game2DEngine({ game: { display, requested_actions } }: Props) {
     zone.x <= x && x <= zone.x + zone.width &&
     zone.y <= y && y <= zone.y + zone.height;
 
-  const verifyClick = (e: MouseEvent<SVGSVGElement>, clicks: ClickAction[]): boolean => {
+  const verifyClick = (e: MouseEvent<SVGSVGElement>, clicks: ClickAction[]): {x: number, y: number} | null => {
     const coordinates = getClickCoordinates(e.currentTarget.getBoundingClientRect(), e.clientX, e.clientY);
     return (clicks.length && !clicks.find(click => click.zones)) ||
-      clicks.find(click => click.zones?.find(zone => isInZone(coordinates, zone))) ? true : false;
+      clicks.find(click => click.zones?.find(zone => isInZone(coordinates, zone))) ? coordinates : null;
   };
 
-  const handleLeftClick = (e: MouseEvent<SVGSVGElement>) => console.log(verifyClick(e, leftClicks));
-  const handleDoubleClick = (e: MouseEvent<SVGSVGElement>) => console.log(verifyClick(e, doubleClicks));
+  const handleLeftClick = (e: MouseEvent<SVGSVGElement>) => {
+    const coord = verifyClick(e, leftClicks);
+    console.log(coord);
+    if(coord === null){
+      return;
+    }
+    onAction({ actions: [coord] });
+  };
+  const handleDoubleClick = (e: MouseEvent<SVGSVGElement>) => {
+    const coord = verifyClick(e, doubleClicks);
+    if(coord === null){
+      return;
+    }
+    onAction({ actions: [coord] });
+  };
   const handleAuxClick = (e: MouseEvent<SVGSVGElement>) => {
     switch (e.button) {
-    case 1:
-      console.log(verifyClick(e, middleClicks));
+    case 1: {
+      const coord = verifyClick(e, middleClicks);
+      if (coord === null) {
+        return;
+      }
+      onAction({ actions: [coord] });
       return;
-    case 2:
-      console.log(verifyClick(e, rightClicks));
+    }
+    case 2: {
+      const coord = verifyClick(e, rightClicks);
+      if (coord === null) {
+        return;
+      }
+      onAction({ actions: [coord] });
       return;
+    }
     }
     console.log(false);
   };
 
   useEffect(() => {
-    const handleKeyPressed = (e:any) => {
+    const handleKeyPressed = (e: any) => {
       !keyActions.find(action => action.keys) ||
       keyActions.find(
         action => action.keys?.split('').map(letter => letter.toLowerCase()).includes(e.key.toLowerCase())
