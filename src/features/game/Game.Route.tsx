@@ -29,6 +29,7 @@ export function GameRoute() {
 
   const [started, setStarted] = useState(false);
   const [joined, setJoined] = useState(false);
+  const [joining, setJoining] = useState(false);
 
   const onSub = useCallback((message: IMessage) => {
     const data = JSON.parse(message.body);
@@ -37,6 +38,9 @@ export function GameRoute() {
       setJoined(true);
     }
     else if(data.joined === false) {
+      if(!joined) {
+        navigate("/");
+      }
       toast.error(data.reason);
     }
     else if(data.started === true) {
@@ -49,12 +53,16 @@ export function GameRoute() {
     else {
       setRender(data);
     }
-  }, []);
+  }, [joined, navigate]);
 
   useEffect(() => {
+    if(!gaming.connected){
+      return;
+    }
     const sub = [gaming.subscribe("/rooms/" + id, onSub), gaming.subscribe("/rooms/" + id + "/" + self?.id, onSub)];
-    if(!joined) {
+    if(!joined && !joining) {
       gaming.publish({ destination: "/app/joinRoom/" + id });
+      setJoining(true);
     }
     gaming.onConnect = () => {
       gaming.subscribe("/rooms/" + id, onSub);
@@ -66,13 +74,17 @@ export function GameRoute() {
     return () => {
       sub.forEach(s => s.unsubscribe());
     };
-  }, [gaming, id, onSub, self]);
+  }, [gaming, id, joined, onSub, self]);
 
   useEffect(() => {
     if(room?.status === "STARTED") {
       setStarted(true);
     }
   }, [room]);
+
+  if(!gaming.connected){
+    return null;
+  }
 
   return <section css={css(gameDisplay, outPrimaryShadow)}>
     <GameStartScreen
