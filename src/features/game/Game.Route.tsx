@@ -110,6 +110,17 @@ export function GameRoute() {
     }
   }, [room]);
 
+  useEffect(() => {
+    const score = render?.gameState?.scores;
+    if(render?.gameState?.game_over === true && score !== undefined) {
+      if(Object.values(score).reduce((prev, current) => current > prev ? current : prev ) === score[self?.id ?? ""]){
+        navigate("/win");
+      }else{
+        navigate("/loose");
+      }
+    }
+  }, [navigate, render, self]);
+
   if(!gaming.connected){
     return null;
   }
@@ -117,7 +128,6 @@ export function GameRoute() {
   return <div css={linearLayout}>
     <section css={css(gameDisplay, outPrimaryShadow)}>
       <GamesLeaderBoard scores={render?.gameState?.scores ?? {}} players={room?.players ?? []}/>
-      {render?.gameState?.game_over === true && <p>Terminated</p> }
       <button onClick={() => gaming.publish({ destination: "/app/stopGame/" + id })}>Stop</button>
       <button onClick={() => gaming.publish({ destination: "/app/pauseGame/" + id })}>Pause</button>
       {!(started && render)
