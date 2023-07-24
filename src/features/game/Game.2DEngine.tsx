@@ -126,13 +126,12 @@ export function Game2DEngine({ game: { display, requested_actions } }: Props) {
       }
       if(action.max_length) {
         conditions.push({
-          verificationMethod: (data) => (data as string).length <= (action.max_length ?? 0),
+          verificationMethod: (data) => ((data as string)??"").length <= (action.max_length ?? 0),
           errorMessage: `cant't be longer than ${action.max_length}`
         });
       }
     });
 
-    console.log(conditions);
     const schemas: Schema[] = [{
       type: "text",
       label: "",

@@ -52,9 +52,15 @@ export const form = css`
     color: ${colors.white};
     ${outPrimaryShadowSmall}
     padding: 8px;
+    transition: 0.3s;
 
     &:active{
       ${inPrimaryShadowSmall}
+    }
+    
+    &:disabled{
+      box-shadow: none;
+      cursor: not-allowed;
     }
   }
 `;
