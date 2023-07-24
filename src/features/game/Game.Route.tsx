@@ -7,10 +7,11 @@ import toast from "react-hot-toast";
 import { useGetProfileQuery } from "../../api/index.ts";
 import { Game2DEngine } from "./Game.2DEngine.tsx";
 import { css } from "@emotion/react";
-import { gameDisplay } from "./Game.style.ts";
+import { gameDisplay, linearLayout } from "./Game.style.ts";
 import { outPrimaryShadow } from "../../ui/shadows.ts";
 import { GameStartScreen } from "./Game.StartScreen.tsx";
 import { Game } from "../../types";
+import { GameChat } from "./Game.Chat.tsx";
 
 export function GameRoute() {
   const navigate = useNavigate();
@@ -92,13 +93,16 @@ export function GameRoute() {
     return null;
   }
 
-  return <section css={css(gameDisplay, outPrimaryShadow)}>
-    {!(started && render)
-      && <GameStartScreen isStarted={started} handleStartClick={() => gaming.publish({ destination: "/app/startGame/" + id })} />
-    }
-    {(started && render)&& <Game2DEngine
-      game={render as Game}
-      onAction={(action => gaming.publish({ destination: "/app/play/" + id, body: JSON.stringify(action) }))}
-    />}
-  </section>;
+  return <div css={linearLayout}>
+    <section css={css(gameDisplay, outPrimaryShadow)}>
+      {!(started && render)
+        && <GameStartScreen isStarted={started} handleStartClick={() => gaming.publish({ destination: "/app/startGame/" + id })} />
+      }
+      {(started && render)&& <Game2DEngine
+        game={render as Game}
+        onAction={(action => gaming.publish({ destination: "/app/play/" + id, body: JSON.stringify(action) }))}
+      />}
+    </section>
+    {!!room && <GameChat group={room.group}/>}
+  </div>;
 }
