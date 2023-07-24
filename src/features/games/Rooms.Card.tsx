@@ -26,6 +26,7 @@ export function RoomsCard({ room }: Props) {
   }
 
   return <div css={css(gameCard(room.game.id), outWhiteShadow)} onClick={() => {
+    console.log(gaming);
     gaming.onConnect = () => {
       navigate("/room/" + room.id);
     };

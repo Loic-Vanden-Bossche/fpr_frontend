@@ -22,6 +22,7 @@ export function GamesCard({ game, group }: Props){
 
   return <div css={css(gameCard(game.id), outWhiteShadow)}
     onClick={() => {
+      console.log(gaming);
       gaming.onConnect = () => {
         gaming.subscribe("/rooms/created", message => {
           const response = JSON.parse(message.body);

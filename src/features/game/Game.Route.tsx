@@ -50,6 +50,9 @@ export function GameRoute() {
     else if(data.started === false) {
       toast.error(data.reason);
     }
+    else if(data.played !== undefined) {
+      console.log("played");
+    }
     else {
       setRender(data);
     }
@@ -67,7 +70,7 @@ export function GameRoute() {
     gaming.onConnect = () => {
       gaming.subscribe("/rooms/" + id, onSub);
       gaming.subscribe("/rooms/" + id + "/" + self?.id, onSub);
-      if(!joined){
+      if(!joined && ! joining){
         gaming.publish({ destination: "/app/joinRoom/" + id });
       }
     };
