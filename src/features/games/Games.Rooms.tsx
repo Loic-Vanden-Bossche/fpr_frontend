@@ -1,20 +1,13 @@
-import { useGetRoomsQuery, useLazyGetRoomsQuery } from "../../api/rooms.ts";
 import { gamesStyle } from "../../ui/games.ts";
 import { RoomsCard } from "./Rooms.Card.tsx";
-import { useEffect } from "react";
+import { Room } from "../../types/Room.ts";
 
 interface Props {
   search: string;
-  show: boolean;
+  rooms?: Room[]
 }
 
-export function GamesRooms({ search, show }: Props) {
-  const { data: rooms } = useGetRoomsQuery();
-  const [reload] = useLazyGetRoomsQuery();
-
-  useEffect(() => {
-    reload();
-  }, [reload, show]);
+export function GamesRooms({ search, rooms}: Props) {
 
   const searchRegex = new RegExp(search, "i");
 
