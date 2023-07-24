@@ -56,6 +56,25 @@ export function GameRoute() {
         toast.error(data.reason);
       }
     }
+    else if(data.closed !== undefined){
+      if(data.closed){
+        toast("Closed", {
+          icon: "⚠️"
+        });
+      }
+      else {
+        toast.error("Error on closing: " + data.reason);
+      }
+      navigate("/");
+    }
+    else if(data.paused !== undefined){
+      if(data.paused){
+        toast("Paused", { icon: "⏸️" });
+      }
+      else {
+        toast.error("Error on pause: " + data.reason);
+      }
+    }
     else {
       setRender(data);
     }
@@ -95,6 +114,8 @@ export function GameRoute() {
 
   return <div css={linearLayout}>
     <section css={css(gameDisplay, outPrimaryShadow)}>
+      <button onClick={() => gaming.publish({ destination: "/app/stopGame/" + id })}>Stop</button>
+      <button onClick={() => gaming.publish({ destination: "/app/pauseGame/" + id })}>Stop</button>
       {!(started && render)
         && <GameStartScreen isStarted={started} handleStartClick={() => gaming.publish({ destination: "/app/startGame/" + id })} />
       }
