@@ -46,6 +46,8 @@ export function GamesRoute() {
       toast.success("Game started");
     } else if(data.started === false) {
       toast.error(data.reason);
+    } else if(data.played !== undefined){
+      console.log(data);
     } else {
       setRender(data);
     }
@@ -81,6 +83,8 @@ export function GamesRoute() {
   if(!gaming.connected){
     return null;
   }
+
+  console.log(render);
 
   return <section>
     {started ? "Started" : "Not started"}

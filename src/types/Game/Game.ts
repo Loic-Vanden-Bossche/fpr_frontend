@@ -2,12 +2,12 @@ import { Action, Display, State } from ".";
 
 export type Game = {
   display: Display;
-  requested_actions: Action[];
-  game_state: State;
+  requestedActions: Action[];
+  gameState: State;
 }
 
 export const gameExample: Game = {
-  "game_state": {
+  "gameState": {
     "scores": [
       0,
       0
@@ -53,7 +53,7 @@ export const gameExample: Game = {
       }
     ]
   },
-  "requested_actions": [
+  "requestedActions": [
     {
       "type": "CLICK",
       "player": 1,

@@ -11,7 +11,8 @@ interface Props {
   onAction: (action: object) => void
 }
 
-export function Game2DEngine({ game: { display, requested_actions }, onAction }: Props) {
+export function Game2DEngine({ game: { display, requestedActions }, onAction }: Props) {
+  console.log(display);
   const svgRef = useRef<SVGSVGElement>(null);
   const convertDisplayContentToHTML = (data: DisplayContent) => {
     const { content, tag } = data;
@@ -36,7 +37,7 @@ export function Game2DEngine({ game: { display, requested_actions }, onAction }:
     const keyActions: KeyAction[] = [];
     const textActions: TextAction[] = [];
 
-    requested_actions?.forEach(action => {
+    requestedActions?.forEach(action => {
       switch(action.type) {
       case "CLICK":
         clickActions.push(action);
@@ -51,7 +52,7 @@ export function Game2DEngine({ game: { display, requested_actions }, onAction }:
     });
 
     return { clickActions, keyActions, textActions };
-  }, [requested_actions]);
+  }, [requestedActions]);
 
   const { leftClicks, middleClicks, rightClicks, doubleClicks } = useMemo(() => {
     const leftClicks: ClickAction[] = [];
@@ -85,6 +86,7 @@ export function Game2DEngine({ game: { display, requested_actions }, onAction }:
   const verifyClick = (e: MouseEvent<SVGSVGElement>, clicks: ClickAction[]): {x: number, y: number} | null => {
     const coordinates = getClickCoordinates(e.currentTarget.getBoundingClientRect(), e.clientX, e.clientY);
     console.log(coordinates);
+    console.log("coucou", requestedActions);
     return (clicks.length && !clicks.find(click => click.zones)) ||
       clicks.find(click => click.zones?.find(zone => isInZone(coordinates, zone))) ? coordinates : null;
   };
@@ -172,7 +174,7 @@ export function Game2DEngine({ game: { display, requested_actions }, onAction }:
       <svg
         className="gameEngine"
         ref={svgRef}
-        viewBox={`0 0 ${display.height} ${display.width}`}
+        viewBox={`0 0 ${display?.height ?? 0} ${display?.width ?? 0}`}
         onContextMenu={e => e.preventDefault()}
         onClick={handleLeftClick}
         onAuxClick={handleAuxClick}
