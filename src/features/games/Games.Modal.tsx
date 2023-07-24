@@ -16,7 +16,7 @@ export function GamesModal({ show, group }: Props){
 
   return <section css={css(modal, show && visible)}>
     <GamesSearchBar value={search} onChange={s => setSearch(s)}/>
-    <GamesRooms search={search}/>
+    <GamesRooms search={search} show={show}/>
     <GamesGames group={group} search={search}/>
   </section>;
 }

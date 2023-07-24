@@ -18,4 +18,4 @@ export const roomsApi = createApi({
   })
 });
 
-export const { useGetRoomsQuery, useGetRoomQuery } = roomsApi;
+export const { useGetRoomsQuery, useLazyGetRoomsQuery, useGetRoomQuery } = roomsApi;
