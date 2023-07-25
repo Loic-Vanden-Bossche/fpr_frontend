@@ -1,6 +1,6 @@
 import type { Group } from "../../types";
 import { MessagingContactCell } from "./Messaging.ContactCell.tsx";
-import { contactList } from "./Messaging.style.ts";
+import { addButton, contactList } from "./Messaging.style.ts";
 import { MessagingAddGroup } from "./Messaging.AddGroup.tsx";
 import { useState } from "react";
 
@@ -18,7 +18,7 @@ export function MessagingContactList({
   const [addGroup, setAddGroup] = useState(false);
 
   return <ul css={contactList}>
-    <button onClick={() => setAddGroup(true)}>+ Add group</button>
+    <button css={addButton} onClick={() => setAddGroup(true)}>+ Add group</button>
     {contacts.map(
       (contact, index) =>
         <MessagingContactCell
