@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useGetProfileQuery } from "../../api/index.ts";
 import { Game2DEngine } from "./Game.2DEngine.tsx";
 import { css } from "@emotion/react";
-import { gameDisplay, linearLayout } from "./Game.style.ts";
+import { gameDisplay, horizontalLayout, linearLayout, stateButton, verticalLayout } from "./Game.style.ts";
 import { outPrimaryShadow } from "../../ui/shadows.ts";
 import { GameStartScreen } from "./Game.StartScreen.tsx";
 import { Game } from "../../types";
@@ -115,7 +115,8 @@ export function GameRoute() {
     if(render?.gameState?.gameOver === true && score !== undefined) {
       if(Object.values(score).reduce((prev, current) => current > prev ? current : prev ) === score[self?.id ?? ""]){
         navigate("/win");
-      }else{
+      }
+      else{
         navigate("/loose");
       }
     }
@@ -128,16 +129,27 @@ export function GameRoute() {
   return <div css={linearLayout}>
     <section css={css(gameDisplay, outPrimaryShadow)}>
       <GamesLeaderBoard scores={render?.gameState?.scores ?? {}} players={room?.players ?? []}/>
-      <button onClick={() => gaming.publish({ destination: "/app/stopGame/" + id })}>Stop</button>
-      <button onClick={() => gaming.publish({ destination: "/app/pauseGame/" + id })}>Pause</button>
-      {!(started && render)
-        && <GameStartScreen isStarted={started} handleStartClick={() => gaming.publish({ destination: "/app/startGame/" + id })} />
+      {!(started && render) &&
+        <GameStartScreen
+          isStarted={started}
+          handleStartClick={() => gaming.publish({ destination: "/app/startGame/" + id })}
+        />
       }
       {(started && render)&& <Game2DEngine
         game={render as Game}
         onAction={(action => gaming.publish({ destination: "/app/play/" + id, body: JSON.stringify(action) }))}
       />}
     </section>
-    {!!room && <GameChat group={room.group}/>}
+    <div css={verticalLayout}>
+      <div css={horizontalLayout}>
+        <button css={stateButton} onClick={() => gaming.publish({ destination: "/app/stopGame/" + id })}>
+          Close game
+        </button>
+        <button css={stateButton} onClick={() => gaming.publish({ destination: "/app/pauseGame/" + id })}>
+          Pause game
+        </button>
+      </div>
+      {!!room && <GameChat group={room.group}/>}
+    </div>
   </div>;
 }
