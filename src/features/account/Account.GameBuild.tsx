@@ -26,7 +26,7 @@ export function AccountGameBuild({ game }: Props) {
   return <>
     <select value={language} onChange={e => setLanguage(e.currentTarget.value)}>
       <option value={"python"}>python</option>
-      <option value={"javascript"}>javascript</option>
+      <option value={"node"}>node</option>
     </select>
     <input
       css={css("display: none")}
