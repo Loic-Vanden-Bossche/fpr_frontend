@@ -201,17 +201,45 @@ export const linearLayout = css`
   }
 `;
 
+export const horizontalLayout = css`
+  display: flex;
+  gap: 32px;
+`;
+
+export const verticalLayout = css`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+`;
+
+export const stateButton = css`
+  background: ${colors.primary};
+  border-radius: 17px;
+  border: hidden;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: ${colors.white};
+  ${outPrimaryShadowSmall}
+  padding: 16px;
+  transition: 0.3s;
+  width: 100%;
+
+  &:active{
+    ${inPrimaryShadowSmall}
+  }
+  
+  &:disabled{
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+`;
+
 export const chat = css`
   border-radius: 32px;
-  resize: horizontal;
+  width: 400px;
 
   @media screen and (max-width: 950px) {
-    resize: vertical;
-    min-width: calc(100% - 48px);
-    max-width: calc(100% - 48px);
-  }
-  @media screen and (min-width: 950px) {
-    min-height: calc(100% - 48px);
-    max-height: calc(100% - 48px);
+    height: 300px;
+    width: calc(100% - 48px);
   }
 `;
