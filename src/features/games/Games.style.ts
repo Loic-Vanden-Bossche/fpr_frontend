@@ -67,7 +67,7 @@ export const gameLoading = css`
   height: 100%;
   cursor: default;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 1);
   display: flex;
   flex-direction: column;
   gap: 8px;
