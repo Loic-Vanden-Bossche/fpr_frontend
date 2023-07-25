@@ -69,6 +69,8 @@ export const gameLoading = css`
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.7);
   display: flex;
+  flex-direction: column;
+  gap: 8px;
   justify-content: center;
   align-items: center;
   

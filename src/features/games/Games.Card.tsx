@@ -47,6 +47,6 @@ export function GamesCard({ game, group }: Props){
   >
     <h2>{game.title}</h2>
     <p>Players : {game.nbMinPlayers} - {game.nbMaxPlayers}</p>
-    {creating && <div css={gameLoading}><div/></div>}
+    {creating && <div css={gameLoading}>T'inquiète it's loading<div/></div>}
   </div>;
 }
