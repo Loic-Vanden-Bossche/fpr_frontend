@@ -19,7 +19,7 @@ export function MessagingChatHeader({ contact, showGames, handleOnShowGamesClick
 
   return <header css={chatHeader}>
     <MessagingContactPicture members={members} shadow={outWhiteFilter}/>
-    <h1>{members.map(member => member.user.nickname).join(', ')}</h1>
+    <h1>{contact.name}</h1>
     <GamesToogleButton isActive={showGames} onClick={handleOnShowGamesClick}/>
   </header>;
 }

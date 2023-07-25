@@ -131,7 +131,7 @@ export function GameRoute() {
   }
 
   return <>
-    {!!room && <GameHistory render={render} room={room} onTickClick={handleActionRollback}/>}
+    {(!!room && started) && <GameHistory render={render} room={room} onTickClick={handleActionRollback}/>}
     <div css={linearLayout}>
       <section css={css(gameDisplay, outPrimaryShadow)}>
         <GamesLeaderBoard scores={render?.gameState?.scores ?? {}} players={room?.players ?? []}/>
