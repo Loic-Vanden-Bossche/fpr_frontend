@@ -3,11 +3,12 @@ import { messagingScreen } from "./Messaging.style.ts";
 import { MessagingChatWindow } from "./Messaging.ChatWindow.tsx";
 import { outPrimaryShadow } from "../../ui";
 import { useState } from "react";
-import { useGetGroupsQuery } from "../../api";
+import { useGetGroupsQuery, useLazyGetGroupsQuery } from "../../api";
 import { useGetProfileQuery } from "../../api";
 
 export function MessagingRoute() {
   const { data } = useGetGroupsQuery();
+  const [reloadGroup] = useLazyGetGroupsQuery();
   const { data: self } = useGetProfileQuery();
   const classes = [messagingScreen, outPrimaryShadow];
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -19,6 +20,7 @@ export function MessagingRoute() {
       selectedContactIndex={selectedIndex}
       contacts={data ?? []}
       onContactClick={handleContactClick}
+      reloadGroup={() => reloadGroup()}
     />
     {data !== undefined && self !== undefined && <MessagingChatWindow group={data[selectedIndex]} self={self}/>}
   </main>;

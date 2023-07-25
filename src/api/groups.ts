@@ -11,8 +11,11 @@ export const groupsApi = createApi({
     }),
     getGroupMessage: builder.query<Message[], {id: string, page?: number, size?: number}>({
       query: ({ id, page = 0, size = 20 }) => `/${id}/messages?page=${page}&size=${size}`
-    })
+    }),
+    createGroup: builder.mutation<Group, {name: string, users: string[]}>(({
+      query: data => ({url: "", method: "POST", body: data})
+    }))
   })
 });
 
-export const { useGetGroupsQuery, useGetGroupMessageQuery, useLazyGetGroupMessageQuery } = groupsApi;
+export const { useGetGroupsQuery, useLazyGetGroupsQuery, useGetGroupMessageQuery, useLazyGetGroupMessageQuery, useCreateGroupMutation } = groupsApi;

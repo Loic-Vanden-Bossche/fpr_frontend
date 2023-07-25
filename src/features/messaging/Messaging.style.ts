@@ -54,6 +54,7 @@ export const contactList = css`
   max-width: 75%;
   min-width: calc(24px + 64px + 24px);
   resize: horizontal;
+  z-index: 10;
 `;
 
 export const messagingScreen = css`
@@ -180,5 +181,34 @@ export const groupPictureImage = (rotation:number, x:number, y:number, scale: nu
     rotate: ${rotation}deg;
     translate: ${x}% ${y}%;
     scale: calc(1 * ${scale});
+  }
+`;
+
+export const groupModale = css`
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  
+  > div {
+    border-radius: 32px;
+    background: #EEEEEE;
+    box-shadow: -5px -5px 16px #fa3d5c, 5px 5px 16px #A5031C;
+    padding: 24px;
+    width: 60%;
+    
+    > label {
+      display: flex;
+      align-items: center;
+      
+      input:checked {
+        background: #D0253C;
+      }
+    }
   }
 `;
