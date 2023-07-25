@@ -166,7 +166,7 @@ export function Game2DEngine({ game: { display, requestedActions }, onAction }: 
       <svg
         className="gameEngine"
         ref={svgRef}
-        viewBox={`0 0 ${display?.height ?? 0} ${display?.width ?? 0}`}
+        viewBox={`0 0 ${display?.width ?? 0} ${display?.height ?? 0}`}
         onContextMenu={e => e.preventDefault()}
         onClick={handleLeftClick}
         onAuxClick={handleAuxClick}

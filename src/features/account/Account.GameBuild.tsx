@@ -23,7 +23,6 @@ export function AccountGameBuild({ game }: Props) {
     }
   };
 
-  if (game.lastBuildDate) { return null; }
   return <>
     <select value={language} onChange={e => setLanguage(e.currentTarget.value)}>
       <option value={"python"}>python</option>
