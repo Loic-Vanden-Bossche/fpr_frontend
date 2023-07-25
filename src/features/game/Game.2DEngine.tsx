@@ -175,7 +175,7 @@ export function Game2DEngine({ game: { display, requestedActions }, onAction }: 
         {display?.content.map(convertDisplayContentToHTML)}
       </svg>
     </section>
-    {
+    {!!textActions.length &&
       <Form schemas={schemas} submitButtonText="submit" style={form} onSubmit={e => onAction({ actions: [{ text: e.text }] })}/>
     }
   </>;
