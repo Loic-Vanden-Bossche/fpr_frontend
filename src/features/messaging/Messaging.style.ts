@@ -246,6 +246,7 @@ export const addButton = css`
   font-family: Roboto Flex, sans-serif;
   font-size: 1rem;
   font-weight: 600;
+  cursor: pointer;
   
   :hover {
     background: #A5031C;
