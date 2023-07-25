@@ -8,7 +8,8 @@ export type Room = {
   players: RoomPlayer[],
   invitationStatus: string,
   group: Group,
-  game: Games
+  game: Games,
+  owner: Profile
 }
 
 export type RoomPlayer = {
@@ -19,5 +20,5 @@ export type RoomPlayer = {
 export type SessionAction = {
   id: string,
   playerId: string,
-  instructions: string
+  instruction: string
 }

@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { colors, inPrimaryShadowSmall, inWhiteShadow, outPrimaryShadowSmall } from "../../ui";
+import { colors, inPrimaryShadowSmall, inWhiteShadow, outPrimaryFilter, outPrimaryShadow, outPrimaryShadowSmall } from "../../ui";
 
 export const gameDisplay = css`
   display: flex;
@@ -158,30 +158,10 @@ export const startScreen = css`
     left: 0;
     right: 0;
     background-image: linear-gradient(
-      #00000000 1%,
-      #FFFFFF18 1.001%,
-      #FFFFFF18 48.999%,
-      #00000000 49%,
-      
-      #00000000 60%,
-      #FFFFFF18 60.001%,
-      #FFFFFF18 60.999%,
-      #00000000 61%,
-      
-      #00000000 62%,
-      #FFFFFF18 62.001%,
-      #FFFFFF18 67.999%,
-      #00000000 68%,
-      
-      #00000000 70%,
-      #FFFFFF18 70.001%,
-      #FFFFFF18 75.999%,
-      #00000000 76%,
-      
-      #00000000 79%,
-      #FFFFFF18 79.001%,
-      #FFFFFF18 91.999%,
-      #00000000 92%
+      #00000000 0%,
+      #FFFFFF18 0.001%,
+      #FFFFFF18 59.999%,
+      #00000000 60%
     );
     background-repeat: repeat-y;
     animation: screenScroll 10s infinite linear;
@@ -241,5 +221,40 @@ export const chat = css`
   @media screen and (max-width: 950px) {
     height: 300px;
     width: calc(100% - 48px);
+  }
+`;
+
+export const historyStyle = css`
+  width: 100%;
+  position: relative;
+`;
+
+export const range = css`
+  accent-color: ${colors.dark_primary};
+  transition: 0.3s;
+  width: 100%;
+
+  ${outPrimaryFilter}
+  &:hover {
+    accent-color: ${colors.light_primary};  
+  }
+`;
+
+export const cursors = css`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+
+  .tick{
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    background: ${colors.white};
+    border-radius: 50%;
+    ${outPrimaryShadowSmall}
   }
 `;

@@ -52,6 +52,7 @@ export const contactList = css`
   height: 100%;
   flex-shrink: 0;
   max-width: 75%;
+  width: calc(24px + 64px + 24px);
   min-width: calc(24px + 64px + 24px);
   resize: horizontal;
   z-index: 10;

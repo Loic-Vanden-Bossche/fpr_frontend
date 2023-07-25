@@ -7,12 +7,13 @@ import toast from "react-hot-toast";
 import { useGetProfileQuery } from "../../api/index.ts";
 import { Game2DEngine } from "./Game.2DEngine.tsx";
 import { css } from "@emotion/react";
-import { gameDisplay, horizontalLayout, linearLayout, stateButton, verticalLayout } from "./Game.style.ts";
+import { gameDisplay, horizontalLayout, linearLayout, range, stateButton, verticalLayout } from "./Game.style.ts";
 import { outPrimaryShadow } from "../../ui/shadows.ts";
 import { GameStartScreen } from "./Game.StartScreen.tsx";
 import { Game } from "../../types";
 import { GameChat } from "./Game.Chat.tsx";
 import { GamesLeaderBoard } from "./Games.LeaderBoard.tsx";
+import { GameHistory } from "./Game.History.tsx";
 
 export function GameRoute() {
   const navigate = useNavigate();
@@ -28,7 +29,6 @@ export function GameRoute() {
   }, [gaming, navigate]);
 
   const [render, setRender] = useState<Game | null>(null);
-
   const [started, setStarted] = useState(false);
   const [joined, setJoined] = useState(false);
   const [joining, setJoining] = useState(false);
@@ -122,34 +122,41 @@ export function GameRoute() {
     }
   }, [navigate, render, self]);
 
+  const handleActionRollback = (roomId: string, actionId: string) => {
+    gaming.publish({ destination: `/app/joinRoom/${roomId}`, body: JSON.stringify({ actionId }) });
+  };
+
   if(!gaming.connected){
     return null;
   }
 
-  return <div css={linearLayout}>
-    <section css={css(gameDisplay, outPrimaryShadow)}>
-      <GamesLeaderBoard scores={render?.gameState?.scores ?? {}} players={room?.players ?? []}/>
-      {!(started && render) &&
+  return <>
+    {!!room && <GameHistory render={render} room={room} onTickClick={handleActionRollback}/>}
+    <div css={linearLayout}>
+      <section css={css(gameDisplay, outPrimaryShadow)}>
+        <GamesLeaderBoard scores={render?.gameState?.scores ?? {}} players={room?.players ?? []}/>
+        {!(started && render) &&
         <GameStartScreen
           isStarted={started}
           handleStartClick={() => gaming.publish({ destination: "/app/startGame/" + id })}
         />
-      }
-      {(started && render)&& <Game2DEngine
-        game={render as Game}
-        onAction={(action => gaming.publish({ destination: "/app/play/" + id, body: JSON.stringify(action) }))}
-      />}
-    </section>
-    <div css={verticalLayout}>
-      <div css={horizontalLayout}>
-        <button css={stateButton} onClick={() => gaming.publish({ destination: "/app/stopGame/" + id })}>
+        }
+        {(started && render)&& <Game2DEngine
+          game={render as Game}
+          onAction={(action => gaming.publish({ destination: "/app/play/" + id, body: JSON.stringify(action) }))}
+        />}
+      </section>
+      <div css={verticalLayout}>
+        <div css={horizontalLayout}>
+          <button css={stateButton} onClick={() => gaming.publish({ destination: "/app/stopGame/" + id })}>
           Close game
-        </button>
-        <button css={stateButton} onClick={() => gaming.publish({ destination: "/app/pauseGame/" + id })}>
+          </button>
+          <button css={stateButton} onClick={() => gaming.publish({ destination: "/app/pauseGame/" + id })}>
           Pause game
-        </button>
+          </button>
+        </div>
+        {!!room && <GameChat group={room.group}/>}
       </div>
-      {!!room && <GameChat group={room.group}/>}
     </div>
-  </div>;
+  </>;
 }
