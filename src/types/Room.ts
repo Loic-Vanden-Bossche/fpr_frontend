@@ -15,3 +15,9 @@ export type RoomPlayer = {
   id: string,
   user: Profile
 }
+
+export type SessionAction = {
+  id: string,
+  playerId: string,
+  instructions: string
+}
