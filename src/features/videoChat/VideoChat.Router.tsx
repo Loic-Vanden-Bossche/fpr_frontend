@@ -98,17 +98,19 @@ export function VideoChatRouter() {
       for (const id of (m.data.presents as string[])) {
         const pc = createPeerConnection(id);
         if (pc.iceConnectionState === "new") {
-          const offer = await pc.createOffer();
-          await pc.setLocalDescription(offer);
-          const message = {
-            type: "call-group",
-            data: {
-              to: id,
-              group: group?.id,
-              offer: offer
-            }
-          };
-          ws.send(JSON.stringify(message));
+          pc.onnegotiationneeded = async () => {
+            const offer = await pc.createOffer();
+            await pc.setLocalDescription(offer);
+            const message = {
+              type: "call-group",
+              data: {
+                to: id,
+                group: group?.id,
+                offer: offer
+              }
+            };
+            ws.send(JSON.stringify(message));
+          }
         }
       }
     }
