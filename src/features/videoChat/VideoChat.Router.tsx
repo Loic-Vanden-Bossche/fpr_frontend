@@ -110,7 +110,7 @@ export function VideoChatRouter() {
               }
             };
             ws.send(JSON.stringify(message));
-          }
+          };
         }
       }
     }
