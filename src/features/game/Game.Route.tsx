@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useGetProfileQuery } from "../../api/index.ts";
 import { Game2DEngine } from "./Game.2DEngine.tsx";
 import { css } from "@emotion/react";
-import { gameDisplay, horizontalLayout, linearLayout, range, stateButton, verticalLayout } from "./Game.style.ts";
+import { gameDisplay, horizontalLayout, linearLayout, stateButton, verticalLayout } from "./Game.style.ts";
 import { outPrimaryShadow } from "../../ui/shadows.ts";
 import { GameStartScreen } from "./Game.StartScreen.tsx";
 import { Game } from "../../types";

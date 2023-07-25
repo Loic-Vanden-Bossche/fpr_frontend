@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { colors, inPrimaryShadowSmall, inWhiteShadow, outPrimaryFilter, outPrimaryShadow, outPrimaryShadowSmall } from "../../ui";
+import { colors, inPrimaryShadowSmall, inWhiteShadow, outPrimaryFilter, outPrimaryShadowSmall } from "../../ui";
 
 export const gameDisplay = css`
   display: flex;
@@ -54,7 +54,7 @@ export const form = css`
     border: hidden;
     font-size: 1rem;
     color: ${colors.white};
-    ${outPrimaryShadowSmall}
+    ${outPrimaryShadowSmall};
     padding: 8px;
     transition: 0.3s;
 
