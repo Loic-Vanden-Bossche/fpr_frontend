@@ -17,7 +17,7 @@ export function RoutingRouter() {
       <Route path={"video"} element={<VideoChatRouter/>}/>
       <Route path={"room/:id"} element={<GameRoute/>}/>
       <Route path={"win"} element={<GameResult isWin/>}/>
-      <Route path={"lose"} element={<GameResult isWin={false}/>}/>
+      <Route path={"loose"} element={<GameResult isWin={false}/>}/>
     </Route>
     <Route path="auth" element={<NotAuthenticatedGuard/>}>
       <Route path="register" element={<RegisterForm/>}/>
