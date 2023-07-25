@@ -3,6 +3,7 @@ import { gamesResultContainer, gamesResultImage } from "../../ui/games.ts";
 import { Button, colors, outPrimaryShadow } from "../../ui";
 import { Icon, icons } from "../../lib";
 import { useNavigate } from "react-router-dom";
+import Confetti from 'react-confetti';
 
 interface GameResultProps {
   isWin: boolean;
@@ -24,7 +25,7 @@ export function GameResult({ isWin }: GameResultProps) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`https://api.giphy.com/v1/gifs/random?api_key=Fymirmxihj21o2a4mGSwlzJgKlVycgg4&rating=G&tag=${isWin ? "win" : "loose"}`)
+    fetch(`https://api.giphy.com/v1/gifs/random?api_key=Fymirmxihj21o2a4mGSwlzJgKlVycgg4&rating=G&tag=${isWin ? "win" : "bad wrong"}`)
       .then((res) => res.json()).then((data: GiphyResponse) => {
         setData(data.data.images.original.webp);
       });
@@ -32,7 +33,7 @@ export function GameResult({ isWin }: GameResultProps) {
 
   const handleLogoClick = () => navigate("/");
 
-  return (
+  return (<>
     <div css={gamesResultContainer}>
       <img css={gamesResultImage} src={data} />
       <div className="">
@@ -48,5 +49,14 @@ export function GameResult({ isWin }: GameResultProps) {
         </Button>
       </div>
     </div>
+    {isWin && <Confetti
+      style={{
+        height: '100vh',
+        width: '100vw'
+      }}
+      width={window.outerWidth}
+      height={window.outerHeight}
+    />}
+  </>
   );
 }
