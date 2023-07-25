@@ -10,7 +10,6 @@ export type ClickButton = "LEFT" | "RIGHT" | "MIDDLE" | "DOUBLE"
 
 export type ClickAction = {
   type: "CLICK";
-  player: number;
   zones?: ClickZone[];
   buttons?: ClickButton[];
   confirm?: boolean;
