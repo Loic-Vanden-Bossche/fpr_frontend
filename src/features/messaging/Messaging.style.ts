@@ -201,14 +201,68 @@ export const groupModale = css`
     box-shadow: -5px -5px 16px #fa3d5c, 5px 5px 16px #A5031C;
     padding: 24px;
     width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    
+    > div {
+      display: flex;
+      gap: 8px;
+      
+      > input {
+        flex-grow: 1;
+      }
+    }
     
     > label {
       display: flex;
       align-items: center;
+      border-radius: 12px;
+      padding: 8px;
+      color: #D0253C;
+      font-family: Roboto Flex, sans-serif;
+      font-weight: 600;
+      font-size: 1.5rem;
+      gap: 32px;
       
-      input:checked {
+      :has(input:checked){
         background: #D0253C;
+        color: white;
+      }
+      
+      input {
+        display: none;
       }
     }
   }
+`;
+
+export const addButton = css`
+  height: 100px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: white;
+  font-family: Roboto Flex, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  
+  :hover {
+    background: #A5031C;
+  }
+`;
+
+export const createButton = css`
+  background: ${colors.primary};
+  display: flex;
+  gap: 16px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: hidden;
+  color: ${colors.white};
+  font-size: 1rem;
+  font-weight: 600;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s;
 `;

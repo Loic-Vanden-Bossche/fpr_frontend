@@ -1,8 +1,9 @@
-import { groupModale } from "./Messaging.style.ts";
+import { chatInput, createButton, groupModale } from "./Messaging.style.ts";
 import { useCreateGroupMutation, useGetFriendsQuery } from "../../api";
 import { MessagingContactPictureImage } from "./Messaging.ContactPicture.Image.tsx";
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
+import { inWhiteShadow } from "../../ui";
 
 interface Props {
   close: () => void;
@@ -50,22 +51,24 @@ export function MessagingAddGroup({ close, reload }: Props) {
           });
         }}/>
       </label>)}
-      <input value={name} onChange={e => setName(e.target.value)}/>
-      <button onClick={() => {
-        if(name === "") {
-          toast.error("Name must not be empty");
-        }
-        else if(checked.reduce((prev, current) => prev || current) === false) {
-          toast.error("Select at least 1 friend");
-        }
-        else if(friends !== undefined) {
-          createGroup({ name: name, users: checked.map((v, i) => v ? friends[i].id : "null").filter( v => v !== "null") }).then(() => {
-            toast.success("Group created");
-            reload();
-            close();
-          });
-        }
-      }}>Create group</button>
+      <div>
+        <input value={name} onChange={e => setName(e.target.value)} css={[chatInput, inWhiteShadow]}/>
+        <button css={createButton} onClick={() => {
+          if(name === "") {
+            toast.error("Name must not be empty");
+          }
+          else if(checked.reduce((prev, current) => prev || current) === false) {
+            toast.error("Select at least 1 friend");
+          }
+          else if(friends !== undefined) {
+            createGroup({ name: name, users: checked.map((v, i) => v ? friends[i].id : "null").filter( v => v !== "null") }).then(() => {
+              toast.success("Group created");
+              reload();
+              close();
+            });
+          }
+        }}>Create group</button>
+      </div>
     </div>
   </section>;
 }
