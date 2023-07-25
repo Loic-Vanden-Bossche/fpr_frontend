@@ -112,7 +112,7 @@ export function GameRoute() {
 
   useEffect(() => {
     const score = render?.gameState?.scores;
-    if(render?.gameState?.game_over === true && score !== undefined) {
+    if(render?.gameState?.gameOver === true && score !== undefined) {
       if(Object.values(score).reduce((prev, current) => current > prev ? current : prev ) === score[self?.id ?? ""]){
         navigate("/win");
       }else{
