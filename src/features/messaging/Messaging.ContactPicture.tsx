@@ -11,7 +11,10 @@ interface Props{
 export function MessagingContactPicture({ members, shadow }: Props) {
   if (!members?.length) { return null; }
 
-  else if (members?.length === 1) { return <MessagingContactPictureImage user={members[0].user}/>; }
+  else if (members?.length === 1) {
+    return <div css={shadow}>
+      <MessagingContactPictureImage user={members[0].user}/></div>;
+  }
 
   return <figure css={css([groupPicture(Math.ceil(Math.sqrt(members.length ?? 4))), shadow])}>
     {members.map(({ user }) => <MessagingContactPictureImage key={user.email} user={user}/>)}

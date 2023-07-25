@@ -21,6 +21,6 @@ export function MessagingContactCell({
 
   return <li css={classes} className={isSelected ? "selected" : ""} onClick={onClick} >
     <MessagingContactPicture members={members} shadow={outPrimaryFilter}/>
-    <p>{members.map(member => member.user.nickname).join(', ')}</p>
+    <p>{contact.name}</p>
   </li>;
 }

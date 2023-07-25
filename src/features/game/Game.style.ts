@@ -258,3 +258,26 @@ export const cursors = css`
     ${outPrimaryShadowSmall}
   }
 `;
+
+export const leaderBoard = css`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  p{
+    font-size: 1rem;
+    font-weight: 800;
+    margin: 0;
+    color: ${colors.white};
+  }
+  img {
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  div{
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+`;
